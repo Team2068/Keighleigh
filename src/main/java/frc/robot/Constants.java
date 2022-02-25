@@ -24,6 +24,8 @@ public final class Constants {
      *
      * Should be measured from center to center.
      */
+    public static final int CURRENT_LIMIT = 30;
+    public static final double NORMAL_SPEED = .5;
     public static final double DRIVETRAIN_WHEELBASE_METERS = 19.5; // FIXME Measure and set wheelbase
 
     public static final int DRIVETRAIN_PIGEON_ID = 0; // FIXME Set Pigeon ID
