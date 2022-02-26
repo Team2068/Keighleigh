@@ -5,7 +5,7 @@
 package frc.robot;
 
 public final class Constants {
-    public static final int CURRENT_LIMIT = 30;
+    //public static final int CURRENT_LIMIT = 30;
 
     /**
      * The left-to-right distance between the drivetrain wheels
