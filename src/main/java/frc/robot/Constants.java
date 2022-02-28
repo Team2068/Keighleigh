@@ -61,13 +61,6 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 2; // FIXME Set back right steer motor ID
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 11; // FIXME Set back right steer encoder ID
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(5); // FIXME Measure and set back right steer offset
-
-    
-    public final static class ShooterConstants{
-        public final static int FLYWHEEL_1 = 3;
-        public final static int FLYWHEEL_2 = 6;
-    }
-
     public final static class GameElementConstants {
         public final static double UPPER_HUB = 2.64; //meters
         public final static double LOWER_HUB = 1.04; //meters
