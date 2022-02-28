@@ -33,9 +33,18 @@ public final class Constants {
     // public final static double HIGH_HEIGHT = UPPER_HUB - ROBOT_HEIGHT;
     // public final static double LOW_HEIGHT = LOWER_HUB - ROBOT_HEIGHT;
     // }
+    public final static class ControllerConstants {
+        public static final int RIGHT_TRIGGER = 3;
+        public static final int LEFT_TRIGGER = 2;
+        public static final double TRIGGER_ACTIVATION_THRESHOLD = .3;
+        public static final int POV_ANGLE_UP = 0;
+        public static final int POV_ANGLE_LEFT = 270;
+        public static final int POV_ANGLE_RIGHT = 90;
+    }
     public final static class ConveyorConstants {
         public static final int LOWER_CONVEYOR = 16;
         public static final int UPPER_CONVEYOR = 17;
+        public static final double CONVEYOR_SPEED = 0.2;
     }
     public final static class IntakeConstants {
         //intake things
