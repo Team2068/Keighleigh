@@ -26,4 +26,18 @@ public class ConveyorSubsystem extends SubsystemBase {
         lowerConveyor.set(speed);
         upperConveyor.set(speed);
     }
+
+    public void stopConveyor() {
+        upperConveyor.set(0);
+        lowerConveyor.set(0);
+    }
+
+    public void takeInBall(double speed) {
+        if (toplimitSwitch.get()) {
+            stopConveyor();
+        } else {
+            upperConveyor.set(speed);
+            lowerConveyor.set(speed);
+        }
+    }
 }

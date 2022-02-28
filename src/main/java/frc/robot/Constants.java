@@ -49,7 +49,7 @@ public final class Constants {
     public final static class IntakeConstants {
         //intake things
         public static final int INTAKE_MOTOR = 18;
-        public static final double Intakespeed = .2;
+        public static final double INTAKE_SPEED = .2;
         public static final double SPIT_OUT_BALL = -.2;
         //pneumatics things
         public static final int FORWARD_CHANNEL = 1;

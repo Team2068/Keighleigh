@@ -10,10 +10,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.MoveConveyor;
 import frc.robot.commands.SpitOutBall;
+import frc.robot.commands.TakeInBall;
 import frc.robot.subsystems.ConveyorSubsystem;
 // import frc.robot.commands.TakeInBall;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -49,8 +53,8 @@ public class RobotContainer {
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
- drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
-     drivetrainSubsystem,
+    drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+        drivetrainSubsystem,
         () -> modifyAxis(driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * -1,
         () -> -modifyAxis(driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
@@ -72,13 +76,21 @@ public class RobotContainer {
     // set up triggers and such
     Trigger mechRightTrigger = new Trigger(() -> mechanismController
         .getRawAxis(ControllerConstants.RIGHT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
+    Trigger mechLeftTrigger = new Trigger(() -> mechanismController
+        .getRawAxis(ControllerConstants.LEFT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
+
     // Back button zeros the gyroscope
     new Button(driverController::getYButton)
         // No requirements because we don't need to interrupt anything
         .whenPressed(drivetrainSubsystem::zeroGyroscope);
-    //driver controller
-    //mechanism controller
-    mechRightTrigger.whenActive(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    // driver controller
+    // mechanism controller
+    mechLeftTrigger.whenActive(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    mechRightTrigger.whenActive(new TakeInBall(conveyorSubsystem, intakeSubsystem));
+    new Button(mechanismController::getLeftBumper).whenActive(new MoveConveyor(conveyorSubsystem));
+    new Button(mechanismController::getYButton).whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
+    
+    
 
   }
 
