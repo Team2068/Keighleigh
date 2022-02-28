@@ -9,8 +9,8 @@ public final class Constants {
     public final static double ROBOT_HEIGHT = 0.0;//adjust
 
     public final static class ShooterConstants{
-        public final static int FLYWHEEL_1 = 13;
-        public final static int FLYWHEEL_2 = 14;
+        public final static int FLYWHEEL_1 = 14;
+        public final static int FLYWHEEL_2 = 15;
     }
    
     /**
