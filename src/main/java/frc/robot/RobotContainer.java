@@ -25,7 +25,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-  private final LineTracker linetracker = new LineTracker();
 
   private final XboxController m_controller = new XboxController(0);
   private final XboxController m_mechanismController = new XboxController(1);
