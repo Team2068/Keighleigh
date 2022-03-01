@@ -75,6 +75,34 @@ public final class Constants {
         public static final double Ki = 0;
         public static final double Kd = 0.8;
     }
-
+  
+    public final static class LimelightConstants {
+        public final static class LedMode {
+            public final static int DEFAULT = 0;
+            public final static int FORCE_OFF = 1;
+            public final static int FORCE_BLINK = 2;
+            public final static int FORCE_ON = 3;
+        }
+        public final static class CamMode {
+            public final static int VISION = 0;
+            public final static int DRIVER = 1;
+        }
+        public final static class StreamMode {
+            public final static int STANDARD = 0;
+            public final static int PIP_MAIN = 1;
+            public final static int PIP_SECONDARY = 2;
+        }
+        public final static class SnapshotMode {
+            public final static int NO_SNAPSHOT = 0;
+            public final static int TWO_SNAPSHOTS = 1;
+        }
+        public final static class Pipelines {
+            public final static int REFLECTIVE_TAPE = 0;
+            public final static int RED_BALLS = 1;
+            public final static int BLUE_BALLS = 2;
+        }
+        public final static double LIMELIGHT_HEIGHT = 29.5; // This is for testing, needs to be changed for actual robot
+        public final static double LIMELIGHT_ANGLE = 0;
+    }
 }
 
