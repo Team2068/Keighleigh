@@ -24,12 +24,12 @@ import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.SpitOutBall;
 import frc.robot.commands.TakeInBall;
-import frc.robot.commands.Deprecated.IntakeBall;
-import frc.robot.commands.Deprecated.IntakeOff;
-import frc.robot.commands.Deprecated.MoveConveyor;
-import frc.robot.commands.Deprecated.ReverseIntake;
-import frc.robot.commands.Deprecated.ShooterOff;
-import frc.robot.commands.Deprecated.StopConveyor;
+// import frc.robot.commands.Deprecated.IntakeBall;
+// import frc.robot.commands.Deprecated.IntakeOff;
+// import frc.robot.commands.Deprecated.MoveConveyor;
+// import frc.robot.commands.Deprecated.ReverseIntake;
+// import frc.robot.commands.Deprecated.ShooterOff;
+// import frc.robot.commands.Deprecated.StopConveyor;
 import frc.robot.subsystems.ConveyorSubsystem;
 // import frc.robot.commands.TakeInBall;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -107,7 +107,6 @@ public class RobotContainer {
 
     // Back button zeros the gyroscope
 
-    //mechRightBumper.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
     mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
     mechBumperR.whileHeld(new TakeInBall(conveyorSubsystem, intakeSubsystem));
     mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
@@ -118,14 +117,6 @@ public class RobotContainer {
     // new Button(driverController::getYButton)
     //     // No requirements because we don't need to interrupt anything
     //     .whenPressed(drivetrainSubsystem::zeroGyroscope);
-    // // driver controller
-    // // mechanism controller
-    // new Button(mechanismController::getAButton).whileActiveContinuous(new IntakeBall(intakeSubsystem));
-    // new Button(mechanismController::getRightBumper).whileActiveContinuous(new IntakeBall(intakeSubsystem));
-    // mechLeftTrigger.whenActive(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
-    // mechRightTrigger.whenActive(new TakeInBall(conveyorSubsystem, intakeSubsystem));
-    //new Button(mechanismController::getLeftBumper).whenActive(new MoveConveyor(conveyorSubsystem));
-    //new Button(mechanismController::getYButton).whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
   }
 
   /**
