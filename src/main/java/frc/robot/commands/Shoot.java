@@ -17,5 +17,8 @@ public class Shoot extends InstantCommand {
         shooter.rampUpShooter(power);
     }
 
-
+    // @Override
+    // public void end(boolean interrupted){
+    //     shooter.rampDownShooter();
+    // }
 }

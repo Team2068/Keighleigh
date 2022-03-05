@@ -54,12 +54,15 @@ public final class Constants {
         public static final int FORWARD_CHANNEL = 1;
         public static final int REVERSE_CHANNEL = 0;
     }
-
+    public final static class HangConstants {
+        public static final int LEFT_HANG_MOTOR = 18;                                                                                // left steer offset
+        public static final int RIGHT_HANG_MOTOR = 19;
+        public static final double HANG_SPEED = .5;
+    }
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7; // FIXME Set front left module drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 6; // FIXME Set front left module steer motor ID
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 17; // FIXME Set front left steer encoder ID
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(75.0); // FIXME Measure and set front
-                                                                                       // left steer offset
 
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5; // FIXME Set front right drive motor ID
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 4; // FIXME Set front right steer motor ID
