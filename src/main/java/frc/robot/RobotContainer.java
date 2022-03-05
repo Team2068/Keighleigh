@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import javax.sound.sampled.Control;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -14,11 +16,15 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
+// import frc.robot.commands.ControlIntakeSolenoids;
+// import frc.robot.commands.ControlIntakeSolenoids;
 //import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.ExtendHangSubsystem;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.IntakeOff;
 import frc.robot.commands.MoveConveyor;
+import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.ReverseIntake;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShooterOff;
@@ -28,6 +34,7 @@ import frc.robot.commands.TakeInBall;
 import frc.robot.subsystems.ConveyorSubsystem;
 // import frc.robot.commands.TakeInBall;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 // import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -46,7 +53,7 @@ public class RobotContainer {
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-
+  //private final HangSubsystem hangSubsystem = new HangSubsystem();
   private final XboxController driverController = new XboxController(0);
   private final XboxController mechanismController = new XboxController(1);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
@@ -91,7 +98,8 @@ public class RobotContainer {
     JoystickButton mechY = new JoystickButton(mechanismController, Button.kY.value);
     JoystickButton mechBumperR = new JoystickButton(mechanismController, Button.kRightBumper.value);
     JoystickButton mechBumperL = new JoystickButton(mechanismController, Button.kRightBumper.value);
-
+    JoystickButton driveBumperL = new JoystickButton(driverController, Button.kLeftBumper.value);
+    JoystickButton driveBumperR = new JoystickButton(driverController, Button.kRightBumper.value);
     JoystickButton driverA = new JoystickButton(driverController, Button.kA.value);
     JoystickButton driverB = new JoystickButton(driverController, Button.kB.value);
     JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
@@ -105,9 +113,11 @@ public class RobotContainer {
     mechY.whenPressed(new IntakeOff(intakeSubsystem));
     mechBumperR.whenPressed(new ReverseIntake(intakeSubsystem));
     mechBumperL.whenPressed(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
-
+    //driveBumperL.whenPressed(new ExtendHangSubsystem(hangSubsystem));
+   // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));
     driverA.whenPressed(new Shoot(shooterSubsystem, .8));
     driverB.whenPressed(new ShooterOff(shooterSubsystem));
+    // driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
     // new Button(driverController::getYButton)
     //     // No requirements because we don't need to interrupt anything
     //     .whenPressed(drivetrainSubsystem::zeroGyroscope);

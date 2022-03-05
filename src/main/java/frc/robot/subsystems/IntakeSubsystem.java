@@ -40,14 +40,14 @@ public class IntakeSubsystem extends SubsystemBase {
       intake.set(0);
     }
 
-    // public void controlIntakeSolenoids() {
-    //     pistonsForward = !pistonsForward;
-    //     if (pistonsForward) {
-    //         retractIntake();
-    //       } else {
-    //         deployIntake();
-    //       }
-    // }
+    public void controlIntakeSolenoids() {
+        // pistonsForward = !pistonsForward;
+        // if (pistonsForward) {
+        //     retractIntake();
+        //   } else {
+        //     deployIntake();
+        //   }
+    }
     public void deployIntake() {
         // intakeSolenoid.set(Value.kForward);
       }
