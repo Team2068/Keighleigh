@@ -1,15 +1,15 @@
-package frc.robot.commands;
+package frc.robot.commands.Deprecated;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants.*;
 
-public class ReverseIntake extends InstantCommand {
+public class IntakeBall extends InstantCommand {
     //private ConveyorSubsystem conveyorSubsystem;
     private IntakeSubsystem intakeSubsystem;
     
-    public ReverseIntake(IntakeSubsystem intakeSubsystem){
+    public IntakeBall(IntakeSubsystem intakeSubsystem){
        // this.conveyorSubsystem = conveyorSubsystem;
         this.intakeSubsystem = intakeSubsystem;
       
@@ -18,6 +18,6 @@ public class ReverseIntake extends InstantCommand {
     @Override
     public void initialize(){
         //conveyorSubsystem.takeInBall(ConveyorConstants.CONVEYOR_SPEED);
-        intakeSubsystem.reverseIntake(IntakeConstants.SPIT_OUT_BALL);
+        intakeSubsystem.intakeBall(IntakeConstants.INTAKE_SPEED);
     }
 }

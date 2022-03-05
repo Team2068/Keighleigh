@@ -41,9 +41,4 @@ public class ShooterSubsystem extends SubsystemBase {
         flywheel1.setVoltage(power);
         flywheel2.setVoltage(power);
     }
-
-    @Override
-    public void periodic() {
-        
-    }
 }

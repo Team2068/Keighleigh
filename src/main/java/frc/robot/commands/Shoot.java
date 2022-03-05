@@ -1,13 +1,13 @@
 package frc.robot.commands;
 import frc.robot.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Shoot extends InstantCommand {
+public class Shoot extends CommandBase {
     ShooterSubsystem shooter;
     private double power;
     
-    public Shoot(ShooterSubsystem shooter , double power) {
-        this.shooter = shooter;
+    public Shoot(ShooterSubsystem shooterSubsystem , double power) {
+        this.shooter = shooterSubsystem;
         this.power = power;
         addRequirements(shooter);
     }
@@ -17,8 +17,8 @@ public class Shoot extends InstantCommand {
         shooter.rampUpShooter(power);
     }
 
-    // @Override
-    // public void end(boolean interrupted){
-    //     shooter.rampDownShooter();
-    // }
+    @Override
+    public void end(boolean interrupted){
+        shooter.rampDownShooter();
+    }
 }

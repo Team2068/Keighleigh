@@ -123,6 +123,6 @@ public final class Constants {
             public final static int BLUE_BALLS = 2;
         }
         public final static double LIMELIGHT_HEIGHT = 34; // This is for testing, needs to be changed for actual robot
-        public final static double LIMELIGHT_ANGLE = 25;
+        public final static double LIMELIGHT_ANGLE = 22.25;
     }
 }

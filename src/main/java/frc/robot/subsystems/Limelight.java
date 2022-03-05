@@ -88,14 +88,12 @@ public class Limelight extends SubsystemBase {
     double a2 = targetData.verticalOffset;
     double a1 = LimelightConstants.LIMELIGHT_ANGLE;
     double h1 = LimelightConstants.LIMELIGHT_HEIGHT;
-    double h2 = 104; // height of the object that we are testing. change this for height of upper hub
+    double h2 = 264; // UpperHub height
     
     double result = h2-h1; // this was giving problems when using a one liner, so we broke it up to debug
     double radians = Math.toRadians(a1+a2);
     double distance = result / Math.tan(radians);
 
-    //System.out.println("ty: " + a2 + " degree: " + (a2+a1) + " radians: " + radians + " dist (in): " + distance);
-    
     return Math.abs(distance); // would return negative values if the angle was negative
   }
 

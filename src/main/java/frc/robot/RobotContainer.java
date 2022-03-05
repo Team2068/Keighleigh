@@ -11,31 +11,31 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-//import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.LimelightConstants;
 // import frc.robot.commands.ControlIntakeSolenoids;
 // import frc.robot.commands.ControlIntakeSolenoids;
 //import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExtendHangSubsystem;
-import frc.robot.commands.IntakeBall;
-import frc.robot.commands.IntakeOff;
-import frc.robot.commands.MoveConveyor;
 import frc.robot.commands.RetractHangSubsystem;
-import frc.robot.commands.ReverseIntake;
 import frc.robot.commands.Shoot;
-import frc.robot.commands.ShooterOff;
 import frc.robot.commands.SpitOutBall;
-import frc.robot.commands.StopConveyor;
 import frc.robot.commands.TakeInBall;
+import frc.robot.commands.Deprecated.IntakeBall;
+import frc.robot.commands.Deprecated.IntakeOff;
+import frc.robot.commands.Deprecated.MoveConveyor;
+import frc.robot.commands.Deprecated.ReverseIntake;
+import frc.robot.commands.Deprecated.ShooterOff;
+import frc.robot.commands.Deprecated.StopConveyor;
 import frc.robot.subsystems.ConveyorSubsystem;
 // import frc.robot.commands.TakeInBall;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Limelight;
 // import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -57,6 +57,7 @@ public class RobotContainer {
   private final XboxController driverController = new XboxController(0);
   private final XboxController mechanismController = new XboxController(1);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -107,16 +108,12 @@ public class RobotContainer {
     // Back button zeros the gyroscope
 
     //mechRightBumper.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
-    mechA.whenPressed(new MoveConveyor(conveyorSubsystem));
-    mechB.whenPressed(new StopConveyor(conveyorSubsystem));
-    mechX.whenPressed(new IntakeBall(intakeSubsystem));
-    mechY.whenPressed(new IntakeOff(intakeSubsystem));
-    mechBumperR.whenPressed(new ReverseIntake(intakeSubsystem));
-    mechBumperL.whenPressed(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
+    mechBumperR.whileHeld(new TakeInBall(conveyorSubsystem, intakeSubsystem));
+    mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+
     //driveBumperL.whenPressed(new ExtendHangSubsystem(hangSubsystem));
    // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));
-    driverA.whenPressed(new Shoot(shooterSubsystem, .8));
-    driverB.whenPressed(new ShooterOff(shooterSubsystem));
     // driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
     // new Button(driverController::getYButton)
     //     // No requirements because we don't need to interrupt anything
