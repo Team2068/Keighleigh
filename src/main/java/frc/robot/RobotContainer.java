@@ -129,9 +129,6 @@ public class RobotContainer {
     // mechRightTrigger.whenActive(new TakeInBall(conveyorSubsystem, intakeSubsystem));
     //new Button(mechanismController::getLeftBumper).whenActive(new MoveConveyor(conveyorSubsystem));
     //new Button(mechanismController::getYButton).whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
-    
-    
-
   }
 
   /**

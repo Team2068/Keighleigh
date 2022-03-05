@@ -17,7 +17,13 @@ public class TakeInBall extends InstantCommand {
     }
     @Override
     public void initialize(){
-        conveyorSubsystem.takeInBall(ConveyorConstants.CONVEYOR_SPEED);
+        conveyorSubsystem.takeInBall(ConveyorConstants.CONVEYOR_SPEED * -1);
         intakeSubsystem.intakeBall(IntakeConstants.INTAKE_SPEED);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+      conveyorSubsystem.stopConveyor();
+      intakeSubsystem.stopIntake();
     }
 }
