@@ -18,7 +18,7 @@ public class SpitOutBall extends InstantCommand{
     @Override
     public void initialize(){
         //reverse intake and conveyor at same time
-        intakeSubsystem.reverseIntake(spitOutBall);
+        //intakeSubsystem.reverseIntake(spitOutBall);
         conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED * -1);
     }
 }

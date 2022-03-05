@@ -15,20 +15,20 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class ConveyorSubsystem extends SubsystemBase {
     private DigitalInput toplimitSwitch = new DigitalInput(0);
     private CANSparkMax lowerConveyor = new CANSparkMax(ConveyorConstants.LOWER_CONVEYOR, MotorType.kBrushless);
-    private CANSparkMax upperConveyor = new CANSparkMax(ConveyorConstants.UPPER_CONVEYOR, MotorType.kBrushless);
+   // private CANSparkMax upperConveyor = new CANSparkMax(ConveyorConstants.UPPER_CONVEYOR, MotorType.kBrushless);
 
     public ConveyorSubsystem() {
         lowerConveyor.setIdleMode(IdleMode.kCoast);
-        upperConveyor.setIdleMode(IdleMode.kCoast);
+        //upperConveyor.setIdleMode(IdleMode.kCoast);
     }
 
     public void moveConveyor(double speed) {
         lowerConveyor.set(speed);
-        upperConveyor.set(speed);
+       // upperConveyor.set(speed);
     }
 
     public void stopConveyor() {
-        upperConveyor.set(0);
+        //upperConveyor.set(0);
         lowerConveyor.set(0);
     }
 
@@ -36,7 +36,7 @@ public class ConveyorSubsystem extends SubsystemBase {
         if (toplimitSwitch.get()) {
             stopConveyor();
         } else {
-            upperConveyor.set(speed);
+           // upperConveyor.set(speed);
             lowerConveyor.set(speed);
         }
     }

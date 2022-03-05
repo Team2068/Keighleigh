@@ -6,17 +6,24 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
+//import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.ControlIntakeSolenoids;
+//import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.IntakeBall;
+import frc.robot.commands.IntakeOff;
 import frc.robot.commands.MoveConveyor;
+import frc.robot.commands.ReverseIntake;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.ShooterOff;
 import frc.robot.commands.SpitOutBall;
+import frc.robot.commands.StopConveyor;
 import frc.robot.commands.TakeInBall;
 import frc.robot.subsystems.ConveyorSubsystem;
 // import frc.robot.commands.TakeInBall;
@@ -78,17 +85,40 @@ public class RobotContainer {
         .getRawAxis(ControllerConstants.RIGHT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
     Trigger mechLeftTrigger = new Trigger(() -> mechanismController
         .getRawAxis(ControllerConstants.LEFT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
+    JoystickButton mechA = new JoystickButton(mechanismController, Button.kA.value);
+    JoystickButton mechB = new JoystickButton(mechanismController, Button.kB.value);
+    JoystickButton mechX = new JoystickButton(mechanismController, Button.kX.value);
+    JoystickButton mechY = new JoystickButton(mechanismController, Button.kY.value);
+    JoystickButton mechBumperR = new JoystickButton(mechanismController, Button.kRightBumper.value);
+    JoystickButton mechBumperL = new JoystickButton(mechanismController, Button.kRightBumper.value);
+
+    JoystickButton driverA = new JoystickButton(driverController, Button.kA.value);
+    JoystickButton driverB = new JoystickButton(driverController, Button.kB.value);
+    JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
 
     // Back button zeros the gyroscope
-    new Button(driverController::getYButton)
-        // No requirements because we don't need to interrupt anything
-        .whenPressed(drivetrainSubsystem::zeroGyroscope);
-    // driver controller
-    // mechanism controller
-    mechLeftTrigger.whenActive(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
-    mechRightTrigger.whenActive(new TakeInBall(conveyorSubsystem, intakeSubsystem));
-    new Button(mechanismController::getLeftBumper).whenActive(new MoveConveyor(conveyorSubsystem));
-    new Button(mechanismController::getYButton).whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
+
+    //mechRightBumper.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
+    mechA.whenPressed(new MoveConveyor(conveyorSubsystem));
+    mechB.whenPressed(new StopConveyor(conveyorSubsystem));
+    mechX.whenPressed(new IntakeBall(intakeSubsystem));
+    mechY.whenPressed(new IntakeOff(intakeSubsystem));
+    mechBumperR.whenPressed(new ReverseIntake(intakeSubsystem));
+    mechBumperL.whenPressed(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+
+    driverA.whenPressed(new Shoot(shooterSubsystem, .8));
+    driverB.whenPressed(new ShooterOff(shooterSubsystem));
+    // new Button(driverController::getYButton)
+    //     // No requirements because we don't need to interrupt anything
+    //     .whenPressed(drivetrainSubsystem::zeroGyroscope);
+    // // driver controller
+    // // mechanism controller
+    // new Button(mechanismController::getAButton).whileActiveContinuous(new IntakeBall(intakeSubsystem));
+    // new Button(mechanismController::getRightBumper).whileActiveContinuous(new IntakeBall(intakeSubsystem));
+    // mechLeftTrigger.whenActive(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    // mechRightTrigger.whenActive(new TakeInBall(conveyorSubsystem, intakeSubsystem));
+    //new Button(mechanismController::getLeftBumper).whenActive(new MoveConveyor(conveyorSubsystem));
+    //new Button(mechanismController::getYButton).whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
     
     
 
