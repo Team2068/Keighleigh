@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants.AutoConstants;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -141,7 +140,7 @@ public class RobotContainer {
 
     TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MAX_Speed_MetersPerSecond,
         AutoConstants.MAX_Acceleration_MetersPerSecondSquared)
-            .setKinematics(m_drivetrainSubsystem.m_kinematics);
+            .setKinematics(drivetrainSubsystem.m_kinematics);
 
     var thetaController = new ProfiledPIDController(AutoConstants.kPThetaController, 0, 0,
         AutoConstants.kThetaControllerConstraints);
@@ -157,17 +156,17 @@ public class RobotContainer {
         config);
 
     SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(exampleTrajectory,
-        m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
-        m_drivetrainSubsystem.m_kinematics,
+        drivetrainSubsystem::getPose, // Functional interface to feed supplier
+        drivetrainSubsystem.m_kinematics,
         // Position controllers
         new PIDController(AutoConstants.kPXController, 0, 0), new PIDController(AutoConstants.kPYController, 0, 0),
-        thetaController, m_drivetrainSubsystem::setModuleStates, m_drivetrainSubsystem);
+        thetaController, drivetrainSubsystem::setModuleStates, drivetrainSubsystem);
 
     // Reset odometry to the starting pose of the trajectory.
-    m_drivetrainSubsystem.resetOdometryWithPose2d(exampleTrajectory.getInitialPose());
+    drivetrainSubsystem.resetOdometryWithPose2d(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_drivetrainSubsystem.drive(new ChassisSpeeds()));
+    return swerveControllerCommand.andThen(() -> drivetrainSubsystem.drive(new ChassisSpeeds()));
 
     //  https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/swervecontrollercommand/subsystems/DriveSubsystem.java
   }

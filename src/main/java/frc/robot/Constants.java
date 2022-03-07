@@ -80,29 +80,18 @@ public final class Constants {
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 3; // FIXME Set back right drive motor ID
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 2; // FIXME Set back right steer motor ID
-<<<<<<< HEAD
-    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 11; // FIXME Set back right steer encoder ID
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(5); // FIXME Measure and set back right steer offset
-    
-=======
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 15; // FIXME Set back right steer encoder ID
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(5); // FIXME Measure and set back right
                                                                                     // steer offset
 
->>>>>>> origin/intakeandconveyor
     public final static class GameElementConstants {
         public final static double UPPER_HUB = 2.64; // meters
         public final static double LOWER_HUB = 1.04; // meters
         public final static double HIGH_HEIGHT = UPPER_HUB; // Subtract by robot height
         public final static double LOW_HEIGHT = LOWER_HUB;
     }
-<<<<<<< HEAD
-    
-    public final static class AimbotConstants{
-=======
 
     public final static class AimbotConstants {
->>>>>>> origin/intakeandconveyor
         public static final double baseSpeed = 0.5;
         public static final double minimumAdjustment = 1.1;
         public static final double Kp = 5;
@@ -152,8 +141,4 @@ public final class Constants {
         public final static double LIMELIGHT_HEIGHT = 34; // This is for testing, needs to be changed for actual robot
         public final static double LIMELIGHT_ANGLE = 22.25;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/intakeandconveyor
