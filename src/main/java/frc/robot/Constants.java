@@ -67,19 +67,19 @@ public final class Constants {
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5; // FIXME Set front right drive motor ID
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 4; // FIXME Set front right steer motor ID
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 16; // FIXME Set front right steer encoder ID
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(153); // FIXME Measure and set front
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(141); // FIXME Measure and set front
                                                                                        // right steer offset
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 9; // FIXME Set back left drive motor ID
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 8; // FIXME Set back left steer motor ID
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 14; // FIXME Set back left steer encoder ID
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(295); // FIXME Measure and set back left
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(298); // FIXME Measure and set back left
                                                                                      // steer offset
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 3; // FIXME Set back right drive motor ID
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 2; // FIXME Set back right steer motor ID
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 15; // FIXME Set back right steer encoder ID
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(5); // FIXME Measure and set back right
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(9); // FIXME Measure and set back right
                                                                                     // steer offset
 
     public final static class GameElementConstants {
@@ -122,7 +122,7 @@ public final class Constants {
             public final static int RED_BALLS = 1;
             public final static int BLUE_BALLS = 2;
         }
-        public final static double LIMELIGHT_HEIGHT = 34; // This is for testing, needs to be changed for actual robot
-        public final static double LIMELIGHT_ANGLE = 22.25;
+        public final static double LIMELIGHT_HEIGHT = 34.5;
+        public final static double LIMELIGHT_ANGLE = 20;
     }
 }

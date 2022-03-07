@@ -88,9 +88,9 @@ public class Limelight extends SubsystemBase {
     double a2 = targetData.verticalOffset;
     double a1 = LimelightConstants.LIMELIGHT_ANGLE;
     double h1 = LimelightConstants.LIMELIGHT_HEIGHT;
-    double h2 = 264; // UpperHub height
+    double h2 = 103; // UpperHub height (INCHES)
     
-    double result = h2-h1; // this was giving problems when using a one liner, so we broke it up to debug
+    double result = h2-h1;
     double radians = Math.toRadians(a1+a2);
     double distance = result / Math.tan(radians);
 
