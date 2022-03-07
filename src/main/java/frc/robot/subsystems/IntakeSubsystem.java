@@ -1,52 +1,60 @@
-// package frc.robot.subsystems;
-// import frc.robot.Constants.IntakeConstants;
-// import frc.robot.RobotContainer;
-// import edu.wpi.first.wpilibj.CAN;
-// import edu.wpi.first.wpilibj.DigitalInput;
-// import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import frc.robot.Constants;
-// import com.revrobotics.*;
-// import com.revrobotics.CANSparkMax.IdleMode;
-// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-// public class IntakeSubsystem extends SubsystemBase {
-//     DigitalInput toplimitSwitch = new DigitalInput(0);
-//     CANSparkMax converyerMotorOne = new CANSparkMax(IntakeConstants.CONVEYER_MOTOR_ONE, MotorType.kBrushless);
-//     CANSparkMax conveyerTwo = new CANSparkMax(IntakeConstants.CONVERYER_TWO, MotorType.kBrushless);
-//     CANSparkMax intake = new CANSparkMax(IntakeConstants.INTAKE, MotorType.kBrushless);
+package frc.robot.subsystems;
 
+import frc.robot.Constants.*;
+import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj.CAN;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import com.revrobotics.*;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-//     public IntakeSubsystem(){
+public class IntakeSubsystem extends SubsystemBase {
+
+    // private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+    //         IntakeConstants.FORWARD_CHANNEL, IntakeConstants.REVERSE_CHANNEL);
+    // private boolean pistonsForward = false;
+    // private DigitalInput toplimitSwitch = new DigitalInput(0);
+    CANSparkMax intake = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushed);
+
+    public IntakeSubsystem() {
+        intake.setIdleMode(IdleMode.kCoast);
+        intake.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
+        intake.setInverted(true);
+        // intakeSolenoid.set(Value.kOff);
+    }
+
+    public void reverseIntake(double speed) {
+        intake.set(speed);
+    }
+
+    public void intakeBall(double speed) {
+        intake.set(speed);
+    }
+
+    public void stopIntake(){
+      intake.set(0);
+    }
+
+    public void controlIntakeSolenoids() {
+        // pistonsForward = !pistonsForward;
+        // if (pistonsForward) {
+        //     retractIntake();
+        //   } else {
+        //     deployIntake();
+        //   }
+    }
+    public void deployIntake() {
+        // intakeSolenoid.set(Value.kForward);
+      }
+    
+      public void retractIntake() {
+        // intakeSolenoid.set(Value.kReverse);
+      }
     
 
-//         converyerMotorOne.setIdleMode(IdleMode.kCoast);
-//         conveyerTwo.setIdleMode(IdleMode.kCoast);
-//         intake.setIdleMode(IdleMode.kCoast);
-//     }
-
-
- 
-    
-    
-
-//     public void spitOutBall(double SPIT_OUT_BALL){
-// converyerMotorOne.set(SPIT_OUT_BALL);
-// conveyerTwo.set(SPIT_OUT_BALL);
-// intake.set(SPIT_OUT_BALL);
-//     }
-
-
-//     public void TakeInBall(double Intakespeed) {
-//         if (Intakespeed > 0){
-//             if(toplimitSwitch.get()){
-//                 converyerMotorOne.set(0);
-//                 conveyerTwo.set(0);
-//                 intake.set(0);
-//             }
-//             else{
-//                 converyerMotorOne.set(Intakespeed);
-//                 conveyerTwo.set(Intakespeed);
-//                 intake.set(Intakespeed);
-//           }
-//     }
-//     }
-// }
+}
