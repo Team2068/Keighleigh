@@ -20,3 +20,13 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew clean build -refresh-dependencies --stacktrace -x test
+
+
+    #  Dim x As String
+    #  x = fuck vex
+    #  peepee poo poo
+    #   robot go brrrrrrrr
+    #   until it stops and then electrical has to spend 40 mintues fixing it 
+    #   then it goes BRRRRRRRRRRRRR
+    #   until jason crashes it again and electrical has to fix his work
+    #   print.ln(x)
