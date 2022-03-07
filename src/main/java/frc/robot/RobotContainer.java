@@ -6,6 +6,8 @@ package frc.robot;
 
 import javax.sound.sampled.Control;
 
+import com.revrobotics.ColorSensorV3;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -15,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.commands.AimShot;
+import frc.robot.commands.AimbotPID;
 // import frc.robot.commands.ControlIntakeSolenoids;
 // import frc.robot.commands.ControlIntakeSolenoids;
 //import frc.robot.commands.ControlIntakeSolenoids;
@@ -24,6 +28,10 @@ import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.SpitOutBall;
 import frc.robot.commands.TakeInBall;
+import frc.robot.commands.Deprecated.IntakeBall;
+import frc.robot.commands.Deprecated.MoveConveyor;
+import frc.robot.commands.Deprecated.ReverseIntake;
+import frc.robot.subsystems.ColorSensor;
 // import frc.robot.commands.Deprecated.IntakeBall;
 // import frc.robot.commands.Deprecated.IntakeOff;
 // import frc.robot.commands.Deprecated.MoveConveyor;
@@ -57,6 +65,7 @@ public class RobotContainer {
   private final XboxController driverController = new XboxController(0);
   private final XboxController mechanismController = new XboxController(1);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final ColorSensor colorSensor = new ColorSensor();
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
 
   /**
@@ -107,9 +116,15 @@ public class RobotContainer {
 
     // Back button zeros the gyroscope
 
-    mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
-    mechBumperR.whileHeld(new TakeInBall(conveyorSubsystem, intakeSubsystem));
-    mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    mechBumperL.whileHeld(new Shoot(shooterSubsystem, .7));
+    // mechBumperR.whileActiveContinuous(new TakeInBall(conveyorSubsystem, intakeSubsystem));
+    // mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
+    mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem, colorSensor));
+    mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    mechY.whileHeld(new ReverseIntake(intakeSubsystem));
+    mechA.whileHeld(new AimbotPID(limelight, drivetrainSubsystem));
+    mechB.whileHeld(new AimShot(shooterSubsystem, limelight));
 
     //driveBumperL.whenPressed(new ExtendHangSubsystem(hangSubsystem));
    // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));
