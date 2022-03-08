@@ -11,6 +11,10 @@ public final class Constants {
     public final static class ShooterConstants {
         public final static int FLYWHEEL_1 = 12;
         public final static int FLYWHEEL_2 = 11;
+        public final static double kS = 0.13243;
+        public final static double kV = 0.12573;
+        public final static double kA = 0.0058814;
+        public final static double kP = 0.10976;
     }
 
     /**
@@ -90,11 +94,11 @@ public final class Constants {
     }
 
     public final static class AimbotConstants {
-        public static final double baseSpeed = 0.5;
+        public static final double baseSpeed = 0.1;
         public static final double minimumAdjustment = 1.1;
-        public static final double Kp = 5;
+        public static final double Kp = 1; // 5
         public static final double Ki = 0;
-        public static final double Kd = 0.8;
+        public static final double Kd = 0.001; // 0.8
     }
   
     public final static class LimelightConstants {

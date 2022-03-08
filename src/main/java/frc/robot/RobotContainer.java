@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.commands.AimShot;
+import frc.robot.commands.AimShotPID;
 import frc.robot.commands.AimbotPID;
 // import frc.robot.commands.ControlIntakeSolenoids;
 // import frc.robot.commands.ControlIntakeSolenoids;
@@ -113,6 +115,7 @@ public class RobotContainer {
     JoystickButton driverA = new JoystickButton(driverController, Button.kA.value);
     JoystickButton driverB = new JoystickButton(driverController, Button.kB.value);
     JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
+    JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
 
     // Back button zeros the gyroscope
 
@@ -123,11 +126,12 @@ public class RobotContainer {
     mechBumperR.whileHeld(new TakeInBall(conveyorSubsystem, intakeSubsystem));
     mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
-    mechA.whileHeld(new AimbotPID(limelight, drivetrainSubsystem));
-    mechB.whileHeld(new AimShot(shooterSubsystem, limelight));
+    // mechA.whileHeld(new AimbotPID(limelight, drivetrainSubsystem));
+    // mechB.whileHeld(new AimShot(shooterSubsystem, limelight));
+    mechB.whileHeld(new AimShotPID(shooterSubsystem, 5000));
 
     //driveBumperL.whenPressed(new ExtendHangSubsystem(hangSubsystem));
-   // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));
+    // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));
     // driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
     // new Button(driverController::getYButton)
     //     // No requirements because we don't need to interrupt anything
