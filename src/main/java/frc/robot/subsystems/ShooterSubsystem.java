@@ -8,6 +8,8 @@ import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 import frc.robot.Constants.ShooterConstants;
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -40,5 +42,11 @@ public class ShooterSubsystem extends SubsystemBase {
     public void setPower(double power) {
         flywheel1.setVoltage(power);
         flywheel2.setVoltage(power);
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Flywheel1 RPM", flywheel1.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Flywheel2 RPM", flywheel2.getEncoder().getVelocity());
     }
 }

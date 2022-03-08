@@ -28,4 +28,9 @@ public class AimShot extends CommandBase {
     double speed = m * distance + b;
     shooterSubsystem.rampUpShooter(speed);
   }
+  
+  @Override
+  public void end(boolean interrupted){
+    shooterSubsystem.rampDownShooter();
+  }
 }

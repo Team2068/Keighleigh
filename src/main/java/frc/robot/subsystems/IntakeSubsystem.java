@@ -15,46 +15,47 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-    // private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-    //         IntakeConstants.FORWARD_CHANNEL, IntakeConstants.REVERSE_CHANNEL);
-    // private boolean pistonsForward = false;
-    // private DigitalInput toplimitSwitch = new DigitalInput(0);
-    CANSparkMax intake = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushed);
+  // private DoubleSolenoid intakeSolenoid = new
+  // DoubleSolenoid(PneumaticsModuleType.REVPH,
+  // IntakeConstants.FORWARD_CHANNEL, IntakeConstants.REVERSE_CHANNEL);
+  // private boolean pistonsForward = false;
+  // private DigitalInput toplimitSwitch = new DigitalInput(0);
+  CANSparkMax intake = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushed);
 
-    public IntakeSubsystem() {
-        intake.setIdleMode(IdleMode.kCoast);
-        intake.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
-        intake.setInverted(true);
-        // intakeSolenoid.set(Value.kOff);
-    }
+  public IntakeSubsystem() {
+    intake.setIdleMode(IdleMode.kCoast);
+    intake.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
+    intake.setInverted(true);
+    // intakeSolenoid.set(Value.kOff);
+  }
 
-    public void reverseIntake(double speed) {
-        intake.set(speed);
-    }
+  public void reverseIntake(double speed) {
+    intake.set(speed);
+  }
 
-    public void intakeBall(double speed) {
-        intake.set(speed);
-    }
+  public void intakeBall(double speed) {
+    intake.set(speed);
+  }
 
-    public void stopIntake(){
-      intake.set(0);
-    }
+  public void stopIntake() {
+    intake.set(0);
+  }
 
-    public void controlIntakeSolenoids() {
-        // pistonsForward = !pistonsForward;
-        // if (pistonsForward) {
-        //     retractIntake();
-        //   } else {
-        //     deployIntake();
-        //   }
-    }
-    public void deployIntake() {
-        // intakeSolenoid.set(Value.kForward);
-      }
-    
-      public void retractIntake() {
-        // intakeSolenoid.set(Value.kReverse);
-      }
-    
+  public void controlIntakeSolenoids() {
+    // pistonsForward = !pistonsForward;
+    // if (pistonsForward) {
+    // retractIntake();
+    // } else {
+    // deployIntake();
+    // }
+  }
+
+  public void deployIntake() {
+    // intakeSolenoid.set(Value.kForward);
+  }
+
+  public void retractIntake() {
+    // intakeSolenoid.set(Value.kReverse);
+  }
 
 }

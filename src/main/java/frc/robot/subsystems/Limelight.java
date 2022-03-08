@@ -88,7 +88,7 @@ public class Limelight extends SubsystemBase {
     double a2 = targetData.verticalOffset;
     double a1 = LimelightConstants.LIMELIGHT_ANGLE;
     double h1 = LimelightConstants.LIMELIGHT_HEIGHT;
-    double h2 = 103; // UpperHub height (INCHES)
+    double h2 = 103 * 2.54; // UpperHub height in inches converted to cm
     
     double result = h2-h1;
     double radians = Math.toRadians(a1+a2);

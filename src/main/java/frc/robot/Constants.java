@@ -9,8 +9,8 @@ public final class Constants {
     public final static double ROBOT_HEIGHT = 0.0;// adjust
 
     public final static class ShooterConstants {
-        public final static int FLYWHEEL_1 = 11;
-        public final static int FLYWHEEL_2 = 12;
+        public final static int FLYWHEEL_1 = 12;
+        public final static int FLYWHEEL_2 = 11;
     }
 
     /**
@@ -122,7 +122,7 @@ public final class Constants {
             public final static int RED_BALLS = 1;
             public final static int BLUE_BALLS = 2;
         }
-        public final static double LIMELIGHT_HEIGHT = 34.5;
+        public final static double LIMELIGHT_HEIGHT = 34.5 * 2.54; // Converting from inches to cm
         public final static double LIMELIGHT_ANGLE = 20;
     }
 }

@@ -107,7 +107,7 @@ public class RobotContainer {
     JoystickButton mechX = new JoystickButton(mechanismController, Button.kX.value);
     JoystickButton mechY = new JoystickButton(mechanismController, Button.kY.value);
     JoystickButton mechBumperR = new JoystickButton(mechanismController, Button.kRightBumper.value);
-    JoystickButton mechBumperL = new JoystickButton(mechanismController, Button.kRightBumper.value);
+    JoystickButton mechBumperL = new JoystickButton(mechanismController, Button.kLeftBumper.value);
     JoystickButton driveBumperL = new JoystickButton(driverController, Button.kLeftBumper.value);
     JoystickButton driveBumperR = new JoystickButton(driverController, Button.kRightBumper.value);
     JoystickButton driverA = new JoystickButton(driverController, Button.kA.value);
@@ -116,12 +116,12 @@ public class RobotContainer {
 
     // Back button zeros the gyroscope
 
-    mechBumperL.whileHeld(new Shoot(shooterSubsystem, .7));
     // mechBumperR.whileActiveContinuous(new TakeInBall(conveyorSubsystem, intakeSubsystem));
     // mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
-    mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
-    mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem, colorSensor));
-    mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+
+    mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
+    mechBumperR.whileHeld(new TakeInBall(conveyorSubsystem, intakeSubsystem));
+    mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
     mechA.whileHeld(new AimbotPID(limelight, drivetrainSubsystem));
     mechB.whileHeld(new AimShot(shooterSubsystem, limelight));
