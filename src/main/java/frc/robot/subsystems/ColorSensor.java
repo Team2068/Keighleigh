@@ -10,22 +10,21 @@ import com.revrobotics.ColorSensorV3;
 
 public class ColorSensor extends SubsystemBase {
 
-  I2C.Port port = I2C.Port.kOnboard;
+  I2C.Port port1 = I2C.Port.kOnboard;
+  I2C.Port port2 = I2C.Port.kMXP;
 
-  ColorSensorV3 colorSensor = new ColorSensorV3(port);
+  ColorSensorV3 colorSensor1 = new ColorSensorV3(port1);
+  ColorSensorV3 colorSensor2 = new ColorSensorV3(port2);
 
-  public double InitialProximity;
   private double proxyCheck = 0;
 
-  public double GetProximity(){
-    return colorSensor.getProximity();
+  public boolean occupiedLower(){
+    return (colorSensor1.getProximity() > proxyCheck);
   }
 
-  public boolean Occupied(){
-    return (colorSensor.getProximity() < proxyCheck);
+  public boolean occupiedUpper() {
+    return (colorSensor2.getProximity() > proxyCheck);
   }
 
-  public ColorSensor() {
-    InitialProximity = colorSensor.getProximity();
-  }
+  public ColorSensor() { }
 }

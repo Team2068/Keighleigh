@@ -16,6 +16,6 @@ public class MoveConveyor extends CommandBase {
     }
     @Override
     public void initialize(){
-        if (!colorSensor.Occupied()) conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED);
+        conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED);
     }
 }
