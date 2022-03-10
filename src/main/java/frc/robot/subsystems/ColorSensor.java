@@ -13,17 +13,17 @@ public class ColorSensor extends SubsystemBase {
   I2C.Port port1 = I2C.Port.kOnboard;
   I2C.Port port2 = I2C.Port.kMXP;
 
-  ColorSensorV3 colorSensor1 = new ColorSensorV3(port1);
-  ColorSensorV3 colorSensor2 = new ColorSensorV3(port2);
+  ColorSensorV3 colorSensorLower = new ColorSensorV3(port1);
+  ColorSensorV3 colorSensorUpper = new ColorSensorV3(port2);
 
   private double proxyCheck = 0;
 
   public boolean occupiedLower(){
-    return (colorSensor1.getProximity() > proxyCheck);
+    return (colorSensorLower.getProximity() > proxyCheck);
   }
 
   public boolean occupiedUpper() {
-    return (colorSensor2.getProximity() > proxyCheck);
+    return (colorSensorUpper.getProximity() > proxyCheck);
   }
 
   public ColorSensor() { }
