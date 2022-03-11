@@ -51,8 +51,14 @@ public final class Constants {
         public static final double INTAKE_SPEED = -.85;
         public static final double SPIT_OUT_BALL = .85;
         //pneumatics things
-        public static final int FORWARD_CHANNEL = 1;
-        public static final int REVERSE_CHANNEL = 0;
+        public static final int FORWARD_CHANNEL_1 = 0;
+        public static final int REVERSE_CHANNEL_1 = 7;
+        public static final int FORWARD_CHANNEL_2 = 8;
+        public static final int REVERSE_CHANNEL_2 = 15;
+    }
+
+    public final static class LowPressureConstants {
+        public static final int PRESSURE_SENSOR_CHANNEL = 0;
     }
     public final static class HangConstants {
         public static final int LEFT_HANG_MOTOR = 18;                                                                                // left steer offset

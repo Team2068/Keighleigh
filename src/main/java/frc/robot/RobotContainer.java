@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.commands.ControlIntakeSolenoids;
 // import frc.robot.commands.ControlIntakeSolenoids;
 // import frc.robot.commands.ControlIntakeSolenoids;
 //import frc.robot.commands.ControlIntakeSolenoids;
@@ -53,11 +54,13 @@ public class RobotContainer {
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  //private final HangSubsystem hangSubsystem = new HangSubsystem();
+  // private final HangSubsystem hangSubsystem = new HangSubsystem();
   private final XboxController driverController = new XboxController(0);
   private final XboxController mechanismController = new XboxController(1);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-  private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
+  // private final Limelight limelight = new
+  // Limelight(LimelightConstants.LedMode.DEFAULT,
+  // LimelightConstants.CamMode.VISION);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -111,12 +114,12 @@ public class RobotContainer {
     mechBumperR.whileHeld(new TakeInBall(conveyorSubsystem, intakeSubsystem));
     mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
 
-    //driveBumperL.whenPressed(new ExtendHangSubsystem(hangSubsystem));
-   // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));
-    // driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
+    // driveBumperL.whenPressed(new ExtendHangSubsystem(hangSubsystem));
+    // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));
+    driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
     // new Button(driverController::getYButton)
-    //     // No requirements because we don't need to interrupt anything
-    //     .whenPressed(drivetrainSubsystem::zeroGyroscope);
+    // // No requirements because we don't need to interrupt anything
+    // .whenPressed(drivetrainSubsystem::zeroGyroscope);
   }
 
   /**

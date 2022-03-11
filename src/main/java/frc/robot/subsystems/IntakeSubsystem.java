@@ -15,9 +15,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-    // private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-    //         IntakeConstants.FORWARD_CHANNEL, IntakeConstants.REVERSE_CHANNEL);
-    // private boolean pistonsForward = false;
+    private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+            IntakeConstants.FORWARD_CHANNEL_1, IntakeConstants.REVERSE_CHANNEL_1);
+    private DoubleSolenoid intakeSolenoid2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.FORWARD_CHANNEL_2, IntakeConstants.REVERSE_CHANNEL_2);
+    private boolean pistonsForward = false;
     // private DigitalInput toplimitSwitch = new DigitalInput(0);
     CANSparkMax intake = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushed);
 
@@ -41,19 +42,21 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void controlIntakeSolenoids() {
-        // pistonsForward = !pistonsForward;
-        // if (pistonsForward) {
-        //     retractIntake();
-        //   } else {
-        //     deployIntake();
-        //   }
+        pistonsForward = !pistonsForward;
+        if (pistonsForward) {
+            retractIntake();
+          } else {
+            deployIntake();
+          }
     }
     public void deployIntake() {
-        // intakeSolenoid.set(Value.kForward);
+        intakeSolenoid.set(Value.kForward);
+        intakeSolenoid2.set(Value.kForward);
       }
     
       public void retractIntake() {
-        // intakeSolenoid.set(Value.kReverse);
+        intakeSolenoid.set(Value.kReverse);
+        intakeSolenoid2.set(Value.kReverse);
       }
     
 
