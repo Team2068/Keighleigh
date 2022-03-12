@@ -15,6 +15,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight extends SubsystemBase {
 
+  public Limelight() {
+    this(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
+  }
+
   public Limelight(int ledMode, int streamMode) {
     setLedMode(ledMode);
     setStreamMode(streamMode);
@@ -79,6 +83,14 @@ public class Limelight extends SubsystemBase {
 
   public TargetData getTargetData() {
     return targetData;
+  }
+
+  public double distanceToRpm() {
+    double distance = getDistance();
+    double squared = distance * distance;
+    double factor = squared * 0.00714285714286; // squared * 1/140
+    double rpm = factor + 3000;
+    return rpm;
   }
 
   // This works only for objects that are above or below the robot

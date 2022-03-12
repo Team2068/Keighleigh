@@ -12,13 +12,16 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.LimelightConstants;
-import frc.robot.commands.AimShot;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.AimShotCalculated;
 import frc.robot.commands.AimShotPID;
 import frc.robot.commands.AimbotPID;
 // import frc.robot.commands.ControlIntakeSolenoids;
@@ -84,7 +87,7 @@ public class RobotContainer {
         () -> modifyAxis(driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-            ));
+    ));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -122,13 +125,17 @@ public class RobotContainer {
     // mechBumperR.whileActiveContinuous(new TakeInBall(conveyorSubsystem, intakeSubsystem));
     // mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
 
-    mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
-    mechBumperR.whileHeld(new TakeInBall(conveyorSubsystem, intakeSubsystem));
-    mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    //mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
+    mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
+    mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem, colorSensor));
+    mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
     // mechA.whileHeld(new AimbotPID(limelight, drivetrainSubsystem));
     // mechB.whileHeld(new AimShot(shooterSubsystem, limelight));
-    mechB.whileHeld(new AimShotPID(shooterSubsystem, 5000));
+    //driverX.whenPressed(new ConditionalCommand(new InstantCommand(), new AimShotPID(shooterSubsystem, 2500), () -> new WaitCommand(5).isFinished()));
+    mechBumperL.whenHeld(new AimShotCalculated(shooterSubsystem, limelight)).whenInactive(() -> shooterSubsystem.rampDownShooter());
+    mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true).whenInactive(() -> shooterSubsystem.rampDownShooter());
+    mechB.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM), true).whenInactive(() -> shooterSubsystem.rampDownShooter());
 
     //driveBumperL.whenPressed(new ExtendHangSubsystem(hangSubsystem));
     // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));

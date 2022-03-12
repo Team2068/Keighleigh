@@ -11,28 +11,38 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AimShotPID extends PIDCommand {
+public class AimShotCalculated extends PIDCommand {
   /** Creates a new AimShotPID. */
 
   ShooterSubsystem shooterSubsystem;
 
-  public AimShotPID(ShooterSubsystem shooterSubsystem, double setpoint) {
+  public AimShotCalculated(ShooterSubsystem shooterSubsystem, Limelight limelight) {
     super(
         // The controller that the command will use
         new PIDController(ShooterConstants.kP, 0, 0),
         // This should return the measurement
         () -> shooterSubsystem.getVelocity(),
         // This should return the setpoint (can also be a constant)
-        () -> setpoint,
+        () -> {
+          double rpm = limelight.distanceToRpm();
+          DriverStation.reportWarning("Calculated RPM: " + rpm, false);
+          SmartDashboard.putNumber("Calculated RPM", rpm);
+          return rpm;
+        },
         // This uses the output
         output -> {
           // Use the output here
-          double feedforward = shooterSubsystem.calculateFeedforward(setpoint);
+
+          // hacky way to keep state between parameters, hopefully the distance doesn't change!
+          double rpm = limelight.distanceToRpm();
+
+          double feedforward = shooterSubsystem.calculateFeedforward(rpm);
           shooterSubsystem.setVoltage(output + feedforward);
         });
     // Use addRequirements() here to declare subsystem dependencies.

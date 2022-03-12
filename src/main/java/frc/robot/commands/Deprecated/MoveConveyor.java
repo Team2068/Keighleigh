@@ -15,7 +15,12 @@ public class MoveConveyor extends CommandBase {
         addRequirements(conveyorSubsystem);
     }
     @Override
-    public void initialize(){
+    public void execute(){
         conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        conveyorSubsystem.stopConveyor();
     }
 }

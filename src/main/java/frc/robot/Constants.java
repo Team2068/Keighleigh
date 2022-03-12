@@ -15,6 +15,16 @@ public final class Constants {
         public final static double kV = 0.12573;
         public final static double kA = 0.0058814;
         public final static double kP = 0.10976;
+        public final static double LOWER_HUB_RPM = 2000;
+        public final static double UPPER_HUB_FALLBACK_RPM = 4000; // use this if the limelight doesnt work
+
+        // DISTANCE(CM) | VELOCITY (RPM)
+        // 220		3400
+        // 300		3700
+        // 380		4000
+        // 464		4300
+        // 500		4800
+        // LOW GOAL: 2000
     }
 
     /**
@@ -45,24 +55,28 @@ public final class Constants {
         public static final int POV_ANGLE_LEFT = 270;
         public static final int POV_ANGLE_RIGHT = 90;
     }
+
     public final static class ConveyorConstants {
         public static final int LOWER_CONVEYOR = 13;
         public static final double CONVEYOR_SPEED = 0.7;
     }
+
     public final static class IntakeConstants {
-        //intake things
+        // intake things
         public static final int INTAKE_MOTOR = 10;
         public static final double INTAKE_SPEED = -.85;
         public static final double SPIT_OUT_BALL = .85;
-        //pneumatics things
+        // pneumatics things
         public static final int FORWARD_CHANNEL = 1;
         public static final int REVERSE_CHANNEL = 0;
     }
+
     public final static class HangConstants {
-        public static final int LEFT_HANG_MOTOR = 18;                                                                                // left steer offset
+        public static final int LEFT_HANG_MOTOR = 18; // left steer offset
         public static final int RIGHT_HANG_MOTOR = 19;
         public static final double HANG_SPEED = .5;
     }
+
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7; // FIXME Set front left module drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 6; // FIXME Set front left module steer motor ID
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 17; // FIXME Set front left steer encoder ID
@@ -100,7 +114,7 @@ public final class Constants {
         public static final double Ki = 0;
         public static final double Kd = 0.001; // 0.8
     }
-  
+
     public final static class LimelightConstants {
         public final static class LedMode {
             public final static int DEFAULT = 0;
@@ -108,24 +122,29 @@ public final class Constants {
             public final static int FORCE_BLINK = 2;
             public final static int FORCE_ON = 3;
         }
+
         public final static class CamMode {
             public final static int VISION = 0;
             public final static int DRIVER = 1;
         }
+
         public final static class StreamMode {
             public final static int STANDARD = 0;
             public final static int PIP_MAIN = 1;
             public final static int PIP_SECONDARY = 2;
         }
+
         public final static class SnapshotMode {
             public final static int NO_SNAPSHOT = 0;
             public final static int TWO_SNAPSHOTS = 1;
         }
+
         public final static class Pipelines {
             public final static int REFLECTIVE_TAPE = 0;
             public final static int RED_BALLS = 1;
             public final static int BLUE_BALLS = 2;
         }
+
         public final static double LIMELIGHT_HEIGHT = 34.5 * 2.54; // Converting from inches to cm
         public final static double LIMELIGHT_ANGLE = 20;
     }
