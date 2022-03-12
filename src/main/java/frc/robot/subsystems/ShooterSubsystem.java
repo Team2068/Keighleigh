@@ -10,9 +10,7 @@ import com.revrobotics.RelativeEncoder;
 import frc.robot.Constants.ShooterConstants;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;

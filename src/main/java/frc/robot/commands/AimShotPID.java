@@ -4,22 +4,17 @@
 
 package frc.robot.commands;
 
-import java.sql.Driver;
-
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AimShotPID extends PIDCommand {
-  /** Creates a new AimShotPID. */
-
   ShooterSubsystem shooterSubsystem;
+
+  Timer timer = new Timer();
+  boolean started = false;
 
   public AimShotPID(ShooterSubsystem shooterSubsystem, double setpoint) {
     super(
@@ -35,16 +30,25 @@ public class AimShotPID extends PIDCommand {
           double feedforward = shooterSubsystem.calculateFeedforward(setpoint);
           shooterSubsystem.setVoltage(output + feedforward);
         });
-    // Use addRequirements() here to declare subsystem dependencies.
-    // Configure additional PID options by calling `getController` here.
+
+    getController().setTolerance(100);
     addRequirements(shooterSubsystem);
     this.shooterSubsystem = shooterSubsystem;
-    getController().setTolerance(100);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // if (getController().atSetpoint()&& !started){
+    //   timer.start();
+    //   started = true;
+    // } 
+    // return getController().atSetpoint() && timer.hasElapsed(3);
     return getController().atSetpoint();
   }
+
+  // @Override
+  // public void end(boolean interrupted) {
+  //   shooterSubsystem.rampDownShooter();
+  // }
 }

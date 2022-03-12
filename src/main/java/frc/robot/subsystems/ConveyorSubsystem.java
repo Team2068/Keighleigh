@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj.DoubleSolenoid;
 // import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.*;
 // import frc.robot.Constants;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;

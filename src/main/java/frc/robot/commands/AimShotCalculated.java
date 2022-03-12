@@ -4,8 +4,6 @@
 
 package frc.robot.commands;
 
-import java.sql.Driver;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,12 +12,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AimShotCalculated extends PIDCommand {
-  /** Creates a new AimShotPID. */
-
   ShooterSubsystem shooterSubsystem;
 
   public AimShotCalculated(ShooterSubsystem shooterSubsystem, Limelight limelight) {
@@ -37,8 +30,6 @@ public class AimShotCalculated extends PIDCommand {
         },
         // This uses the output
         output -> {
-          // Use the output here
-
           // hacky way to keep state between parameters, hopefully the distance doesn't change!
           double rpm = limelight.distanceToRpm();
 

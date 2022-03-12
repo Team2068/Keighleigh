@@ -4,20 +4,14 @@
 
 package frc.robot;
 
-import javax.sound.sampled.Control;
-
-import com.revrobotics.ColorSensorV3;
-
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
@@ -25,15 +19,13 @@ import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.AimShotCalculated;
 import frc.robot.commands.AimShotPID;
-import frc.robot.commands.AimbotPID;
 import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExtendHangSubsystem;
 import frc.robot.commands.LowAuto;
 import frc.robot.commands.RetractHangSubsystem;
-import frc.robot.commands.Shoot;
 import frc.robot.commands.SpitOutBall;
-import frc.robot.commands.TakeInBall;
+import frc.robot.commands.TimedAutoDrive;
 import frc.robot.commands.Deprecated.IntakeBall;
 import frc.robot.commands.Deprecated.MoveConveyor;
 import frc.robot.commands.Deprecated.ReverseIntake;
@@ -48,6 +40,7 @@ import frc.robot.subsystems.ConveyorSubsystem;
 // import frc.robot.commands.TakeInBall;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.HangSubsystem;
+// import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
 // import frc.robot.subsystems.IntakeSubsystem;
@@ -122,22 +115,19 @@ public class RobotContainer {
     JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
     JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
 
-    // Back button zeros the gyroscope
-
     // mechBumperR.whileActiveContinuous(new TakeInBall(conveyorSubsystem, intakeSubsystem));
     // mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
-
     //mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
+
     mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
-    mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem, colorSensor));
+    mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
-    // mechA.whileHeld(new AimbotPID(limelight, drivetrainSubsystem));
-    // mechB.whileHeld(new AimShot(shooterSubsystem, limelight));
+
     //driverX.whenPressed(new ConditionalCommand(new InstantCommand(), new AimShotPID(shooterSubsystem, 2500), () -> new WaitCommand(5).isFinished()));
-    mechBumperL.whenHeld(new AimShotCalculated(shooterSubsystem, limelight)).whenInactive(() -> shooterSubsystem.rampDownShooter());
-    mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true).whenInactive(() -> shooterSubsystem.rampDownShooter());
-    mechB.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM), true).whenInactive(() -> shooterSubsystem.rampDownShooter());
+    mechBumperL.whenHeld(new AimShotCalculated(shooterSubsystem, limelight)).whenInactive(shooterSubsystem::rampDownShooter);
+    mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true).whenInactive(shooterSubsystem::rampDownShooter);
+    mechB.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM), true).whenInactive(shooterSubsystem::rampDownShooter);
 
     // driveBumperL.whenPressed(new ExtendHangSubsystem(hangSubsystem));
     // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));
@@ -155,29 +145,27 @@ public class RobotContainer {
 
   /**
    * Use this to pass thex autonomous command to the main {@link Robot} class.
-   *
    * @return the command to run in autonomous
    */
 
   public void setUpAutonomousChooser() {
     autonomousChooser.setDefaultOption("Low Auto", new LowAuto(shooterSubsystem, conveyorSubsystem));
-    SmartDashboard.putData("Autonomous Mosde", autonomousChooser);
+    autonomousChooser.addOption("Throw it Back", new SequentialCommandGroup(
+      new LowAuto(shooterSubsystem, conveyorSubsystem),
+      new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 2)
+    ));
+    SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
     return autonomousChooser.getSelected();
   }
 
   private static double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {
-      if (value > 0.0) {
-        return (value - deadband) / (1.0 - deadband);
-      } else {
-        return (value + deadband) / (1.0 - deadband);
-      }
-    } else {
-      return 0.0;
+      if (value > 0.0) return (value - deadband) / (1.0 - deadband);
+      return (value + deadband) / (1.0 - deadband);
     }
+      return 0.0;
   }
 
   private static double modifyAxis(double value) {
