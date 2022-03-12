@@ -66,9 +66,16 @@ public final class Constants {
         public static final int INTAKE_MOTOR = 10;
         public static final double INTAKE_SPEED = -.85;
         public static final double SPIT_OUT_BALL = .85;
-        // pneumatics things
-        public static final int FORWARD_CHANNEL = 1;
-        public static final int REVERSE_CHANNEL = 0;
+
+        //pneumatics things
+        public static final int FORWARD_CHANNEL_1 = 0;
+        public static final int REVERSE_CHANNEL_1 = 7;
+        public static final int FORWARD_CHANNEL_2 = 8;
+        public static final int REVERSE_CHANNEL_2 = 15;
+    }
+
+    public final static class LowPressureConstants {
+        public static final int PRESSURE_SENSOR_CHANNEL = 0;
     }
 
     public final static class HangConstants {
@@ -144,7 +151,6 @@ public final class Constants {
             public final static int RED_BALLS = 1;
             public final static int BLUE_BALLS = 2;
         }
-
         public final static double LIMELIGHT_HEIGHT = 34.5 * 2.54; // Converting from inches to cm
         public final static double LIMELIGHT_ANGLE = 20;
     }
