@@ -6,25 +6,35 @@ package frc.robot;
 
 import javax.sound.sampled.Control;
 
+import com.revrobotics.ColorSensorV3;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.AimShotCalculated;
+import frc.robot.commands.AimShotPID;
+import frc.robot.commands.AimbotPID;
 import frc.robot.commands.ControlIntakeSolenoids;
-// import frc.robot.commands.ControlIntakeSolenoids;
-// import frc.robot.commands.ControlIntakeSolenoids;
-//import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExtendHangSubsystem;
 import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.SpitOutBall;
 import frc.robot.commands.TakeInBall;
+import frc.robot.commands.Deprecated.IntakeBall;
+import frc.robot.commands.Deprecated.MoveConveyor;
+import frc.robot.commands.Deprecated.ReverseIntake;
+import frc.robot.subsystems.ColorSensor;
 // import frc.robot.commands.Deprecated.IntakeBall;
 // import frc.robot.commands.Deprecated.IntakeOff;
 // import frc.robot.commands.Deprecated.MoveConveyor;
@@ -58,9 +68,8 @@ public class RobotContainer {
   private final XboxController driverController = new XboxController(0);
   private final XboxController mechanismController = new XboxController(1);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-  // private final Limelight limelight = new
-  // Limelight(LimelightConstants.LedMode.DEFAULT,
-  // LimelightConstants.CamMode.VISION);
+  private final ColorSensor colorSensor = new ColorSensor();
+  private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -74,9 +83,9 @@ public class RobotContainer {
     drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
         drivetrainSubsystem,
         () -> modifyAxis(driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * -1,
-        () -> -modifyAxis(driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-            * -1));
+        () -> modifyAxis(driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> modifyAxis(driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+    ));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -101,22 +110,35 @@ public class RobotContainer {
     JoystickButton mechX = new JoystickButton(mechanismController, Button.kX.value);
     JoystickButton mechY = new JoystickButton(mechanismController, Button.kY.value);
     JoystickButton mechBumperR = new JoystickButton(mechanismController, Button.kRightBumper.value);
-    JoystickButton mechBumperL = new JoystickButton(mechanismController, Button.kRightBumper.value);
+    JoystickButton mechBumperL = new JoystickButton(mechanismController, Button.kLeftBumper.value);
     JoystickButton driveBumperL = new JoystickButton(driverController, Button.kLeftBumper.value);
     JoystickButton driveBumperR = new JoystickButton(driverController, Button.kRightBumper.value);
     JoystickButton driverA = new JoystickButton(driverController, Button.kA.value);
     JoystickButton driverB = new JoystickButton(driverController, Button.kB.value);
     JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
+    JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
 
     // Back button zeros the gyroscope
 
-    mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
-    mechBumperR.whileHeld(new TakeInBall(conveyorSubsystem, intakeSubsystem));
-    mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    // mechBumperR.whileActiveContinuous(new TakeInBall(conveyorSubsystem, intakeSubsystem));
+    // mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+
+    //mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
+    mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
+    mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem, colorSensor));
+    mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    mechY.whileHeld(new ReverseIntake(intakeSubsystem));
+    // mechA.whileHeld(new AimbotPID(limelight, drivetrainSubsystem));
+    // mechB.whileHeld(new AimShot(shooterSubsystem, limelight));
+    //driverX.whenPressed(new ConditionalCommand(new InstantCommand(), new AimShotPID(shooterSubsystem, 2500), () -> new WaitCommand(5).isFinished()));
+    mechBumperL.whenHeld(new AimShotCalculated(shooterSubsystem, limelight)).whenInactive(() -> shooterSubsystem.rampDownShooter());
+    mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true).whenInactive(() -> shooterSubsystem.rampDownShooter());
+    mechB.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM), true).whenInactive(() -> shooterSubsystem.rampDownShooter());
 
     // driveBumperL.whenPressed(new ExtendHangSubsystem(hangSubsystem));
     // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));
     driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
+    
     // new Button(driverController::getYButton)
     // // No requirements because we don't need to interrupt anything
     // .whenPressed(drivetrainSubsystem::zeroGyroscope);

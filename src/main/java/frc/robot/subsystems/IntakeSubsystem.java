@@ -58,6 +58,4 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeSolenoid.set(Value.kReverse);
         intakeSolenoid2.set(Value.kReverse);
       }
-    
-
 }

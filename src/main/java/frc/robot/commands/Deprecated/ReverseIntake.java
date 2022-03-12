@@ -1,10 +1,11 @@
 package frc.robot.commands.Deprecated;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants.*;
 
-public class ReverseIntake extends InstantCommand {
+public class ReverseIntake extends CommandBase {
     private IntakeSubsystem intakeSubsystem;
     
     public ReverseIntake(IntakeSubsystem intakeSubsystem){
@@ -15,5 +16,9 @@ public class ReverseIntake extends InstantCommand {
     @Override
     public void initialize(){
         intakeSubsystem.reverseIntake(IntakeConstants.SPIT_OUT_BALL);
+    }
+    @Override
+    public void end(boolean interrupted){
+        intakeSubsystem.stopIntake();
     }
 }

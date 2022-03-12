@@ -15,6 +15,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight extends SubsystemBase {
 
+  public Limelight() {
+    this(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
+  }
+
   public Limelight(int ledMode, int streamMode) {
     setLedMode(ledMode);
     setStreamMode(streamMode);
@@ -81,6 +85,14 @@ public class Limelight extends SubsystemBase {
     return targetData;
   }
 
+  public double distanceToRpm() {
+    double distance = getDistance();
+    double squared = distance * distance;
+    double factor = squared * 0.00714285714286; // squared * 1/140
+    double rpm = factor + 3000;
+    return rpm;
+  }
+
   // This works only for objects that are above or below the robot
   // It's very inaccurate of objects that are same height as the robot
   public double getDistance() {
@@ -88,9 +100,9 @@ public class Limelight extends SubsystemBase {
     double a2 = targetData.verticalOffset;
     double a1 = LimelightConstants.LIMELIGHT_ANGLE;
     double h1 = LimelightConstants.LIMELIGHT_HEIGHT;
-    double h2 = 264; // UpperHub height
+    double h2 = 103 * 2.54; // UpperHub height in inches converted to cm
     
-    double result = h2-h1; // this was giving problems when using a one liner, so we broke it up to debug
+    double result = h2-h1;
     double radians = Math.toRadians(a1+a2);
     double distance = result / Math.tan(radians);
 
