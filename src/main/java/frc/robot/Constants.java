@@ -81,8 +81,8 @@ public final class Constants {
     public final static class HangConstants {
         public static final int LEFT_HANG_MOTOR = 18; // left steer offset
         public static final int RIGHT_HANG_MOTOR = 19;
-        public static final double HANG_SPEED = .3;
-        public static final double LOWER_SPEED = -.5;
+        public static final double HANG_SPEED = .6;
+        public static final double LOWER_SPEED = -.8;
 
         public static final double LIFT_HEIGHT = 28.29;
     }

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.HangConstants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.AimShotCalculated;
@@ -25,7 +26,10 @@ import frc.robot.commands.ExtendHangSubsystem;
 import frc.robot.commands.LowAuto;
 import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.SpitOutBall;
+import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.TimedAutoDrive;
+import frc.robot.commands.ToggleCameraMode;
+import frc.robot.commands.ToggleStreamMode;
 import frc.robot.commands.Deprecated.IntakeBall;
 import frc.robot.commands.Deprecated.MoveConveyor;
 import frc.robot.commands.Deprecated.ReverseIntake;
@@ -83,6 +87,9 @@ public class RobotContainer {
         () -> modifyAxis(driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
+    SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
+    SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
+    SmartDashboard.putData("Switch Pipeline", new SwitchPipeline(limelight));
     setUpAutonomousChooser();
     // Configure the button bindings
     configureButtonBindings();
@@ -124,19 +131,17 @@ public class RobotContainer {
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
-    //driverX.whenPressed(new ConditionalCommand(new InstantCommand(), new AimShotPID(shooterSubsystem, 2500), () -> new WaitCommand(5).isFinished()));
     mechBumperL.whenHeld(new AimShotCalculated(shooterSubsystem, limelight)).whenInactive(shooterSubsystem::rampDownShooter);
     mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true).whenInactive(shooterSubsystem::rampDownShooter);
     mechB.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM), true).whenInactive(shooterSubsystem::rampDownShooter);
 
-    // driveBumperL.whenPressed(new ExtendHangSubsystem(hangSubsystem));
-    // driveBumperR.whenPressed(new RetractHangSubsystem(hangSubsystem));
     driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
 
-    driverX.whenPressed(() -> drivetrainSubsystem.zeroGyroscope());
+    driverX.whenPressed(drivetrainSubsystem::zeroGyroscope);
 
     driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
-    driveBumperL.whileActiveContinuous(new RetractHangSubsystem(hangSubsystem));
+    driveBumperL.whileActiveContinuous(new RetractHangSubsystem(hangSubsystem, HangConstants.LOWER_SPEED));
+    driverA.toggleWhenActive(new RetractHangSubsystem(hangSubsystem, -0.1));
     
     // new Button(driverController::getYButton)
     // // No requirements because we don't need to interrupt anything
@@ -152,7 +157,7 @@ public class RobotContainer {
     autonomousChooser.setDefaultOption("Low Auto", new LowAuto(shooterSubsystem, conveyorSubsystem));
     autonomousChooser.addOption("Throw it Back", new SequentialCommandGroup(
       new LowAuto(shooterSubsystem, conveyorSubsystem),
-      new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 2)
+      new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1.5)
     ));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }

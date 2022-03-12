@@ -6,16 +6,18 @@ import frc.robot.Constants.HangConstants;
 import frc.robot.subsystems.*;
 public class RetractHangSubsystem extends CommandBase{
     private HangSubsystem hangSubsystem;
-    
-    public RetractHangSubsystem(HangSubsystem hangSubsystem){
+    private double speed;
+
+    public RetractHangSubsystem(HangSubsystem hangSubsystem, double speed){
 
         this.hangSubsystem = hangSubsystem;
+        this.speed = speed;
       
         addRequirements(hangSubsystem);
     }
     @Override
     public void execute(){
-        hangSubsystem.RetractHangSubsystem();
+        hangSubsystem.RetractHangSubsystem(speed);
     }
 
     @Override
