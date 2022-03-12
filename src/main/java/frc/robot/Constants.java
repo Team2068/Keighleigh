@@ -81,9 +81,11 @@ public final class Constants {
     public final static class HangConstants {
         public static final int LEFT_HANG_MOTOR = 18; // left steer offset
         public static final int RIGHT_HANG_MOTOR = 19;
-        public static final double HANG_SPEED = .5;
-    }
+        public static final double HANG_SPEED = .3;
+        public static final double LOWER_SPEED = -.5;
 
+        public static final double LIFT_HEIGHT = 28.29;
+    }
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7; // FIXME Set front left module drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 6; // FIXME Set front left module steer motor ID
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 17; // FIXME Set front left steer encoder ID

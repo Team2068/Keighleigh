@@ -67,7 +67,7 @@ public class RobotContainer {
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  // private final HangSubsystem hangSubsystem = new HangSubsystem();
+  private final HangSubsystem hangSubsystem = new HangSubsystem();
   private final XboxController driverController = new XboxController(0);
   private final XboxController mechanismController = new XboxController(1);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
@@ -144,6 +144,9 @@ public class RobotContainer {
     driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
 
     driverX.whenPressed(() -> drivetrainSubsystem.zeroGyroscope());
+
+    driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
+    driveBumperL.whileActiveContinuous(new RetractHangSubsystem(hangSubsystem));
     
     // new Button(driverController::getYButton)
     // // No requirements because we don't need to interrupt anything
