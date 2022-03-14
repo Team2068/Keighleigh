@@ -33,21 +33,11 @@ import frc.robot.commands.ToggleStreamMode;
 import frc.robot.commands.Deprecated.IntakeBall;
 import frc.robot.commands.Deprecated.MoveConveyor;
 import frc.robot.commands.Deprecated.ReverseIntake;
-import frc.robot.subsystems.ColorSensor;
-// import frc.robot.commands.Deprecated.IntakeBall;
-// import frc.robot.commands.Deprecated.IntakeOff;
-// import frc.robot.commands.Deprecated.MoveConveyor;
-// import frc.robot.commands.Deprecated.ReverseIntake;
-// import frc.robot.commands.Deprecated.ShooterOff;
-// import frc.robot.commands.Deprecated.StopConveyor;
 import frc.robot.subsystems.ConveyorSubsystem;
-// import frc.robot.commands.TakeInBall;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.HangSubsystem;
-// import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
-// import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /**
@@ -68,10 +58,11 @@ public class RobotContainer {
   private final XboxController driverController = new XboxController(0);
   private final XboxController mechanismController = new XboxController(1);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-  private final ColorSensor colorSensor = new ColorSensor();
-  private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
+  private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
+      LimelightConstants.CamMode.VISION);
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -85,8 +76,7 @@ public class RobotContainer {
         drivetrainSubsystem,
         () -> modifyAxis(driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> modifyAxis(driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-    ));
+        () -> modifyAxis(driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
     SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
     SmartDashboard.putData("Switch Pipeline", new SwitchPipeline(limelight));
@@ -122,18 +112,17 @@ public class RobotContainer {
     JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
     JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
 
-    // mechBumperR.whileActiveContinuous(new TakeInBall(conveyorSubsystem, intakeSubsystem));
-    // mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
-    //mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
-
     mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
     mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
-    mechBumperL.whenHeld(new AimShotCalculated(shooterSubsystem, limelight)).whenInactive(shooterSubsystem::rampDownShooter);
-    mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true).whenInactive(shooterSubsystem::rampDownShooter);
-    mechB.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM), true).whenInactive(shooterSubsystem::rampDownShooter);
+    mechBumperL.whenHeld(new AimShotCalculated(shooterSubsystem, limelight))
+        .whenInactive(shooterSubsystem::rampDownShooter);
+    mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
+        .whenInactive(shooterSubsystem::rampDownShooter);
+    mechB.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM), true)
+        .whenInactive(shooterSubsystem::rampDownShooter);
 
     driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
 
@@ -142,10 +131,6 @@ public class RobotContainer {
     driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
     driveBumperL.whileActiveContinuous(new RetractHangSubsystem(hangSubsystem, HangConstants.LOWER_SPEED));
     driverA.toggleWhenActive(new RetractHangSubsystem(hangSubsystem, -0.1));
-    
-    // new Button(driverController::getYButton)
-    // // No requirements because we don't need to interrupt anything
-    // .whenPressed(drivetrainSubsystem::zeroGyroscope);
   }
 
   /**
@@ -156,30 +141,27 @@ public class RobotContainer {
   public void setUpAutonomousChooser() {
     autonomousChooser.setDefaultOption("Low Auto", new LowAuto(shooterSubsystem, conveyorSubsystem));
     autonomousChooser.addOption("Throw it Back", new SequentialCommandGroup(
-      new LowAuto(shooterSubsystem, conveyorSubsystem),
-      new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1.5)
-    ));
+        new LowAuto(shooterSubsystem, conveyorSubsystem),
+        new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1.5)));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
+
   public Command getAutonomousCommand() {
     return autonomousChooser.getSelected();
   }
 
   private static double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {
-      if (value > 0.0) return (value - deadband) / (1.0 - deadband);
+      if (value > 0.0)
+        return (value - deadband) / (1.0 - deadband);
       return (value + deadband) / (1.0 - deadband);
     }
-      return 0.0;
+    return 0.0;
   }
 
   private static double modifyAxis(double value) {
-    // Deadband
-    value = deadband(value, 0.05);
-
-    // Square the axis
-    value = Math.copySign(value * value, value);
-
+    value = deadband(value, 0.05);               // Deadband
+    value = Math.copySign(value * value, value); // Square the axis
     return value;
   }
 }

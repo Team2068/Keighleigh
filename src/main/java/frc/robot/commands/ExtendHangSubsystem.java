@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.Constants.HangConstants;
 public class ExtendHangSubsystem extends CommandBase {
@@ -20,16 +19,16 @@ public class ExtendHangSubsystem extends CommandBase {
     
     @Override
     public void execute(){
-   
         hangSubsystem.ExtendHangSubsystem();
     }
+
     @Override
     public boolean isFinished() {
         return Math.abs(hangSubsystem.getEncoderPosition()) > HangConstants.LIFT_HEIGHT;
     }
+
     @Override
     public void end(boolean interrupted) {
         hangSubsystem.StopHang();
-
     }
 }
