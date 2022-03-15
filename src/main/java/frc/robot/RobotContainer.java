@@ -24,7 +24,7 @@ import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExtendHangSubsystem;
 import frc.robot.commands.HighAuto;
-import frc.robot.commands.LowAuto;
+//import frc.robot.commands.LowAuto;
 import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.SpitOutBall;
 import frc.robot.commands.SwitchPipeline;
