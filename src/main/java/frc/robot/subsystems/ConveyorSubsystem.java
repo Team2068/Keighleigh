@@ -38,7 +38,5 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-
     }
-
 }
