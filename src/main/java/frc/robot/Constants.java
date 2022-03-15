@@ -15,8 +15,8 @@ public final class Constants {
         public final static double kV = 0.12573;
         public final static double kA = 0.0058814;
         public final static double kP = 0.10976;
-        public final static double LOWER_HUB_RPM = 2000;
-        public final static double UPPER_HUB_FALLBACK_RPM = 4000; // use this if the limelight doesnt work
+        public final static double LOWER_HUB_RPM = 1800;
+        public final static double UPPER_HUB_FALLBACK_RPM = 3600; // use this if the limelight doesnt work
 
         // DISTANCE(CM) | VELOCITY (RPM)
         // 220		3400

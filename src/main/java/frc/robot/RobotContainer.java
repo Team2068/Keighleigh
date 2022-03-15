@@ -23,6 +23,7 @@ import frc.robot.commands.AimShotPID;
 import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExtendHangSubsystem;
+import frc.robot.commands.HighAuto;
 import frc.robot.commands.LowAuto;
 import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.SpitOutBall;
@@ -157,7 +158,11 @@ public class RobotContainer {
     autonomousChooser.setDefaultOption("Low Auto", new LowAuto(shooterSubsystem, conveyorSubsystem));
     autonomousChooser.addOption("Throw it Back", new SequentialCommandGroup(
       new LowAuto(shooterSubsystem, conveyorSubsystem),
-      new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1.5)
+      new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1)
+    ));
+    autonomousChooser.addOption("High Auto", new SequentialCommandGroup(
+      new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
+      new HighAuto(shooterSubsystem, conveyorSubsystem, limelight)
     ));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
