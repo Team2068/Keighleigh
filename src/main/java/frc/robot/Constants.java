@@ -148,6 +148,7 @@ public final class Constants {
             public final static int TWO_SNAPSHOTS = 1;
         }
 
+
         public final static class Pipelines {
             public final static int REFLECTIVE_TAPE = 0;
             public final static int RED_BALLS = 1;

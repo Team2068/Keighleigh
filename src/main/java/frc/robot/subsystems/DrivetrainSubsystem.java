@@ -76,7 +76,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // FIXME Remove if you are using a Pigeon
         // private final PigeonIMU m_pigeon = new PigeonIMU(DRIVETRAIN_PIGEON_ID);
         // FIXME Uncomment if you are using a NavX
-        private final AHRS m_navx = new AHRS(Port.kUSB); // NavX connected over MXP
+        public final AHRS m_navx = new AHRS(Port.kUSB); // NavX connected over MXP
 
         // These are our modules. We initialize them in the constructor.
         private final SwerveModule m_frontLeftModule;
