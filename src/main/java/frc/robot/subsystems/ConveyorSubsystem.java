@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -36,7 +37,18 @@ public class ConveyorSubsystem extends SubsystemBase {
         }
     }
 
+    public int countBalls() {
+        if (colorSensor.occupiedLower() && !colorSensor.occupiedUpper()) {
+            return 1;
+        }
+        else if (colorSensor.occupiedUpper() && colorSensor.occupiedLower()) {
+            return 2;
+        }
+        return 0;
+    }
+
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Number of Balls in Conveyor", countBalls());
     }
 }
