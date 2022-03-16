@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -24,7 +25,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class Brain extends SequentialCommandGroup {
 
   public Brain(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem, DrivetrainSubsystem drivetrainSubsystem,
-   Limelight limelight, LidarSubsystem lidarSubsystem, ColorSensor colorSensor) {
+   Limelight limelight, LidarSubsystem lidarSubsystem, IntakeSubsystem intakeSubsystem, ColorSensor colorSensor) {
     addCommands(
       new SequentialCommandGroup(
         new LowAuto(shooterSubsystem, conveyorSubsystem),
@@ -36,7 +37,7 @@ public class Brain extends SequentialCommandGroup {
             //Search
             new InstantCommand(() -> drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0.25))),
             //Pursure and Catch
-            new Capture(limelight, lidarSubsystem, drivetrainSubsystem),
+            new Capture(limelight, lidarSubsystem, drivetrainSubsystem, intakeSubsystem, colorSensor),
             () -> limelight.getTargetData().horizontalOffset == 0
         ),
           () -> colorSensor.occupiedLower() && colorSensor.occupiedUpper()

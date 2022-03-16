@@ -62,6 +62,7 @@ public class RobotContainer {
       LimelightConstants.CamMode.VISION);
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
+  // private SendableChooser<Integer> allianceChooser = new SendableChooser<Integer>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
