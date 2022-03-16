@@ -5,10 +5,17 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.LidarSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -16,13 +23,24 @@ import frc.robot.subsystems.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Brain extends SequentialCommandGroup {
 
-  public Brain(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem, DrivetrainSubsystem drivetrainSubsystem) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+  public Brain(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem, DrivetrainSubsystem drivetrainSubsystem,
+   Limelight limelight, LidarSubsystem lidarSubsystem, ColorSensor colorSensor) {
     addCommands(
       new SequentialCommandGroup(
         new LowAuto(shooterSubsystem, conveyorSubsystem),
-        new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1.5))
+        new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1.5)),
+        new ConditionalCommand(
+          //Replace with AimAndFire
+          new InstantCommand(), 
+          new ConditionalCommand(
+            //Search
+            new InstantCommand(() -> drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0.25))),
+            //Pursure and Catch
+            new Capture(limelight, lidarSubsystem, drivetrainSubsystem),
+            () -> limelight.getTargetData().horizontalOffset == 0
+        ),
+          () -> colorSensor.occupiedLower() && colorSensor.occupiedUpper()
+        )
         );
   }
 }

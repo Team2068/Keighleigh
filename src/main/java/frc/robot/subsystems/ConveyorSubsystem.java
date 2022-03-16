@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class ConveyorSubsystem extends SubsystemBase {
     private DigitalInput toplimitSwitch = new DigitalInput(0);
     private CANSparkMax lowerConveyor = new CANSparkMax(ConveyorConstants.LOWER_CONVEYOR, MotorType.kBrushless);
-    private ColorSensor colorSensor = new ColorSensor();
 
     public ConveyorSubsystem() {
         lowerConveyor.setIdleMode(IdleMode.kCoast);
