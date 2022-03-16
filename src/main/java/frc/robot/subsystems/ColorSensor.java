@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.ColorSensorV3;
 
@@ -26,6 +27,14 @@ public class ColorSensor extends SubsystemBase {
 
   public boolean occupiedUpper() {
     return (colorSensorUpper.getProximity() > proxyCheck);
+  }
+
+  public Color getColorUpper() {
+    return colorSensorUpper.getColor();
+  }
+
+  public Color getColorLower() {
+    return colorSensorLower.getColor();
   }
 
   //Maybe put these Table entries as arrays to reduce the amount of code they take up.
