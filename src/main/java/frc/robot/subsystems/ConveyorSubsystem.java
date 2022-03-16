@@ -11,7 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class ConveyorSubsystem extends SubsystemBase {
     private DigitalInput toplimitSwitch = new DigitalInput(0);
     private CANSparkMax lowerConveyor = new CANSparkMax(ConveyorConstants.LOWER_CONVEYOR, MotorType.kBrushless);
-    private ColorSensor colorSensor = new ColorSensor();    
+    private ColorSensor colorSensor = new ColorSensor();
 
     public ConveyorSubsystem() {
         lowerConveyor.setIdleMode(IdleMode.kCoast);
@@ -38,10 +38,10 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
 
     public int countBalls() {
-        if (colorSensor.occupiedLower() && !colorSensor.occupiedUpper()) {
-            return 1;
-        } else if (colorSensor.occupiedUpper() && colorSensor.occupiedLower()) {
+        if (colorSensor.occupiedUpper() && colorSensor.occupiedLower()) {
             return 2;
+        } else if (colorSensor.occupiedLower() || colorSensor.occupiedUpper()) {
+            return 1;
         }
         return 0;
     }

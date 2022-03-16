@@ -9,28 +9,13 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class AimAndFire extends SequentialCommandGroup {
-    private ShooterSubsystem shooterSubsystem;
-    private ConveyorSubsystem conveyorSubsystem;
 
     public AimAndFire(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem, Limelight limelight, ColorSensor colorSensor, DrivetrainSubsystem driveSubsystem) {
         addCommands(
             new AdjustConveyor(conveyorSubsystem, colorSensor),
-            new AimbotPID(limelight, driveSubsystem),
+            new AimBotAngle(limelight, driveSubsystem),
             new AimShotCalculated(shooterSubsystem, limelight).withTimeout(2),
             new MoveConveyor(conveyorSubsystem).withTimeout(2),
             new ShooterOff(shooterSubsystem));
-        addRequirements(shooterSubsystem);
-        addRequirements(conveyorSubsystem);
     }
-
-    @Override
-    public boolean isFinished() {
-      return conveyorSubsystem.countBalls() == 0;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-      shooterSubsystem.rampDownShooter();
-    }
-
 }
