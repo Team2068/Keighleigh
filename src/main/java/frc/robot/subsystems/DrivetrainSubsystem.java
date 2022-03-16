@@ -45,9 +45,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
          * This is a measure of how fast the robot should be able to drive in a straight
          * line.
          */
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = (6380.0 / 60.0 *
                         SdsModuleConfigurations.MK3_STANDARD.getDriveReduction() *
-                        SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI;
+                        SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI) * 0.65;
         /**
          * The maximum angular velocity of the robot in radians per second.
          * <p>
@@ -55,8 +55,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
          */
         // Here we calculate the theoretical maximum angular velocity. You can also
         // replace this with a measured amount.
-        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
-                        Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
+        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
+                        Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0)) * 0.8;
 
         private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                         // Front left
@@ -169,7 +169,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
          * 'forwards' direction.
          */
         public void zeroGyroscope() {
-                m_navx.zeroYaw();
+                m_navx.reset();
         }
 
         public Rotation2d getGyroscopeRotation() {

@@ -5,7 +5,7 @@ import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.Constants.*;
 
 public class MoveConveyor extends CommandBase {
-    // private IntakeSubsystem intakeSubsystem;
+
     private ConveyorSubsystem conveyorSubsystem;
     
     public MoveConveyor(ConveyorSubsystem conveyorSubsystem){
@@ -13,7 +13,12 @@ public class MoveConveyor extends CommandBase {
         addRequirements(conveyorSubsystem);
     }
     @Override
-    public void initialize(){
+    public void execute(){
         conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        conveyorSubsystem.stopConveyor();
     }
 }
