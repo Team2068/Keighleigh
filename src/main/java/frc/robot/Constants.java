@@ -148,6 +148,12 @@ public final class Constants {
             public final static int TWO_SNAPSHOTS = 1;
         }
 
+        public static enum snapshotMode{
+            NO_SNAPSHOT,
+            TWO_SNAPSHOTS,
+        }
+
+
         public final static class Pipelines {
             public final static int REFLECTIVE_TAPE = 0;
             public final static int RED_BALLS = 1;
@@ -156,4 +162,6 @@ public final class Constants {
         public final static double LIMELIGHT_HEIGHT = 34.5 * 2.54; // Converting from inches to cm
         public final static double LIMELIGHT_ANGLE = 20;
     }
+
+
 }
