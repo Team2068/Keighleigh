@@ -10,21 +10,20 @@ import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.ConveyorSubsystem;
 
 public class AdjustConveyor extends CommandBase {
-  private ConveyorSubsystem conveyorSubsystem;
-  private ColorSensor colorSensor;
+  ConveyorSubsystem conveyorSubsystem;
+  ColorSensor colorSensor;
 
   public AdjustConveyor (ConveyorSubsystem conveyorSubsystem, ColorSensor colorSensor) {
     this.conveyorSubsystem = conveyorSubsystem;
     this.colorSensor = colorSensor;
-    addRequirements(conveyorSubsystem);
-    addRequirements(colorSensor);
+    addRequirements(conveyorSubsystem, colorSensor);
   }
 
   @Override
   public void execute() {
     if (colorSensor.occupiedUpper()) {
       while (!colorSensor.occupiedLower()) {
-        conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED);
+        conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED * -1);
       }
     }
   }
