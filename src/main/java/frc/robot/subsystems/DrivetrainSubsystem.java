@@ -73,9 +73,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // The important thing about how you configure your gyroscope is that rotating
         // the robot counter-clockwise should
         // cause the angle reading to increase until it wraps back over to zero.
-        // FIXME Remove if you are using a Pigeon
-        // private final PigeonIMU m_pigeon = new PigeonIMU(DRIVETRAIN_PIGEON_ID);
-        // FIXME Uncomment if you are using a NavX
         public final AHRS m_navx = new AHRS(Port.kUSB); // NavX connected over MXP
 
         // These are our modules. We initialize them in the constructor.
@@ -173,10 +170,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         }
 
         public Rotation2d getGyroscopeRotation() {
-                // FIXME Remove if you are using a Pigeon
-                // return Rotation2d.fromDegrees(m_pigeon.getFusedHeading());
-
-                // FIXME Uncomment if you are using a NavX
                 if (m_navx.isMagnetometerCalibrated()) {
                         // // We will only get valid fused headings if the magnetometer is calibrated
                         return Rotation2d.fromDegrees(m_navx.getFusedHeading());

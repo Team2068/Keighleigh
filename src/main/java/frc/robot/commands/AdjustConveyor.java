@@ -13,19 +13,16 @@ public class AdjustConveyor extends CommandBase {
   ConveyorSubsystem conveyorSubsystem;
   ColorSensor colorSensor;
 
-  public AdjustConveyor (ConveyorSubsystem conveyorSubsystem, ColorSensor colorSensor) {
+  public AdjustConveyor(ConveyorSubsystem conveyorSubsystem, ColorSensor colorSensor) {
+    addRequirements(conveyorSubsystem, colorSensor);
     this.conveyorSubsystem = conveyorSubsystem;
     this.colorSensor = colorSensor;
-    addRequirements(conveyorSubsystem, colorSensor);
   }
 
   @Override
   public void execute() {
-    if (colorSensor.occupiedUpper()) {
-      while (!colorSensor.occupiedLower()) {
-        conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED * -1);
-      }
-    }
+    if (colorSensor.occupiedUpper())
+      conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED * -1);
   }
 
   @Override

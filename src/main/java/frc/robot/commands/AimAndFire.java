@@ -10,10 +10,10 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class AimAndFire extends SequentialCommandGroup {
 
-    public AimAndFire(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem, Limelight limelight, ColorSensor colorSensor, DrivetrainSubsystem driveSubsystem) {
+    public AimAndFire(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem, Limelight limelight, ColorSensor colorSensor, DrivetrainSubsystem drivetrainSubsystem) {
         addCommands(
             new AdjustConveyor(conveyorSubsystem, colorSensor),
-            new AimBotAngle(limelight, driveSubsystem),
+            new AimBotAngle(limelight, drivetrainSubsystem),
             new AimShotCalculated(shooterSubsystem, limelight).withTimeout(2),
             new MoveConveyor(conveyorSubsystem).withTimeout(2),
             new ShooterOff(shooterSubsystem));
