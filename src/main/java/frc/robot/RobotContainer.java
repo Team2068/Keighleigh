@@ -18,6 +18,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -33,6 +34,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExtendHangSubsystem;
 import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.SixBallAuto;
 import frc.robot.commands.SpitOutBall;
 import frc.robot.commands.TakeInBall;
 // import frc.robot.commands.Deprecated.IntakeBall;
@@ -64,12 +66,13 @@ public class RobotContainer {
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  
   //private final HangSubsystem hangSubsystem = new HangSubsystem();
   private final XboxController driverController = new XboxController(0);
   private final XboxController mechanismController = new XboxController(1);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
-
+  private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -129,13 +132,15 @@ public class RobotContainer {
     //     // No requirements because we don't need to interrupt anything
     //     .whenPressed(drivetrainSubsystem::zeroGyroscope);
   }
-
+public void setUpAutonomousChooser(){
+autonomousChooser.setDefaultOption("SixBallAuto", new SixBallAuto(intakeSubsystem, limelight, drivetrainSubsystem));
+}
   /**
    * Use this to pass thex autonomous command to the main {@link Robot} class.
-   * @return 
    */
   public Command getAutonomousCommand() {
     System.out.println("getAutonomousCommand");
+    
 
     // TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MAX_Speed_MetersPerSecond,
     //     AutoConstants.MAX_Acceleration_MetersPerSecondSquared)
@@ -143,15 +148,7 @@ public class RobotContainer {
     //    var thetaController = new ProfiledPIDController(AutoConstants.kPThetaController, 0, 0,
     //     AutoConstants.kThetaControllerConstraints);
     // thetaController.enableContinuousInput(-Math.PI, Math.PI);
-    // Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-    //     // Start at the origin facing the +X direction
-    //     new Pose2d(0, 0, new Rotation2d(0)),
-    //     // Pass through these two interior waypoints, making an 's' curve path
-    //     List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-    //     // End 3 meters straight ahead of where we started, facing forward
-    //     new Pose2d(3, 0, new Rotation2d(0)),
-    //     // Pass config
-    //     config);
+
 
     // SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(exampleTrajectory,
     //     drivetrainSubsystem::getPose, // Functional interface to feed supplier
@@ -167,6 +164,7 @@ public class RobotContainer {
     // return swerveControllerCommand.andThen(() -> drivetrainSubsystem.drive(new ChassisSpeeds()));
 
     //https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/swervecontrollercommand/subsystems/DriveSubsystem.java
+    return autonomousChooser.getSelected();
   }
 
   private static double deadband(double value, double deadband) {
