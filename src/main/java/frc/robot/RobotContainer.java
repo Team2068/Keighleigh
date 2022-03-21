@@ -19,8 +19,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants.AutoConstants;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -44,7 +46,6 @@ import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.TimedAutoDrive;
 import frc.robot.commands.ToggleCameraMode;
 import frc.robot.commands.ToggleStreamMode;
-import frc.robot.commands.Deprecated.IntakeBall;
 import frc.robot.commands.Deprecated.MoveConveyor;
 import frc.robot.commands.Deprecated.ReverseIntake;
 import frc.robot.subsystems.ColorSensor;
@@ -139,7 +140,7 @@ public class RobotContainer {
     // mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     //mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
 
-    mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
+    mechBumperR.whileHeld(new frc.robot.commands.IntakeBall(intakeSubsystem));
     mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
@@ -160,16 +161,14 @@ public class RobotContainer {
     // // No requirements because we don't need to interrupt anything
     // .whenPressed(drivetrainSubsystem::zeroGyroscope);
   }
-public void setUpAutonomousChooser(){
-autonomousChooser.setDefaultOption("SixBallAuto", new SixBallAuto(intakeSubsystem, limelight, drivetrainSubsystem));
-}
   /**
    * Use this to pass thex autonomous command to the main {@link Robot} class.
    * @return the command to run in autonomous
    */
 
   public void setUpAutonomousChooser() {
-    autonomousChooser.setDefaultOption("Low Auto", new LowAuto(shooterSubsystem, conveyorSubsystem));
+    autonomousChooser.setDefaultOption("SixBallAuto", new SixBallAuto(intakeSubsystem, limelight, drivetrainSubsystem));
+    autonomousChooser.addOption("Low Auto", new LowAuto(shooterSubsystem, conveyorSubsystem));
     autonomousChooser.addOption("Throw it Back", new SequentialCommandGroup(
       new LowAuto(shooterSubsystem, conveyorSubsystem),
       new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1)
