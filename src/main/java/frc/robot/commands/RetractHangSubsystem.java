@@ -1,20 +1,27 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.HangConstants;
 import frc.robot.subsystems.*;
-public class RetractHangSubsystem extends InstantCommand{
+public class RetractHangSubsystem extends CommandBase{
     private HangSubsystem hangSubsystem;
-    
-    public RetractHangSubsystem(HangSubsystem hangSubsystem){
+    private double speed;
+
+    public RetractHangSubsystem(HangSubsystem hangSubsystem, double speed){
 
         this.hangSubsystem = hangSubsystem;
+        this.speed = speed;
       
         addRequirements(hangSubsystem);
     }
     @Override
-    public void initialize(){
-   
-        hangSubsystem.RetractHangSubsystem(HangConstants.HANG_SPEED);
+    public void execute(){
+        hangSubsystem.RetractHangSubsystem(speed);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        hangSubsystem.StopHang();
     }
 }
