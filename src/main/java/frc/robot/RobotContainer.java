@@ -40,7 +40,8 @@ import frc.robot.commands.HighAuto;
 import frc.robot.commands.LowAuto;
 import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.Shoot;
-import frc.robot.commands.SixBallAuto;
+import frc.robot.commands.SixBallAutoRed;
+import frc.robot.commands.SixBallAutoBlue;
 import frc.robot.commands.SpitOutBall;
 import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.TimedAutoDrive;
@@ -167,8 +168,9 @@ public class RobotContainer {
    */
 
   public void setUpAutonomousChooser() {
-    autonomousChooser.setDefaultOption("SixBallAuto", new SixBallAuto(intakeSubsystem, limelight, drivetrainSubsystem));
+    autonomousChooser.setDefaultOption("SixBallAuto", new SixBallAutoBlue(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem));
     autonomousChooser.addOption("Low Auto", new LowAuto(shooterSubsystem, conveyorSubsystem));
+    autonomousChooser.addOption("SixBallAutoRed",  new SixBallAutoBlue(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem));
     autonomousChooser.addOption("Throw it Back", new SequentialCommandGroup(
       new LowAuto(shooterSubsystem, conveyorSubsystem),
       new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1)

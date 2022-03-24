@@ -74,15 +74,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
 
         );
-        SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics,
-                        getGyroscopeRotation(), new Pose2d(5.0, 13.5, new Rotation2d()));
-
         // By default we use a Pigeon for our gyroscope. But if you use another
         // gyroscope, like a NavX, you can change this.
         // The important thing about how you configure your gyroscope is that rotating
         // the robot counter-clockwise should
         // cause the angle reading to increase until it wraps back over to zero.
         private final AHRS m_navx = new AHRS(Port.kUSB); // NavX connected over MXP
+
+        SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics,
+                        getGyroscopeRotation(), new Pose2d(0, 0, new Rotation2d()));
 
         // These are our modules. We initialize them in the constructor.
         private final SwerveModule m_frontLeftModule;

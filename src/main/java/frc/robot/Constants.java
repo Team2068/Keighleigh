@@ -93,8 +93,8 @@ public final class Constants {
     }
 
     public final static class HangConstants {
-        public static final int LEFT_HANG_MOTOR = 18; // left steer offset
-        public static final int RIGHT_HANG_MOTOR = 19;
+        public static final int LEFT_HANG_MOTOR = 14; // left steer offset
+        public static final int RIGHT_HANG_MOTOR = 15;
         public static final double HANG_SPEED = .6;
         public static final double LOWER_SPEED = -.8;
 
@@ -102,24 +102,24 @@ public final class Constants {
     }
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7; // FIXME Set front left module drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 6; // FIXME Set front left module steer motor ID
-    public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 17; // FIXME Set front left steer encoder ID
+    public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 18; // FIXME Set front left steer encoder ID
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(75.0); // FIXME Measure and set front
 
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5; // FIXME Set front right drive motor ID
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 4; // FIXME Set front right steer motor ID
-    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 16; // FIXME Set front right steer encoder ID
+    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 17; // FIXME Set front right steer encoder ID
     public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(141); // FIXME Measure and set front
                                                                                        // right steer offset
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 9; // FIXME Set back left drive motor ID
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 8; // FIXME Set back left steer motor ID
-    public static final int BACK_LEFT_MODULE_STEER_ENCODER = 14; // FIXME Set back left steer encoder ID
+    public static final int BACK_LEFT_MODULE_STEER_ENCODER = 19; // FIXME Set back left steer encoder ID
     public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(298); // FIXME Measure and set back left
                                                                                      // steer offset
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 3; // FIXME Set back right drive motor ID
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 2; // FIXME Set back right steer motor ID
-    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 15; // FIXME Set back right steer encoder ID
+    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 16; // FIXME Set back right steer encoder ID
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(9); // FIXME Measure and set back right
                                                                                     // steer offset
 
@@ -191,14 +191,14 @@ public final class Constants {
     //Trajectory Config and path planner paths
     public static final class TrajectoryPaths{
 
-        public static final Trajectory TURN_1 = PathPlanner.loadPath("Turn1", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory COLLECT_NEAR_HUMAN_PLAYER = PathPlanner.loadPath("CollectNearHumanPlayer", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory TURN_2 = PathPlanner.loadPath("Turn2", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory TURN_3 = PathPlanner.loadPath("Turn3", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory BACK_UP_TO_NEXT_BALL = PathPlanner.loadPath("BackUpToNextBall", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory TURN_4 = PathPlanner.loadPath("Turn4", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory GET_FINAL_BALL = PathPlanner.loadPath("GetFinalBall", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory TURN_5 = PathPlanner.loadPath("Turn5", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-
+        public static final Trajectory TURN_1 = PathPlanner.loadPath("Turn1Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory COLLECT_NEAR_HUMAN_PLAYER = PathPlanner.loadPath("CollectNearHumanPlayerBlue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory TURN_2 = PathPlanner.loadPath("Turn2Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory TURN_3 = PathPlanner.loadPath("Turn3Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory BACK_UP_TO_NEXT_BALL = PathPlanner.loadPath("BackUpToNextBallBlue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory TURN_4 = PathPlanner.loadPath("Turn4Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory GET_FINAL_BALL = PathPlanner.loadPath("GetFinalBallBlue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory TURN_5 = PathPlanner.loadPath("Turn5Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory BACK_UP_TO_COLLECT_BALL_RED = PathPlanner.loadPath("BackUpToCollectBallRed", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
     }
 }
