@@ -20,8 +20,8 @@ public final class Constants {
     public final static double ROBOT_HEIGHT = 0.0;// adjust
 
     public final static class ShooterConstants {
-        public final static int FLYWHEEL_1 = 12;
-        public final static int FLYWHEEL_2 = 11;
+        public final static int FLYWHEEL_1 = 11;
+        public final static int FLYWHEEL_2 = 12;
         public final static double kS = 0.13243;
         public final static double kV = 0.12573;
         public final static double kA = 0.0058814;
@@ -190,15 +190,15 @@ public final class Constants {
 
     //Trajectory Config and path planner paths
     public static final class TrajectoryPaths{
-
-        public static final Trajectory TURN_1 = PathPlanner.loadPath("Turn1Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory COLLECT_NEAR_HUMAN_PLAYER = PathPlanner.loadPath("CollectNearHumanPlayerBlue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory TURN_2 = PathPlanner.loadPath("Turn2Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory TURN_3 = PathPlanner.loadPath("Turn3Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory BACK_UP_TO_NEXT_BALL = PathPlanner.loadPath("BackUpToNextBallBlue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory BACK_UP_TO_COLLECT_BALL = PathPlanner.loadPath("BackUpToCollectBall",DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory TURN_1 = PathPlanner.loadPath("Turn1", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory COLLECT_NEAR_HUMAN_PLAYER = PathPlanner.loadPath("CollectNearHumanPlayer", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory TURN_2 = PathPlanner.loadPath("Turn2", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory TURN_3 = PathPlanner.loadPath("Turn3", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory BACK_UP_TO_NEXT_BALL = PathPlanner.loadPath("BackUpToNextBall", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
         public static final Trajectory TURN_4 = PathPlanner.loadPath("Turn4Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory GET_FINAL_BALL = PathPlanner.loadPath("GetFinalBallBlue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory TURN_5 = PathPlanner.loadPath("Turn5Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory BACK_UP_TO_COLLECT_BALL_RED = PathPlanner.loadPath("BackUpToCollectBallRed", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory GET_FINAL_BALL = PathPlanner.loadPath("GetFinalBall", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory TURN_5 = PathPlanner.loadPath("Turn5", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+
     }
 }

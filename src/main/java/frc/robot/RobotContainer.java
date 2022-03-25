@@ -37,10 +37,10 @@ import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExtendHangSubsystem;
 import frc.robot.commands.HighAuto;
+import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LowAuto;
 import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.Shoot;
-import frc.robot.commands.SixBallAutoRed;
 import frc.robot.commands.SixBallAutoBlue;
 import frc.robot.commands.SpitOutBall;
 import frc.robot.commands.SwitchPipeline;
@@ -141,7 +141,7 @@ public class RobotContainer {
     // mechRightTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     //mechBumperL.whileHeld(new Shoot(shooterSubsystem, 0.8));
 
-    mechBumperR.whileHeld(new frc.robot.commands.IntakeBall(intakeSubsystem));
+    mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
     mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
@@ -170,7 +170,7 @@ public class RobotContainer {
   public void setUpAutonomousChooser() {
     autonomousChooser.setDefaultOption("SixBallAuto", new SixBallAutoBlue(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem));
     autonomousChooser.addOption("Low Auto", new LowAuto(shooterSubsystem, conveyorSubsystem));
-    autonomousChooser.addOption("SixBallAutoRed",  new SixBallAutoBlue(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem));
+   
     autonomousChooser.addOption("Throw it Back", new SequentialCommandGroup(
       new LowAuto(shooterSubsystem, conveyorSubsystem),
       new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1)
