@@ -13,6 +13,7 @@ import frc.robot.Constants;
 
 public class SixBallAutoBlue extends SequentialCommandGroup {
     public SixBallAutoBlue(IntakeSubsystem intakeSubsystem, Limelight limelight, DrivetrainSubsystem drivetrainSubsystem, ShooterSubsystem shooterSubsystem) {
+        super(
         new SequentialCommandGroup(
                 new Paths(frc.robot.Constants.TrajectoryPaths.BACK_UP_TO_COLLECT_BALL, drivetrainSubsystem),
                 new IntakeBall(intakeSubsystem),
@@ -35,6 +36,6 @@ public class SixBallAutoBlue extends SequentialCommandGroup {
                         new IntakeBall(intakeSubsystem)),
                 new Paths(frc.robot.Constants.TrajectoryPaths.TURN_5, drivetrainSubsystem),
                 new AimbotPID(limelight, drivetrainSubsystem),
-                new AimShotCalculated(shooterSubsystem, limelight));
+                new AimShotCalculated(shooterSubsystem, limelight)));
     }
 }

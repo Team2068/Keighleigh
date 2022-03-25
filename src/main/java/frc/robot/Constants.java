@@ -191,7 +191,7 @@ public final class Constants {
     //Trajectory Config and path planner paths
     public static final class TrajectoryPaths{
         public static final Trajectory BACK_UP_TO_COLLECT_BALL = PathPlanner.loadPath("BackUpToCollectBall",DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-        public static final Trajectory TURN_1 = PathPlanner.loadPath("Turn1", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        public static final Trajectory TURN_1 = PathPlanner.loadPath("Turn_1", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
         public static final Trajectory COLLECT_NEAR_HUMAN_PLAYER = PathPlanner.loadPath("CollectNearHumanPlayer", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
         public static final Trajectory TURN_2 = PathPlanner.loadPath("Turn2", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
         public static final Trajectory TURN_3 = PathPlanner.loadPath("Turn3", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
