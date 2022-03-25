@@ -39,6 +39,7 @@ import frc.robot.commands.ExtendHangSubsystem;
 import frc.robot.commands.HighAuto;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LowAuto;
+import frc.robot.commands.Paths;
 import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.SixBallAutoBlue;
@@ -179,6 +180,7 @@ public class RobotContainer {
       new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
       new HighAuto(shooterSubsystem, conveyorSubsystem, limelight)
     ));
+    autonomousChooser.addOption("TESTSTET", new Paths(Constants.TrajectoryPaths.TEST_TRAJECTORY, drivetrainSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
   public Command getAutonomousCommand() {

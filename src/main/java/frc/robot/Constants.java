@@ -45,8 +45,8 @@ public final class Constants {
      */
     
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = 21.5; // FIXME Measure and set trackwidth
-    public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = 4;
-    public static final double DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
+    public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = 1;
+    public static final double DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = .5;
     /**
      * The front-to-back distance between the drivetrain wheels.
      * Should be measured from center to center.
@@ -146,13 +146,10 @@ public final class Constants {
 
         public static final double kPXController = 1;
         public static final double kPYController = 1;
-        public static final double kPThetaController = 1;
+        public static final double kPThetaController = 5;
 
         // Constraint for the motion profilied robot angle controller
-        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(MAX_AngularSpeed_RadiansPerSecond, Max_AngularSpeed_RadiansPerSecondSquared);
-        public static final TrapezoidProfile.Constraints kXControllerConstraints = new TrapezoidProfile.Constraints(MAX_AngularSpeed_RadiansPerSecond, Max_AngularSpeed_RadiansPerSecondSquared);
-        public static final TrapezoidProfile.Constraints KYControllerConstraints = new TrapezoidProfile.Constraints(MAX_AngularSpeed_RadiansPerSecond, Max_AngularSpeed_RadiansPerSecondSquared);
-  
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(0.2, 0.2);
     }
 
     public final static class LimelightConstants {
@@ -199,6 +196,6 @@ public final class Constants {
         public static final Trajectory TURN_4 = PathPlanner.loadPath("Turn4Blue", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
         public static final Trajectory GET_FINAL_BALL = PathPlanner.loadPath("GetFinalBall", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
         public static final Trajectory TURN_5 = PathPlanner.loadPath("Turn5", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-
+        public static final Trajectory TEST_TRAJECTORY = PathPlanner.loadPath("Test2", 0.5, 0.5);
     }
 }

@@ -1,6 +1,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -13,6 +14,8 @@ public class DefaultDriveCommand extends CommandBase {
     private final DoubleSupplier m_translationXSupplier;
     private final DoubleSupplier m_translationYSupplier;
     private final DoubleSupplier m_rotationSupplier;
+    private final SlewRateLimiter xLimiter = new SlewRateLimiter(5.5);
+    private final SlewRateLimiter yLimiter = new SlewRateLimiter(5.5);
 
     public DefaultDriveCommand(DrivetrainSubsystem drivetrainSubsystem,
                                DoubleSupplier translationXSupplier,
@@ -28,11 +31,16 @@ public class DefaultDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
+
+        double xSpeed = xLimiter.calculate(m_translationXSupplier.getAsDouble());
+        double ySpeed = yLimiter.calculate(m_translationYSupplier.getAsDouble());
+        // double xSpeed = m_translationXSupplier.getAsDouble();
+        // double ySpeed = m_translationYSupplier.getAsDouble();
         // You can use `new ChassisSpeeds(...)` for robot-oriented movement instead of field-oriented movement
         m_drivetrainSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                        m_translationXSupplier.getAsDouble(),
-                        m_translationYSupplier.getAsDouble(),
+                        xSpeed,
+                        ySpeed,
                         m_rotationSupplier.getAsDouble(),
                         m_drivetrainSubsystem.getGyroscopeRotation()
                 )

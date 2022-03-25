@@ -82,13 +82,15 @@ public class Paths extends CommandBase {
         m_pose = this.m_drivetrain.getPose();
         m_kinematics = this.m_drivetrain.m_kinematics;
 
+
+        ProfiledPIDController thetaController = new ProfiledPIDController(AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
         m_controller = new HolonomicDriveController(
                 new PIDController(AutoConstants.kPXController, 0, 0),
                 new PIDController(AutoConstants.kPYController, 0, 0),
-                 new ProfiledPIDController(AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints)
+                thetaController
         );
-     
-
+        
         addRequirements(m_drivetrain);
     }
     @Override
