@@ -26,7 +26,7 @@ public class AimBotAngle extends CommandBase {
     drivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(
         0,
         0,
-        Math.toRadians(limelight.getTargetData().horizontalOffset) * 0.25,
+        Math.toRadians(limelight.getTargetData().horizontalOffset) * 0.2,
         drivetrainSubsystem.getGyroscopeRotation()));
   }
 
