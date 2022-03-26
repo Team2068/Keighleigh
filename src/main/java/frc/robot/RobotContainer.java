@@ -52,7 +52,7 @@ import frc.robot.commands.ToggleStreamMode;
 import frc.robot.commands.Autonomous.TimedAutoDrive;
 import frc.robot.commands.Deprecated.MoveConveyor;
 import frc.robot.commands.Deprecated.ReverseIntake;
-import frc.robot.subsystems.ColorSensor;
+// import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.HangSubsystem;
@@ -80,7 +80,7 @@ public class RobotContainer {
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
       LimelightConstants.CamMode.VISION);
-  private final ColorSensor colorSensor = new ColorSensor();
+  // private final ColorSensor colorSensor = new ColorSensor();
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   /**
@@ -143,7 +143,7 @@ public class RobotContainer {
     mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
         .whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, colorSensor, drivetrainSubsystem));
+    mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
     // mechA.toggleWhenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, colorSensor, drivetrainSubsystem));
 
@@ -172,7 +172,7 @@ public class RobotContainer {
       new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
       new HighAuto(shooterSubsystem, conveyorSubsystem, limelight)
     ));
-    autonomousChooser.addOption("RED 2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, colorSensor, conveyorSubsystem));
+    autonomousChooser.addOption("RED 2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
 

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AimAndFire;
 import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.IntakeBall;
-import frc.robot.subsystems.ColorSensor;
+// import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -22,14 +22,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class RedTwoBallHighGoal extends SequentialCommandGroup {
   /** Creates a new RedTwoBallHighGoal. */
-  public RedTwoBallHighGoal(IntakeSubsystem intakeSubsystem, DrivetrainSubsystem drivetrainSubsystem, ShooterSubsystem shooterSubsystem, Limelight limelight, ColorSensor colorSensor, ConveyorSubsystem conveyorSubsystem) {
+  public RedTwoBallHighGoal(IntakeSubsystem intakeSubsystem, DrivetrainSubsystem drivetrainSubsystem, ShooterSubsystem shooterSubsystem, Limelight limelight, ConveyorSubsystem conveyorSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ControlIntakeSolenoids(intakeSubsystem),
       new ParallelDeadlineGroup(new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(1, 0, 0), 2, false), new IntakeBall(intakeSubsystem)),
       new ControlIntakeSolenoids(intakeSubsystem),
-      new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, colorSensor, drivetrainSubsystem)
+      new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem)
     );
   }
 }

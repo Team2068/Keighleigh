@@ -21,9 +21,9 @@ public class IntakeSubsystem extends SubsystemBase {
   // private DigitalInput toplimitSwitch = new DigitalInput(0);
   CANSparkMax intake = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushed);
 
-  private Color enemyBallColor = Color.kRed;
+  // private Color enemyBallColor = Color.kRed;
 
-  private ColorSensor colorSensor = new ColorSensor();
+  // private ColorSensor colorSensor = new ColorSensor();
 
   public IntakeSubsystem() {
     intake.setIdleMode(IdleMode.kCoast);
@@ -66,9 +66,9 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Spit out enemy ball (enemy color not set yet, should be set through
-    // smartdashboard)
-    if (colorSensor.getColorLower() == enemyBallColor) {
-      this.reverseIntake(IntakeConstants.INTAKE_SPEED);
-    }
+    // // smartdashboard)
+    // if (colorSensor.getColorLower() == enemyBallColor) {
+    //   this.reverseIntake(IntakeConstants.INTAKE_SPEED);
+    // }
   }
 }
