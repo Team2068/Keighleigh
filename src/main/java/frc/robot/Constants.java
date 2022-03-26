@@ -122,7 +122,6 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 16; // FIXME Set back right steer encoder ID
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(9); // FIXME Measure and set back right
                                                                                     // steer offset
-
     public final static class GameElementConstants {
         public final static double UPPER_HUB = 2.64; // meters
         public final static double LOWER_HUB = 1.04; // meters
@@ -132,7 +131,7 @@ public final class Constants {
 
     public final static class AimbotConstants {
         public static final double baseSpeed = 0.1;
-        public static final double minimumAdjustment = 1.1;
+        public static final double minimumAdjustment = 1;
         public static final double Kp = 1; // 5
         public static final double Ki = 0;
         public static final double Kd = 0.001; // 0.8
@@ -176,11 +175,17 @@ public final class Constants {
             public final static int TWO_SNAPSHOTS = 1;
         }
 
+        // public static enum SnapshotMode{
+        //     NO_SNAPSHOT,
+        //     TWO_SNAPSHOTS,
+        // }
+
         public final static class Pipelines {
             public final static int REFLECTIVE_TAPE = 0;
             public final static int RED_BALLS = 1;
             public final static int BLUE_BALLS = 2;
         }
+
         public final static double LIMELIGHT_HEIGHT = 34.5 * 2.54; // Converting from inches to cm
         public final static double LIMELIGHT_ANGLE = 20;
     }

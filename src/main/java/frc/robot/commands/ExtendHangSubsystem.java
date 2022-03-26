@@ -31,6 +31,5 @@ public class ExtendHangSubsystem extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         hangSubsystem.StopHang();
-
     }
 }

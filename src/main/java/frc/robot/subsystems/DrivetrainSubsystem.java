@@ -81,6 +81,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // The important thing about how you configure your gyroscope is that rotating
         // the robot counter-clockwise should
         // cause the angle reading to increase until it wraps back over to zero.
+
         private final AHRS m_navx = new AHRS(Port.kUSB); // NavX connected over MXP
 
         SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics,
