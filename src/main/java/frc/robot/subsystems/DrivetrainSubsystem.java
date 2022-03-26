@@ -170,6 +170,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                 BACK_RIGHT_MODULE_STEER_MOTOR,
                                 BACK_RIGHT_MODULE_STEER_ENCODER,
                                 BACK_RIGHT_MODULE_STEER_OFFSET);
+                m_navx.enableBoardlevelYawReset(true);
         }
 
         /**
@@ -178,7 +179,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
          * 'forwards' direction.
          */
         public void zeroGyroscope() {
-                m_navx.reset();
+                m_navx.zeroYaw();
         }
 
         public Rotation2d getGyroscopeRotation() {
@@ -236,6 +237,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 Pose2d pose = getPose();
                 SmartDashboard.putNumber("X pos", pose.getX());
                 SmartDashboard.putNumber("Y pos", pose.getY());
+                SmartDashboard.putNumber("Fused Heading", getGyroscopeRotation().getDegrees());
         }
 
 }

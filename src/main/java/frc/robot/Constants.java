@@ -131,7 +131,7 @@ public final class Constants {
 
     public final static class AimbotConstants {
         public static final double baseSpeed = 0.1;
-        public static final double minimumAdjustment = 1;
+        public static final double minimumAdjustment = 0.5;
         public static final double Kp = 1; // 5
         public static final double Ki = 0;
         public static final double Kd = 0.001; // 0.8

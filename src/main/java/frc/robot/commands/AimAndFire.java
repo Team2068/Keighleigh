@@ -14,7 +14,7 @@ public class AimAndFire extends SequentialCommandGroup {
     public AimAndFire(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem, Limelight limelight, ColorSensor colorSensor, DrivetrainSubsystem drivetrainSubsystem) {
         addCommands(
             //new AdjustConveyor(conveyorSubsystem, colorSensor),
-            new AimBotAngle(limelight, drivetrainSubsystem),
+            new AimBotAngle(limelight, drivetrainSubsystem).withTimeout(2),
             new AimShotCalculated(shooterSubsystem, limelight),
             new WaitCommand(1),
             new MoveConveyor(conveyorSubsystem).withTimeout(2),

@@ -40,6 +40,7 @@ import frc.robot.commands.ExtendHangSubsystem;
 import frc.robot.commands.HighAuto;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.Autonomous.LowAuto;
+import frc.robot.commands.Autonomous.RedTwoBallHighGoal;
 import frc.robot.commands.Paths;
 import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.Shoot;
@@ -136,16 +137,15 @@ public class RobotContainer {
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
-    mechBumperL.whenHeld(new AimShotCalculated(shooterSubsystem, limelight))
-        .whenInactive(shooterSubsystem::rampDownShooter);
+    // mechBumperL.whenHeld(new AimShotCalculated(shooterSubsystem, limelight))
+    //     .whenInactive(shooterSubsystem::rampDownShooter);
 
     mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
         .whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechB.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM), true)
-        .whenInactive(shooterSubsystem::rampDownShooter);
+    mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, colorSensor, drivetrainSubsystem));
 
-    mechA.toggleWhenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, colorSensor, drivetrainSubsystem));
+    // mechA.toggleWhenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, colorSensor, drivetrainSubsystem));
 
     driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
 
@@ -172,7 +172,7 @@ public class RobotContainer {
       new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
       new HighAuto(shooterSubsystem, conveyorSubsystem, limelight)
     ));
-    autonomousChooser.addOption("TESTSTET", new Paths(Constants.TrajectoryPaths.TEST_TRAJECTORY, drivetrainSubsystem));
+    autonomousChooser.addOption("RED 2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, colorSensor, conveyorSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
 
