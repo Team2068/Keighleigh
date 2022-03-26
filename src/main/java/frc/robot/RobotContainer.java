@@ -131,8 +131,7 @@ public class RobotContainer {
     mechB.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM), true)
         .whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechA.toggleWhenPressed(
-        new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, colorSensor, drivetrainSubsystem));
+    mechA.toggleWhenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, colorSensor, drivetrainSubsystem));
 
     driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
 
