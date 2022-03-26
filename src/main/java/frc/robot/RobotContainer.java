@@ -38,10 +38,10 @@ import frc.robot.commands.HighAuto;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.Autonomous.LowAuto;
 import frc.robot.commands.Autonomous.RedTwoBallHighGoal;
-import frc.robot.commands.Paths;
+// import frc.robot.commands.Paths;
 import frc.robot.commands.RetractHangSubsystem;
 import frc.robot.commands.Shoot;
-import frc.robot.commands.SixBallAutoBlue;
+// import frc.robot.commands.SixBallAutoBlue;
 import frc.robot.commands.SpitOutBall;
 import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.ToggleCameraMode;
@@ -159,7 +159,7 @@ public class RobotContainer {
    */
 
   public void setUpAutonomousChooser() {
-    autonomousChooser.setDefaultOption("SixBallAuto", new SixBallAutoBlue(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem));
+    //autonomousChooser.setDefaultOption("SixBallAuto", new SixBallAutoBlue(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem));
     autonomousChooser.addOption("Low Auto", new LowAuto(shooterSubsystem, conveyorSubsystem));
    
     autonomousChooser.addOption("Throw it Back", new SequentialCommandGroup(
@@ -169,7 +169,7 @@ public class RobotContainer {
       new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
       new HighAuto(shooterSubsystem, conveyorSubsystem, limelight)
     ));
-    autonomousChooser.addOption("RED 2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
+    autonomousChooser.setDefaultOption("RED 2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
 
