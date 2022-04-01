@@ -98,7 +98,7 @@ public final class Constants {
         public static final double HANG_SPEED = .6;
         public static final double LOWER_SPEED = -.8;
 
-        public static final double LIFT_HEIGHT = 55.29;
+        public static final double LIFT_HEIGHT = 53.29;
     }
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7; // FIXME Set front left module drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 6; // FIXME Set front left module steer motor ID
@@ -182,8 +182,7 @@ public final class Constants {
 
         public final static class Pipelines {
             public final static int REFLECTIVE_TAPE = 0;
-            public final static int RED_BALLS = 1;
-            public final static int BLUE_BALLS = 2;
+            public final static int BRIGHT = 1;
         }
 
         public final static double LIMELIGHT_HEIGHT = 34.5 * 2.54; // Converting from inches to cm

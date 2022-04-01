@@ -128,14 +128,15 @@ public class RobotContainer {
     JoystickButton driverB = new JoystickButton(driverController, Button.kB.value);
     JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
     JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
+    
 
     mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
     mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
-    // mechBumperL.whenHeld(new AimShotCalculated(shooterSubsystem, limelight))
-    //     .whenInactive(shooterSubsystem::rampDownShooter);
+    mechB.whenHeld(new AimShotCalculated(shooterSubsystem, limelight))
+        .whenInactive(shooterSubsystem::rampDownShooter);
 
     mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
         .whenInactive(shooterSubsystem::rampDownShooter);
@@ -146,7 +147,7 @@ public class RobotContainer {
 
     driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
 
-    driverX.whenPressed(drivetrainSubsystem::zeroGyroscope);
+    driverX.whenPressed(new RetractHangSubsystem(hangSubsystem, 0.1)); // slowly make it go up
 
     driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
     driveBumperL.whileActiveContinuous(new RetractHangSubsystem(hangSubsystem, HangConstants.LOWER_SPEED));
@@ -167,9 +168,9 @@ public class RobotContainer {
         new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1)));
     autonomousChooser.addOption("High Auto", new SequentialCommandGroup(
       new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
-      new HighAuto(shooterSubsystem, conveyorSubsystem, limelight)
+      new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem)
     ));
-    autonomousChooser.setDefaultOption("RED 2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
+    autonomousChooser.setDefaultOption("2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
 
