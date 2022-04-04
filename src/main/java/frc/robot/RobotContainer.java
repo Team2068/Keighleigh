@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -36,6 +37,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExtendHangSubsystem;
 import frc.robot.commands.HighAuto;
 import frc.robot.commands.IntakeBall;
+import frc.robot.commands.RedFourBallAuto;
 import frc.robot.commands.Autonomous.LowAuto;
 import frc.robot.commands.Autonomous.RedTwoBallHighGoal;
 // import frc.robot.commands.Paths;
@@ -97,6 +99,8 @@ public class RobotContainer {
     SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
     SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
     SmartDashboard.putData("Switch Pipeline", new SwitchPipeline(limelight));
+    SmartDashboard.putData("zero gyro", new InstantCommand(drivetrainSubsystem::zeroGyroscope));
+    SmartDashboard.putData("reset odometry", new InstantCommand(drivetrainSubsystem::resetOdometry));
     setUpAutonomousChooser();
     // Configure the button bindings
     configureButtonBindings();
@@ -170,36 +174,13 @@ public class RobotContainer {
       new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
       new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem)
     ));
+    autonomousChooser.addOption("Red 4 Ball", new RedFourBallAuto(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem, conveyorSubsystem));
     autonomousChooser.setDefaultOption("2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
 
   public Command getAutonomousCommand() {
     System.out.println("getAutonomousCommand");
-    
-
-    // TrajectoryConfig config = new TrajectoryConfig(AutoConstants.MAX_Speed_MetersPerSecond,
-    //     AutoConstants.MAX_Acceleration_MetersPerSecondSquared)
-    //         .setKinematics(drivetrainSubsystem.m_kinematics);
-    //    var thetaController = new ProfiledPIDController(AutoConstants.kPThetaController, 0, 0,
-    //     AutoConstants.kThetaControllerConstraints);
-    // thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-
-    // SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(exampleTrajectory,
-    //     drivetrainSubsystem::getPose, // Functional interface to feed supplier
-    //     drivetrainSubsystem.m_kinematics,
-    //     // Position controllers
-    //     new PIDController(AutoConstants.kPXController, 0, 0), new PIDController(AutoConstants.kPYController, 0, 0),
-    //     thetaController, drivetrainSubsystem::setModuleStates, drivetrainSubsystem);
-
-    // // Reset odometry to the starting pose of the trajectory.
-    // drivetrainSubsystem.resetOdometryWithPose2d(exampleTrajectory.getInitialPose());
-
-    // // Run path following command, then stop at the end.
-    // return swerveControllerCommand.andThen(() -> drivetrainSubsystem.drive(new ChassisSpeeds()));
-
-    //https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/swervecontrollercommand/subsystems/DriveSubsystem.java
     return autonomousChooser.getSelected();
   }
 
