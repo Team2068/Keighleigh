@@ -54,7 +54,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
          */
         public static final double MAX_VELOCITY_METERS_PER_SECOND = (6380.0 / 60.0 *
                         SdsModuleConfigurations.MK3_STANDARD.getDriveReduction() *
-                        SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI) * 0.65;
+                        SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI);
         /**
          * The maximum angular velocity of the robot in radians per second.
          * <p>
@@ -63,7 +63,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // Here we calculate the theoretical maximum angular velocity. You can also
         // replace this with a measured amount.
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
-                        Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0)) * 0.8;
+                        Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0));
         
         public final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                         // Front left
@@ -183,10 +183,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         }
 
         public Rotation2d getGyroscopeRotation() {
-                if (m_navx.isMagnetometerCalibrated()) {
-                        // We will only get valid fused headings if the magnetometer is calibrated
-                        return Rotation2d.fromDegrees(m_navx.getFusedHeading());
-                }
+                // if (m_navx.isMagnetometerCalibrated()) {
+                //         // We will only get valid fused headings if the magnetometer is calibrated
+                //         return Rotation2d.fromDegrees(m_navx.getFusedHeading());
+                // }
 
                 // We have to invert the angle of the NavX so that rotating the robot
                 // counter-clockwise makes the angle increase.
@@ -214,7 +214,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 	 * @param pose The pose to which to set the odometry.
 	 */
 	public void resetOdometryWithPose2d(Pose2d pose) {
-		m_odometry.resetPosition(pose, getGyroscopeRotation());
+		m_odometry.resetPosition(pose, pose.getRotation());
 	}
 
         public void setModuleStates(SwerveModuleState[] states) {
@@ -237,7 +237,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 Pose2d pose = getPose();
                 SmartDashboard.putNumber("X pos", pose.getX());
                 SmartDashboard.putNumber("Y pos", pose.getY());
-                SmartDashboard.putNumber("Fused Heading", getGyroscopeRotation().getDegrees());
+                SmartDashboard.putNumber("Odometry rotation", pose.getRotation().getDegrees());
         }
 
 }

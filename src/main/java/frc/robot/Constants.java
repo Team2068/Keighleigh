@@ -3,13 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import java.nio.file.Path;
 
-// import com.pathplanner.lib.PathPlanner;
-// import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPlanner;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 
 public final class Constants {
     //PID constants
@@ -44,8 +44,8 @@ public final class Constants {
      * Should be measured from center to center.
      */
     
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 21.5; // FIXME Measure and set trackwidth
-    public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = 1;
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.5461; // FIXME Measure and set trackwidth
+    public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = .5;
     public static final double DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = .5;
     /**
      * The front-to-back distance between the drivetrain wheels.
@@ -53,7 +53,7 @@ public final class Constants {
      */
     public static final int CURRENT_LIMIT = 30;
     public static final double NORMAL_SPEED = .5;
-    public static final double DRIVETRAIN_WHEELBASE_METERS = 19.5; // FIXME Measure and set wheelbase
+    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.495;
     
     // public final static class GameElementConstants {
     // public final static double UPPER_HUB = 2.64; //meters
@@ -138,14 +138,14 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double MAX_Speed_MetersPerSecond = 0.6;
-        public static final double MAX_Acceleration_MetersPerSecondSquared = 0.4;
+        public static final double MAX_Speed_MetersPerSecond = 0.2;
+        public static final double MAX_Acceleration_MetersPerSecondSquared = 0.2;
         public static final double MAX_AngularSpeed_RadiansPerSecond = Math.PI;
         public static final double Max_AngularSpeed_RadiansPerSecondSquared = Math.PI;
 
-        public static final double kPXController = 1;
-        public static final double kPYController = 1;
-        public static final double kPThetaController = 5;
+        public static final double kPXController = 4.4558;
+        public static final double kPYController = 4.4558;
+        public static final double kPThetaController =  0.3;
 
         // Constraint for the motion profilied robot angle controller
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(0.2, 0.2);
@@ -202,4 +202,10 @@ public final class Constants {
     //     public static final Trajectory TURN_5 = PathPlanner.loadPath("Turn5", DRIVE_MAX_VELOCITY_METERS_PER_SECOND, DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
     //     public static final Trajectory TEST_TRAJECTORY = PathPlanner.loadPath("Test2", 0.5, 0.5);
     // }
+
+    public static final class TrajectoryPaths {
+        public static final Trajectory FourBallRed_BackUpToFirstBall = PathPlanner.loadPath("4BR_BackUpToFirstBall", 1, 1);
+        public static final Trajectory FourBallRed_GoToHumanPlayer = PathPlanner.loadPath("4BR_GoToHumanPlayer", 1, 1);
+        public static final Trajectory FourBallRed_Shoot = PathPlanner.loadPath("4BR_Shoot", 1, 1);
+    }
 }

@@ -1,4 +1,5 @@
 package frc.robot.commands;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Deprecated.MoveConveyor;
@@ -14,9 +15,9 @@ public class AimAndFire extends SequentialCommandGroup {
     public AimAndFire(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem, Limelight limelight, DrivetrainSubsystem drivetrainSubsystem) {
         addCommands(
             //new AdjustConveyor(conveyorSubsystem, colorSensor),
-            new AimBotAngle(limelight, drivetrainSubsystem).withTimeout(2),
+            new ParallelDeadlineGroup(new AimBotAngle(limelight, drivetrainSubsystem).withTimeout(2), new AimShotPID(shooterSubsystem, 3500)),
             new AimShotCalculated(shooterSubsystem, limelight),
-            new WaitCommand(1),
+            new WaitCommand(0.2),
             new MoveConveyor(conveyorSubsystem).withTimeout(2),
             new ShooterOff(shooterSubsystem));
     }
