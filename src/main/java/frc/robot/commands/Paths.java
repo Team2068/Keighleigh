@@ -81,7 +81,7 @@ public class Paths extends CommandBase {
     public Paths(Trajectory trajectory, DrivetrainSubsystem drivetrainSubsystem){
         this.m_drivetrain = drivetrainSubsystem;
         this.m_trajectory = trajectory;
-        this.m_kinematics = drivetrainSubsystem.m_kinematics;
+        this.m_kinematics = drivetrainSubsystem.getKinematics();
         this.m_pose = drivetrainSubsystem.getPose();
 
 
@@ -97,6 +97,7 @@ public class Paths extends CommandBase {
     }
     @Override
     public void initialize() {
+        m_drivetrain.resetOdometryWithPose2d(m_trajectory.getInitialPose());
         m_timer.reset();
         m_timer.start();
     }

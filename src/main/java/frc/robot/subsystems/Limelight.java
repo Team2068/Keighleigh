@@ -87,8 +87,10 @@ public class Limelight extends SubsystemBase {
 
   public double distanceToRpm() {
     double distance = getDistance();
-    double factor = 3.4 * distance; // y = 3.4*x + 2392
-    double rpm = factor + 2500;
+    //double squared = distance * distance;
+    //double factor = 0.00714 * squared; // y = 3.4*x + 2392
+    double factor = 2.67 * distance;
+    double rpm = factor + 2715; // 3100
     return rpm;
   }
 

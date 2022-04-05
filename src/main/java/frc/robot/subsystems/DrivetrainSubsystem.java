@@ -7,8 +7,11 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
+import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
+import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -52,9 +55,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
          * This is a measure of how fast the robot should be able to drive in a straight
          * line.
          */
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = (6380.0 / 60.0 *
-                        SdsModuleConfigurations.MK3_STANDARD.getDriveReduction() *
-                        SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI);
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = (5880.0 / 60.0 *
+                        SdsModuleConfigurations.MK4_L2.getDriveReduction() *
+                        SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI);
         /**
          * The maximum angular velocity of the robot in radians per second.
          * <p>
@@ -65,7 +68,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
                         Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0));
         
-        public final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+        private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                         // Front left
                         new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
                         // Front right
@@ -122,14 +125,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 // a different configuration or motors
                 // you MUST change it. If you do not, your code will crash on startup.
                 // FIXME Setup motor configuration
-                m_frontLeftModule = Mk3SwerveModuleHelper.createNeo(
+                m_frontLeftModule = Mk4SwerveModuleHelper.createNeo(
                                 // This parameter is optional, but will allow you to see the current state of
                                 // the module on the dashboard.
                                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
                                                 .withPosition(0, 0),
                                 // This can either be STANDARD or FAST depending on your gear configuration
-                                Mk3SwerveModuleHelper.GearRatio.STANDARD,
+                                GearRatio.L2,
                                 // This is the ID of the drive motor
                                 FRONT_LEFT_MODULE_DRIVE_MOTOR,
                                 // This is the ID of the steer motor
@@ -141,31 +144,31 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                 FRONT_LEFT_MODULE_STEER_OFFSET);
 
                 // We will do the same for the other modules
-                m_frontRightModule = Mk3SwerveModuleHelper.createNeo(
+                m_frontRightModule = Mk4SwerveModuleHelper.createNeo(
                                 tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
                                                 .withPosition(2, 0),
-                                Mk3SwerveModuleHelper.GearRatio.STANDARD,
+                                GearRatio.L2,
                                 FRONT_RIGHT_MODULE_DRIVE_MOTOR,
                                 FRONT_RIGHT_MODULE_STEER_MOTOR,
                                 FRONT_RIGHT_MODULE_STEER_ENCODER,
                                 FRONT_RIGHT_MODULE_STEER_OFFSET);
 
-                m_backLeftModule = Mk3SwerveModuleHelper.createNeo(
+                m_backLeftModule = Mk4SwerveModuleHelper.createNeo(
                                 tab.getLayout("Back Left Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
                                                 .withPosition(4, 0),
-                                Mk3SwerveModuleHelper.GearRatio.STANDARD,
+                                GearRatio.L2,
                                 BACK_LEFT_MODULE_DRIVE_MOTOR,
                                 BACK_LEFT_MODULE_STEER_MOTOR,
                                 BACK_LEFT_MODULE_STEER_ENCODER,
                                 BACK_LEFT_MODULE_STEER_OFFSET);
 
-                m_backRightModule = Mk3SwerveModuleHelper.createNeo(
+                m_backRightModule = Mk4SwerveModuleHelper.createNeo(
                                 tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
                                                 .withPosition(6, 0),
-                                Mk3SwerveModuleHelper.GearRatio.STANDARD,
+                                GearRatio.L2,
                                 BACK_RIGHT_MODULE_DRIVE_MOTOR,
                                 BACK_RIGHT_MODULE_STEER_MOTOR,
                                 BACK_RIGHT_MODULE_STEER_ENCODER,
@@ -180,6 +183,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
          */
         public void zeroGyroscope() {
                 m_navx.zeroYaw();
+        }
+
+        public SwerveDriveKinematics getKinematics() {
+                return m_kinematics;
         }
 
         public Rotation2d getGyroscopeRotation() {
@@ -218,7 +225,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 	}
 
         public void setModuleStates(SwerveModuleState[] states) {
-                SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
                 m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[0].angle.getRadians());
                 m_frontRightModule.set(-states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
@@ -232,6 +238,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         @Override
         public void periodic() {
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+                SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
                 setModuleStates(states);
                 m_odometry.update(getGyroscopeRotation(), states);
                 Pose2d pose = getPose();

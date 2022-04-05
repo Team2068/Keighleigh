@@ -6,6 +6,7 @@ package frc.robot;
 
 import java.util.List;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -104,6 +105,7 @@ public class RobotContainer {
     setUpAutonomousChooser();
     // Configure the button bindings
     configureButtonBindings();
+    CameraServer.startAutomaticCapture();
   }
 
   /**
@@ -147,7 +149,8 @@ public class RobotContainer {
 
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
-    // mechA.toggleWhenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, colorSensor, drivetrainSubsystem));
+    mechA.whenPressed(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM))
+        .whenInactive(shooterSubsystem::rampDownShooter);
 
     driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
 
