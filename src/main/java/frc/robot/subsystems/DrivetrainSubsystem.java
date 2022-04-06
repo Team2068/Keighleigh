@@ -6,14 +6,11 @@ package frc.robot.subsystems;
 
 
 import com.kauailabs.navx.frc.AHRS;
-import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -97,6 +94,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         private final SwerveModule m_backRightModule;
 
         private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+
+        private boolean isFieldOriented = false;
 
         public DrivetrainSubsystem() {
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -235,6 +234,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                 states[3].angle.getRadians());
         }
 
+        public boolean getFieldOriented() {
+                return isFieldOriented;
+        }
+
+        public void toggleFieldOriented() {
+                isFieldOriented = !isFieldOriented;
+        }
+
         @Override
         public void periodic() {
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
@@ -245,6 +252,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 SmartDashboard.putNumber("X pos", pose.getX());
                 SmartDashboard.putNumber("Y pos", pose.getY());
                 SmartDashboard.putNumber("Odometry rotation", pose.getRotation().getDegrees());
+                SmartDashboard.putString("Drive Mode", isFieldOriented ? "Field" : "Robot");
         }
 
 }
