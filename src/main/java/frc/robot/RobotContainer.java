@@ -142,7 +142,7 @@ public class RobotContainer {
 
     driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
 
-    dPadUp.whenPressed(new RetractHangSubsystem(hangSubsystem, 0.1)); // slowly make it go up
+    dPadUp.whenPressed(new RetractHangSubsystem(hangSubsystem, HangConstants.HANG_SPEED)); // slowly make it go up
     dPadDown.toggleWhenActive(new RetractHangSubsystem(hangSubsystem, -0.1)); // hold the robot in position
 
     driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
