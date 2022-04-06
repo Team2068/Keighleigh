@@ -16,6 +16,7 @@ public class DefaultDriveCommand extends CommandBase {
     private final DoubleSupplier m_rotationSupplier;
     private final SlewRateLimiter xLimiter = new SlewRateLimiter(5.5);
     private final SlewRateLimiter yLimiter = new SlewRateLimiter(5.5);
+    private final SlewRateLimiter rotationLimiter = new SlewRateLimiter(5.5);
 
     public DefaultDriveCommand(DrivetrainSubsystem drivetrainSubsystem,
                                DoubleSupplier translationXSupplier,
@@ -34,16 +35,17 @@ public class DefaultDriveCommand extends CommandBase {
 
         double xSpeed = xLimiter.calculate(m_translationXSupplier.getAsDouble());
         double ySpeed = yLimiter.calculate(m_translationYSupplier.getAsDouble());
+        double rotationSpeed = rotationLimiter.calculate(m_rotationSupplier.getAsDouble());
+
         // double xSpeed = m_translationXSupplier.getAsDouble();
         // double ySpeed = m_translationYSupplier.getAsDouble();
         // You can use `new ChassisSpeeds(...)` for robot-oriented movement instead of field-oriented movement
-        m_drivetrainSubsystem.drive(
-                new ChassisSpeeds(
-                        xSpeed,
-                        ySpeed,
-                        m_rotationSupplier.getAsDouble()
-                )
-        );
+        
+        if(m_drivetrainSubsystem.getFieldOriented()) {
+            m_drivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, m_drivetrainSubsystem.getGyroscopeRotation()));
+        } else {
+            m_drivetrainSubsystem.drive(new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed));
+        }
     }
 
     @Override

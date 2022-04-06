@@ -26,7 +26,7 @@ public class AimBotAngle extends CommandBase {
     drivetrainSubsystem.drive(new ChassisSpeeds(
         0,
         0,
-        Math.toRadians(limelight.getTargetData().horizontalOffset) * 7.75)
+        Math.toRadians(limelight.getTargetData().horizontalOffset) * 7.2)
         );
   }
 

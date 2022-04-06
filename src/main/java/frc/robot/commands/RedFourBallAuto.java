@@ -6,12 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.TrajectoryPaths;
 import frc.robot.commands.Autonomous.RedTwoBallHighGoal;
+import frc.robot.commands.Autonomous.TimedAutoDrive;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -28,10 +30,11 @@ public class RedFourBallAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem),
-      new InstantCommand(()->drivetrainSubsystem.resetOdometryWithPose2d(new Pose2d(11.39, 6.33, drivetrainSubsystem.getGyroscopeRotation()))),
+      new InstantCommand(drivetrainSubsystem::zeroGyroscope),
       new ControlIntakeSolenoids(intakeSubsystem),
       new ParallelDeadlineGroup(new Paths(TrajectoryPaths.FourBallRed_GoToHumanPlayer, drivetrainSubsystem), new IntakeBall(intakeSubsystem)), // drive to le human player
       new WaitCommand(2),
+      new ParallelDeadlineGroup(new Paths(TrajectoryPaths.FourBallRed_Little, drivetrainSubsystem), new IntakeBall(intakeSubsystem)),
       new Paths(TrajectoryPaths.FourBallRed_Shoot, drivetrainSubsystem), // drive to the shooting place thing
       new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem) // SHOOT AGAIN!!!!! :DDDD
     );

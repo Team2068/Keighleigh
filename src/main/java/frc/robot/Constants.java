@@ -27,7 +27,7 @@ public final class Constants {
         public final static double kA = 0.0058814;
         public final static double kP = 0.10976;
         public final static double LOWER_HUB_RPM = 1800;
-        public final static double UPPER_HUB_FALLBACK_RPM = 3600; // use this if the limelight doesnt work
+        public final static double UPPER_HUB_FALLBACK_RPM = 4450; // use this if the limelight doesnt work
 
         // DISTANCE(CM) | VELOCITY (RPM)
         // 220		3400
@@ -72,7 +72,7 @@ public final class Constants {
 
     public final static class ConveyorConstants {
         public static final int LOWER_CONVEYOR = 13;
-        public static final double CONVEYOR_SPEED = 0.7;
+        public static final double CONVEYOR_SPEED = 1;
     }
 
     public final static class IntakeConstants {
@@ -207,5 +207,6 @@ public final class Constants {
         public static final Trajectory FourBallRed_BackUpToFirstBall = PathPlanner.loadPath("4BR_BackUpToFirstBall", 1, 1);
         public static final Trajectory FourBallRed_GoToHumanPlayer = PathPlanner.loadPath("4BR_GoToHumanPlayer", 1, 1);
         public static final Trajectory FourBallRed_Shoot = PathPlanner.loadPath("4BR_Shoot", 1, 1);
+        public static final Trajectory FourBallRed_Little = PathPlanner.loadPath("4BR_GoSlightlyFarther", 1, 1);
     }
 }

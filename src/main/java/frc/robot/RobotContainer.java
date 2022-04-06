@@ -4,17 +4,8 @@
 
 package frc.robot;
 
-import java.util.List;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -40,10 +31,7 @@ import frc.robot.commands.IntakeBall;
 import frc.robot.commands.RedFourBallAuto;
 import frc.robot.commands.Autonomous.LowAuto;
 import frc.robot.commands.Autonomous.RedTwoBallHighGoal;
-// import frc.robot.commands.Paths;
 import frc.robot.commands.RetractHangSubsystem;
-import frc.robot.commands.Shoot;
-// import frc.robot.commands.SixBallAutoBlue;
 import frc.robot.commands.SpitOutBall;
 import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.ToggleCameraMode;
@@ -51,13 +39,13 @@ import frc.robot.commands.ToggleStreamMode;
 import frc.robot.commands.Autonomous.TimedAutoDrive;
 import frc.robot.commands.Deprecated.MoveConveyor;
 import frc.robot.commands.Deprecated.ReverseIntake;
-// import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.util.DPadButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -104,6 +92,7 @@ public class RobotContainer {
     setUpAutonomousChooser();
     // Configure the button bindings
     configureButtonBindings();
+    CameraServer.startAutomaticCapture();
   }
 
   /**
@@ -132,7 +121,8 @@ public class RobotContainer {
     JoystickButton driverB = new JoystickButton(driverController, Button.kB.value);
     JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
     JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
-    
+    DPadButton dPadUp = new DPadButton(driverController, DPadButton.Direction.UP);
+    DPadButton dPadDown = new DPadButton(driverController, DPadButton.Direction.DOWN);
 
     mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
     mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
@@ -147,15 +137,19 @@ public class RobotContainer {
 
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
-    // mechA.toggleWhenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, colorSensor, drivetrainSubsystem));
+    mechA.whenPressed(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM))
+        .whenInactive(shooterSubsystem::rampDownShooter);
 
     driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
 
-    driverX.whenPressed(new RetractHangSubsystem(hangSubsystem, 0.1)); // slowly make it go up
+    dPadUp.whenPressed(new RetractHangSubsystem(hangSubsystem, HangConstants.HANG_SPEED)); // slowly make it go up
+    dPadDown.toggleWhenActive(new RetractHangSubsystem(hangSubsystem, -0.1)); // hold the robot in position
 
     driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
     driveBumperL.whileActiveContinuous(new RetractHangSubsystem(hangSubsystem, HangConstants.LOWER_SPEED));
-    driverA.toggleWhenActive(new RetractHangSubsystem(hangSubsystem, -0.1));
+  
+    driverB.whenPressed(new InstantCommand(drivetrainSubsystem::toggleFieldOriented));
+    driverX.whenPressed(new InstantCommand(drivetrainSubsystem::zeroGyroscope));
   }
   /**
    * Use this to pass thex autonomous command to the main {@link Robot} class.
