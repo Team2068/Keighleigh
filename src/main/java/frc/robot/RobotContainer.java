@@ -109,6 +109,10 @@ public class RobotContainer {
         .getRawAxis(ControllerConstants.RIGHT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
     Trigger mechLeftTrigger = new Trigger(() -> mechanismController
         .getRawAxis(ControllerConstants.LEFT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
+    Trigger driverRightTrigger = new Trigger(() -> driverController
+        .getRawAxis(ControllerConstants.RIGHT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
+    Trigger driverLeftTrigger = new Trigger(() -> driverController
+        .getRawAxis(ControllerConstants.LEFT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
     JoystickButton mechA = new JoystickButton(mechanismController, Button.kA.value);
     JoystickButton mechB = new JoystickButton(mechanismController, Button.kB.value);
     JoystickButton mechX = new JoystickButton(mechanismController, Button.kX.value);
@@ -140,9 +144,9 @@ public class RobotContainer {
     mechA.whenPressed(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM))
         .whenInactive(shooterSubsystem::rampDownShooter);
 
-    driverY.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
+    driverA.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
 
-    dPadUp.whenPressed(new RetractHangSubsystem(hangSubsystem, HangConstants.HANG_SPEED)); // slowly make it go up
+    dPadUp.whileHeld(new RetractHangSubsystem(hangSubsystem, HangConstants.HANG_SPEED)); // slowly make it go up
     dPadDown.toggleWhenActive(new RetractHangSubsystem(hangSubsystem, -0.1)); // hold the robot in position
 
     driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
@@ -150,6 +154,9 @@ public class RobotContainer {
   
     driverB.whenPressed(new InstantCommand(drivetrainSubsystem::toggleFieldOriented));
     driverX.whenPressed(new InstantCommand(drivetrainSubsystem::zeroGyroscope));
+
+    driverRightTrigger.whenActive(drivetrainSubsystem::turboSpeed).whenInactive(drivetrainSubsystem::standardSpeed);
+    driverLeftTrigger.whenActive(drivetrainSubsystem::slowSpeed).whenInactive(drivetrainSubsystem::standardSpeed);
   }
   /**
    * Use this to pass thex autonomous command to the main {@link Robot} class.

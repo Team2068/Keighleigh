@@ -36,7 +36,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
          * This can be reduced to cap the robot's maximum speed. Typically, this is
          * useful during initial testing of the robot.
          */
-        public static final double MAX_VOLTAGE = 9;
+        public static double MAX_VOLTAGE = 9;
         // FIXME Measure the drivetrain's maximum velocity or calculate the theoretical.
         // The formula for calculating the theoretical maximum velocity is:
         // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
@@ -95,7 +95,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
-        private boolean isFieldOriented = false;
+        private boolean isFieldOriented = true;
 
         public DrivetrainSubsystem() {
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -240,6 +240,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         public void toggleFieldOriented() {
                 isFieldOriented = !isFieldOriented;
+        }
+
+        public void turboSpeed() {
+                MAX_VOLTAGE = 12;
+        }
+
+        public void slowSpeed() {
+                MAX_VOLTAGE = 5;
+        }
+
+        public void standardSpeed() {
+                MAX_VOLTAGE = 9;
         }
 
         @Override
