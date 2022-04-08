@@ -27,7 +27,7 @@ public final class Constants {
         public final static double kA = 0.0058814;
         public final static double kP = 0.10976;
         public final static double LOWER_HUB_RPM = 1800;
-        public final static double UPPER_HUB_FALLBACK_RPM = 4450; // use this if the limelight doesnt work
+        public final static double UPPER_HUB_FALLBACK_RPM = 3900; // use this if the limelight doesnt work
 
         // DISTANCE(CM) | VELOCITY (RPM)
         // 220		3400
@@ -96,7 +96,7 @@ public final class Constants {
         public static final int LEFT_HANG_MOTOR = 14; // left steer offset
         public static final int RIGHT_HANG_MOTOR = 15;
         public static final double HANG_SPEED = .6;
-        public static final double LOWER_SPEED = -.8;
+        public static final double LOWER_SPEED = -1;
 
         public static final double LIFT_HEIGHT = 53.29;
     }

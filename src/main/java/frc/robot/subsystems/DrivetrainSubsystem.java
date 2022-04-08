@@ -28,9 +28,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 
 public class DrivetrainSubsystem extends SubsystemBase {
-    
+
         /**
-         * 
+         *
          * The maximum voltage that will be delivered to the drive motors.
          * <p>
          * This can be reduced to cap the robot's maximum speed. Typically, this is
@@ -64,7 +64,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // replace this with a measured amount.
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
                         Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0));
-        
+
         private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                         // Front left
                         new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
@@ -95,7 +95,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
-        private boolean isFieldOriented = true;
+        private boolean isFieldOriented = false;
 
         public DrivetrainSubsystem() {
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -261,8 +261,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 setModuleStates(states);
                 m_odometry.update(getGyroscopeRotation(), states);
                 Pose2d pose = getPose();
-                SmartDashboard.putNumber("X pos", pose.getX());
-                SmartDashboard.putNumber("Y pos", pose.getY());
+                // SmartDashboard.putNumber("X pos", pose.getX());
+                // SmartDashboard.putNumber("Y pos", pose.getY());
                 SmartDashboard.putNumber("Odometry rotation", pose.getRotation().getDegrees());
                 SmartDashboard.putString("Drive Mode", isFieldOriented ? "Field" : "Robot");
         }

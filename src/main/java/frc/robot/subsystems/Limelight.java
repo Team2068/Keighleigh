@@ -45,23 +45,23 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
 
     final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    final NetworkTableEntry tx = table.getEntry("tx");
-    final NetworkTableEntry ty = table.getEntry("ty");
-    final NetworkTableEntry ta = table.getEntry("ta");
+    // final NetworkTableEntry tx = table.getEntry("tx");
+    // final NetworkTableEntry ty = table.getEntry("ty");
+    // final NetworkTableEntry ta = table.getEntry("ta");
 
-    // read values periodically
-    double x = tx.getDouble(0.0);
-    double y = ty.getDouble(0.0);
-    double area = ta.getDouble(0.0);
+    // // read values periodically
+    // double x = tx.getDouble(0.0);
+    // double y = ty.getDouble(0.0);
+    // double area = ta.getDouble(0.0);
     final String stream, cam;
 
     stream = (getStreamMode() == Constants.LimelightConstants.StreamMode.PIP_MAIN) ? "Main" : "Secondary";
     cam = (getCameraMode() == Constants.LimelightConstants.CamMode.VISION) ? "Vision" : "Driver";
 
     // post to smart dashboard periodically
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimelightY", y);
-    SmartDashboard.putNumber("LimelightArea", area);
+    // SmartDashboard.putNumber("LimelightX", x);
+    // SmartDashboard.putNumber("LimelightY", y);
+    // SmartDashboard.putNumber("LimelightArea", area);
     SmartDashboard.putString("Stream Mode", stream);
     SmartDashboard.putString("Camera Mode", cam);
     SmartDashboard.putNumber("Distance", getDistance());
@@ -90,7 +90,7 @@ public class Limelight extends SubsystemBase {
     //double squared = distance * distance;
     //double factor = 0.00714 * squared; // y = 3.4*x + 2392
     double factor = 2.67 * distance;
-    double rpm = factor + 2715; // 3100
+    double rpm = factor + 2805; // 3100
     return rpm;
   }
 

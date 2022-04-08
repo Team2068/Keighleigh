@@ -17,7 +17,7 @@ public class IntakeSubsystem extends SubsystemBase {
       IntakeConstants.FORWARD_CHANNEL_1, IntakeConstants.REVERSE_CHANNEL_1);
   private DoubleSolenoid intakeSolenoid2 = new DoubleSolenoid(PneumaticsModuleType.REVPH,
       IntakeConstants.FORWARD_CHANNEL_2, IntakeConstants.REVERSE_CHANNEL_2);
-  private boolean pistonsForward = false;
+  public boolean pistonsForward = false;
   // private DigitalInput toplimitSwitch = new DigitalInput(0);
   CANSparkMax intake = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushed);
 
