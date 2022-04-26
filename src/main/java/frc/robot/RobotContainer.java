@@ -29,6 +29,7 @@ import frc.robot.commands.IntakeBall;
 import frc.robot.commands.Autonomous.LowAuto;
 import frc.robot.commands.Autonomous.RedTwoBallHighGoal;
 import frc.robot.commands.RetractHangSubsystem;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.SpitOutBall;
 import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.ToggleCameraMode;
@@ -133,6 +134,7 @@ public class RobotContainer {
     // mechB.whenHeld(new AimShotCalculated(shooterSubsystem, limelight))
     //     .whenInactive(shooterSubsystem::rampDownShooter);
     mechB.whenHeld(new AimShotPID(shooterSubsystem, 2500)).whenInactive(shooterSubsystem::rampDownShooter);
+    mechB.whileHeld(new Shoot(shooterSubsystem, 200));
 
     mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
         .whenInactive(shooterSubsystem::rampDownShooter);
