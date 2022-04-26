@@ -21,14 +21,11 @@ import frc.robot.Constants.HangConstants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.AimAndFire;
-import frc.robot.commands.AimShotCalculated;
 import frc.robot.commands.AimShotPID;
 import frc.robot.commands.ControlIntakeSolenoids;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExtendHangSubsystem;
-import frc.robot.commands.HighAuto;
 import frc.robot.commands.IntakeBall;
-import frc.robot.commands.RedFourBallAuto;
 import frc.robot.commands.Autonomous.LowAuto;
 import frc.robot.commands.Autonomous.RedTwoBallHighGoal;
 import frc.robot.commands.RetractHangSubsystem;
@@ -133,8 +130,9 @@ public class RobotContainer {
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
-    mechB.whenHeld(new AimShotCalculated(shooterSubsystem, limelight))
-        .whenInactive(shooterSubsystem::rampDownShooter);
+    // mechB.whenHeld(new AimShotCalculated(shooterSubsystem, limelight))
+    //     .whenInactive(shooterSubsystem::rampDownShooter);
+    mechB.whenHeld(new AimShotPID(shooterSubsystem, 2500)).whenInactive(shooterSubsystem::rampDownShooter);
 
     mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
         .whenInactive(shooterSubsystem::rampDownShooter);

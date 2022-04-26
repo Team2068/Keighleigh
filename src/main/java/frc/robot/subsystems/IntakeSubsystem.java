@@ -4,7 +4,6 @@ import frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.revrobotics.*;
@@ -18,11 +17,9 @@ public class IntakeSubsystem extends SubsystemBase {
   private DoubleSolenoid intakeSolenoid2 = new DoubleSolenoid(PneumaticsModuleType.REVPH,
       IntakeConstants.FORWARD_CHANNEL_2, IntakeConstants.REVERSE_CHANNEL_2);
   public boolean pistonsForward = false;
-  // private DigitalInput toplimitSwitch = new DigitalInput(0);
   CANSparkMax intake = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushed);
 
   // private Color enemyBallColor = Color.kRed;
-
   // private ColorSensor colorSensor = new ColorSensor();
 
   public IntakeSubsystem() {

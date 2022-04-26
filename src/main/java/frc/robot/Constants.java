@@ -4,12 +4,10 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlanner;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 
 public final class Constants {
     //PID constants
@@ -72,7 +70,7 @@ public final class Constants {
 
     public final static class ConveyorConstants {
         public static final int LOWER_CONVEYOR = 13;
-        public static final double CONVEYOR_SPEED = 1;
+        public static final double CONVEYOR_SPEED = 0.6;
     }
 
     public final static class IntakeConstants {

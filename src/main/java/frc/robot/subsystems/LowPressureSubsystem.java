@@ -15,7 +15,6 @@ public class LowPressureSubsystem extends SubsystemBase {
   public PneumaticHub ph = new PneumaticHub();
 
   public LowPressureSubsystem() {
-
   }
 
   @Override
