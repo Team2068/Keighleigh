@@ -196,7 +196,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
                 // We have to invert the angle of the NavX so that rotating the robot
                 // counter-clockwise makes the angle increase.
-                return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
+                return Rotation2d.fromDegrees(Math.IEEEremainder(m_navx.getYaw(), 360));
         }
 
         public void drive(ChassisSpeeds chassisSpeeds) {
@@ -211,7 +211,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 	 * Resets the odometry Position and Angle to 0.
 	 */
 	public void resetOdometry() {
-		m_odometry.resetPosition(new Pose2d(), new Rotation2d(0));
+		m_odometry.resetPosition(new Pose2d(), getGyroscopeRotation());
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         public void setModuleStates(SwerveModuleState[] states) {
                 m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[0].angle.getRadians());
-                m_frontRightModule.set(-states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+                m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[1].angle.getRadians());
                 m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[2].angle.getRadians());
@@ -261,8 +261,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 setModuleStates(states);
                 m_odometry.update(getGyroscopeRotation(), states);
                 Pose2d pose = getPose();
-                // SmartDashboard.putNumber("X pos", pose.getX());
-                // SmartDashboard.putNumber("Y pos", pose.getY());
+                SmartDashboard.putNumber("X pos", pose.getX());
+                SmartDashboard.putNumber("Y pos", pose.getY());
                 SmartDashboard.putNumber("Odometry rotation", pose.getRotation().getDegrees());
                 SmartDashboard.putString("Drive Mode", isFieldOriented ? "Field" : "Robot");
         }
