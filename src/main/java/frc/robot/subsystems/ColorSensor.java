@@ -47,5 +47,7 @@ public class ColorSensor extends SubsystemBase {
 
     RobotState.setEntryValue("Sensors", "Lower Proximity", colorSensorLower.getProximity());
     RobotState.setEntryValue("Sensors", "Upper Proximity", colorSensorUpper.getProximity());
+
+    //[Note]: Current alliance can be published to NetworkTables
   }
 }

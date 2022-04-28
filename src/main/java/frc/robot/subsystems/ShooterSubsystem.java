@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.RobotState;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -15,7 +14,6 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -37,7 +35,7 @@ public class ShooterSubsystem extends SubsystemBase {
         flywheel1.getPIDController().setP(ShooterConstants.kP);
         flywheel2.getPIDController().setP(ShooterConstants.kP);
 
-        flywheel1.getPIDController().setFF(0.00016  );
+        flywheel1.getPIDController().setFF(0.00016);
         flywheel2.getPIDController().setFF(0.00016);
 
         // flywheel1.setOpenLoopRampRate(.2);
@@ -48,11 +46,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
         flywheel2.follow(flywheel1, true);
     }
-    
+
     public void setRPM(double speed) {
         flywheel1.getPIDController().setReference(speed, ControlType.kVelocity);
         flywheel2.getPIDController().setReference(speed, ControlType.kVelocity);
-        // flywheel2.set(speed);
     }
 
     public void rampDownShooter() {
@@ -68,9 +65,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public double getVelocity() {
         return encoder.getVelocity();
     }
-    
+
     public double calculateFeedforward(double rpm) {
-        //return feedforward.calculate(rpm, rpm - encoder.getVelocity());
         return feedforward.calculate(rpm / 60, (rpm - encoder.getVelocity()) / 60);
     }
 

@@ -23,9 +23,9 @@ public class RobotState {
 
   public static NetworkTableValue[] getEntriesValues(String Table, String ...Entries){
     NetworkTableValue[] values = new NetworkTableValue[Entries.length];
-    for (int i = 0; i < Entries.length; i++){
+    for (int i = 0; i < Entries.length; i++)
       values[i] = mainTable.getTable(Table).getEntry(Entries[i]).getValue();
-    }
+      
     return values;
   }
 
