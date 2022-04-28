@@ -37,6 +37,8 @@ public class ShooterSubsystem extends SubsystemBase {
         flywheel1.getPIDController().setP(ShooterConstants.kP);
         flywheel2.getPIDController().setP(ShooterConstants.kP);
 
+        flywheel1.getPIDController().setFF(0.00016  );
+        flywheel2.getPIDController().setFF(0.00016);
 
         // flywheel1.setOpenLoopRampRate(.2);
         // flywheel2.setOpenLoopRampRate(.2);
@@ -48,8 +50,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
     
     public void setRPM(double speed) {
-        flywheel1.getPIDController().setReference(speed, ControlType.kVoltage);
-        flywheel2.getPIDController().setReference(speed, ControlType.kVoltage);
+        flywheel1.getPIDController().setReference(speed, ControlType.kVelocity);
+        flywheel2.getPIDController().setReference(speed, ControlType.kVelocity);
         // flywheel2.set(speed);
     }
 

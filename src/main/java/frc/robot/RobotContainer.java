@@ -133,8 +133,8 @@ public class RobotContainer {
 
     // mechB.whenHeld(new AimShotCalculated(shooterSubsystem, limelight))
     //     .whenInactive(shooterSubsystem::rampDownShooter);
-    mechB.whenHeld(new AimShotPID(shooterSubsystem, 2500)).whenInactive(shooterSubsystem::rampDownShooter);
-    mechB.whileHeld(new Shoot(shooterSubsystem, 200));
+    // mechB.whenHeld(new AimShotPID(shooterSubsystem, 2500)).whenInactive(shooterSubsystem::rampDownShooter);
+    mechB.whileHeld(new Shoot(shooterSubsystem, 3500));
 
     mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
         .whenInactive(shooterSubsystem::rampDownShooter);
