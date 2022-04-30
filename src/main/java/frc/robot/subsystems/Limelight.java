@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.LimelightConstants;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 
@@ -64,6 +65,10 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putString("Stream Mode", stream);
     SmartDashboard.putString("Camera Mode", cam);
     SmartDashboard.putNumber("Distance", getDistance());
+    //Test these 2 against each other to finally settle the issue
+    SmartDashboard.putNumber("Curve RPM", curveRPM()); 
+    SmartDashboard.putNumber("Line RPM", distanceToRpm());
+
     updateTargetData(table);
   }
 
@@ -87,10 +92,16 @@ public class Limelight extends SubsystemBase {
   public double distanceToRpm() {
     double distance = getDistance();
     //double squared = distance * distance;
-    //double factor = 0.00714 * squared; // y = 3.4*x + 2392
-    double factor = 2.67 * distance;
+    //double factor = 0.00714 * squared; 
+    double factor = 2.67 * distance; // y = 3.4*x + 2392
     double rpm = factor + 2805; // 3100
     return rpm;
+  }
+
+  public double curveRPM(){
+    double distance = SmartDashboard.getNumber("Distance", 0);
+    double squared = distance * distance;
+    return 0.00922451*squared + -2.11957*distance + 3450.01;
   }
 
   // This works only for objects that are above or below the robot

@@ -129,12 +129,18 @@ public class RobotContainer {
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
-    // mechB.whenHeld(new AimShotCalculated(shooterSubsystem, limelight)).whenInactive(shooterSubsystem::rampDownShooter);
     // mechB.whenHeld(new AimShotPID(shooterSubsystem, 2500)).whenInactive(shooterSubsystem::rampDownShooter);
-    mechB.whileHeld(() -> shooterSubsystem.setRPM(3500)).whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
-        .whenInactive(shooterSubsystem::rampDownShooter);
+    // mechB.whenHeld(new InstantCommand(() -> shooterSubsystem.setRPM(limelight.curveRPM())))
+    mechB.whileHeld(() -> shooterSubsystem.setRPM(limelight.curveRPM()))
+    .whenInactive(shooterSubsystem::rampDownShooter);
+
+    // mechX.whenHeld(new InstantCommand(() -> shooterSubsystem.setRPM(limelight.distanceToRpm())))
+    mechX.whileHeld(() -> shooterSubsystem.setRPM(limelight.distanceToRpm()))
+    .whenInactive(shooterSubsystem::rampDownShooter);
+
+    // mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
+    //     .whenInactive(shooterSubsystem::rampDownShooter);
 
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
