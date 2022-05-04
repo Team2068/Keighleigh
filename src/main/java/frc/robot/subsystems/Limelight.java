@@ -102,28 +102,38 @@ public class Limelight extends SubsystemBase {
   }
 
   public double curveRPM() {
-    double distance = SmartDashboard.getNumber("Distance", 0);
+    double distance = getDistance();
     double squared = distance * distance;
     return 0.00922451 * squared + -2.11957 * distance + 3450.01;
   }
 
   public double lerpRPM() {
     double distance = getDistance();
-    double[] xTable = ShooterConstants.distTable;
-    double[] yTable = ShooterConstants.rpmTable;
+    double[] distTab = ShooterConstants.distTable;
+    double[] rpmTab = ShooterConstants.rpmTable;
 
     int low = 0;
     int high = 0;
 
-    for (int i = 0; i < xTable.length/2; i++) {
-      if (distance < xTable[i] && xTable[i] < low)
-        low = i;
+    for (int i = 0; i < distTab.length >> 1; i++) {
+      if (distance < distTab[i]){ //If lower > dist -> upper bound found
+        high = i; 
+        low = i-1;
+        break;
+      }
 
-      if (distance > xTable[xTable.length - i] && xTable[xTable.length - i] < high)
-        high = xTable.length - i;
+      if (distance > distTab[distTab.length - i - 1]){ //If higher < dist -> higer is lower bound
+        low = distTab.length - i;
+        high = low + 1;
+        break;
+      }
     }
-    // return the lerp
-    return yTable[low] + (distance - xTable[low])*((yTable[high]- yTable[low])/(xTable[high]- xTable[low]));
+    
+    if (low == -1 ) return (distance * rpmTab[high])/distTab[high];
+    
+    if (high == distTab.length) return (distance * rpmTab[low])/distTab[low];
+    
+    return rpmTab[low] + (distance - distTab[low])*((rpmTab[high]- rpmTab[low])/(distTab[high]- distTab[low]));
   }
 
   // This works only for objects that are above or below the robot
