@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 
 import com.kauailabs.navx.frc.AHRS;
+import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
@@ -18,6 +19,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -52,9 +54,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
          * This is a measure of how fast the robot should be able to drive in a straight
          * line.
          */
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = (5880.0 / 60.0 *
-                        SdsModuleConfigurations.MK4_L2.getDriveReduction() *
-                        SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI);
+        // public static final double MAX_VELOCITY_METERS_PER_SECOND = (5880.0 / 60.0) *
+        //                 SdsModuleConfigurations.MK4_L2.getDriveReduction() *
+        //                 SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 3; // this works lol
         /**
          * The maximum angular velocity of the robot in radians per second.
          * <p>
@@ -74,7 +77,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
                         // Back right
                         new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
-
         );
         // By default we use a Pigeon for our gyroscope. But if you use another
         // gyroscope, like a NavX, you can change this.
@@ -196,7 +198,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
                 // We have to invert the angle of the NavX so that rotating the robot
                 // counter-clockwise makes the angle increase.
-                return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
+                return Rotation2d.fromDegrees(Math.IEEEremainder(m_navx.getYaw(), 360));
         }
 
         public void drive(ChassisSpeeds chassisSpeeds) {
@@ -211,7 +213,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 	 * Resets the odometry Position and Angle to 0.
 	 */
 	public void resetOdometry() {
-		m_odometry.resetPosition(new Pose2d(), new Rotation2d(0));
+                zeroGyroscope();
+		m_odometry.resetPosition(new Pose2d(), getGyroscopeRotation());
 	}
 
 	/**
@@ -226,12 +229,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
         public void setModuleStates(SwerveModuleState[] states) {
                 m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[0].angle.getRadians());
-                m_frontRightModule.set(-states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+                m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[1].angle.getRadians());
                 m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[2].angle.getRadians());
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
+                m_odometry.update(getGyroscopeRotation(), states);
         }
 
         public boolean getFieldOriented() {
@@ -259,10 +263,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
                 SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
                 setModuleStates(states);
-                m_odometry.update(getGyroscopeRotation(), states);
                 Pose2d pose = getPose();
-                // SmartDashboard.putNumber("X pos", pose.getX());
-                // SmartDashboard.putNumber("Y pos", pose.getY());
+                SmartDashboard.putNumber("X pos", pose.getX());
+                SmartDashboard.putNumber("Y pos", pose.getY());
                 SmartDashboard.putNumber("Odometry rotation", pose.getRotation().getDegrees());
                 SmartDashboard.putString("Drive Mode", isFieldOriented ? "Field" : "Robot");
         }
