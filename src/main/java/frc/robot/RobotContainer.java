@@ -119,7 +119,7 @@ public class RobotContainer {
     JoystickButton driveBumperR = new JoystickButton(driverController, Button.kRightBumper.value);
     JoystickButton driverA = new JoystickButton(driverController, Button.kA.value);
     JoystickButton driverB = new JoystickButton(driverController, Button.kB.value);
-    // JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
+    JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
     JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
     DPadButton dPadUp = new DPadButton(driverController, DPadButton.Direction.UP);
     DPadButton dPadDown = new DPadButton(driverController, DPadButton.Direction.DOWN);
@@ -129,25 +129,17 @@ public class RobotContainer {
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
-    // mechB.whenHeld(new AimShotPID(shooterSubsystem, 2500)).whenInactive(shooterSubsystem::rampDownShooter);
-
-    // mechB.whenHeld(new InstantCommand(() -> shooterSubsystem.setRPM(limelight.curveRPM())))
     mechB.whileHeld(() -> shooterSubsystem.setRPM(limelight.curveRPM()))
     .whenInactive(shooterSubsystem::rampDownShooter);
 
-    // mechX.whenHeld(new InstantCommand(() -> shooterSubsystem.setRPM(limelight.distanceToRpm())))
     mechX.whileHeld(() -> shooterSubsystem.setRPM(limelight.distanceToRpm()))
     .whenInactive(shooterSubsystem::rampDownShooter);
-
-    // mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
-    //     .whenInactive(shooterSubsystem::rampDownShooter);
 
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
     mechA.whenPressed(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM))
         .whenInactive(shooterSubsystem::rampDownShooter);
 
-    // driverA.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
     driverA.whenPressed(intakeSubsystem::controlIntakeSolenoids);
 
     dPadUp.whileHeld(new RetractHangSubsystem(hangSubsystem, HangConstants.HANG_SPEED)); // slowly make it go up
@@ -156,8 +148,8 @@ public class RobotContainer {
     driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
     driveBumperL.whileActiveContinuous(new RetractHangSubsystem(hangSubsystem, HangConstants.LOWER_SPEED));
 
-    driverB.whenPressed(new InstantCommand(drivetrainSubsystem::toggleFieldOriented)); //Maybe call directly
-    driverX.whenPressed(new InstantCommand(drivetrainSubsystem::zeroGyroscope)); //Maybe call directly
+    driverB.whenPressed(drivetrainSubsystem::toggleFieldOriented);
+    driverX.whenPressed(drivetrainSubsystem::zeroGyroscope);
 
     driverRightTrigger.whenActive(drivetrainSubsystem::turboSpeed).whenInactive(drivetrainSubsystem::standardSpeed);
     driverLeftTrigger.whenActive(drivetrainSubsystem::slowSpeed).whenInactive(drivetrainSubsystem::standardSpeed);

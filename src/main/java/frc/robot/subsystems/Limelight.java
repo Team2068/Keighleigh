@@ -33,8 +33,7 @@ public class Limelight extends SubsystemBase {
     public double verticalOffset = 0; // Vertical Offset From Crosshair To Target -24.85 to 24.85 degrees
     public double targetArea = 0; // 0% of image to 100% of image
     public double skew = 0; // -90 degrees to 0 degree
-    public double latency = 0; // The pipeline’s latency contribution (ms) Add at least 11ms for image capture
-                               // latency.
+    public double latency = 0; // The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
     public double shortSideLength = 0; // Sidelength of shortest side of the fitted bounding box (pixels)
     public double longSideLength = 0; // Sidelength of longest side of the fitted bounding box (pixels)
     public double horizontalSideLength = 0; // Horizontal sidelength of the rough bounding box (0 - 320 pixels)
@@ -68,9 +67,6 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putString("Stream Mode", stream);
     SmartDashboard.putString("Camera Mode", cam);
     SmartDashboard.putNumber("Distance", getDistance());
-    // Test these 2 against each other to finally settle the issue
-    SmartDashboard.putNumber("Curve RPM", curveRPM());
-    SmartDashboard.putNumber("Line RPM", distanceToRpm());
 
     updateTargetData(table);
   }
@@ -128,7 +124,7 @@ public class Limelight extends SubsystemBase {
         break;
       }
     }
-    
+
     if (low == -1 ) return (distance * rpmTab[high])/distTab[high];
     
     if (high == distTab.length) return (distance * rpmTab[low])/distTab[low];
