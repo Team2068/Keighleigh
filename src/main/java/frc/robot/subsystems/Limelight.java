@@ -109,23 +109,21 @@ public class Limelight extends SubsystemBase {
 
   public double lerpRPM() {
     double distance = getDistance();
-    double[] table = ShooterConstants.distTable;
+    double[] xTable = ShooterConstants.distTable;
     double[] yTable = ShooterConstants.rpmTable;
 
     int low = 0;
     int high = 0;
 
-    for (int i = 0; i < table.length; i++) { // Reverse binary search
-      if (i == table.length/2) // return Lerp the low and high
-        return yTable[low] + (distance - table[low])*((yTable[high]- yTable[low])/(table[high]- table[low]));
-
-      if (distance < table[i] && table[i] < low)
+    for (int i = 0; i < xTable.length/2; i++) {
+      if (distance < xTable[i] && xTable[i] < low)
         low = i;
 
-      if (distance > table[table.length - i] && table[table.length - i] < high)
-        high = table.length - i;
+      if (distance > xTable[xTable.length - i] && xTable[xTable.length - i] < high)
+        high = xTable.length - i;
     }
-    return 2000; // Return the Low RPM preset
+    // return the lerp
+    return yTable[low] + (distance - xTable[low])*((yTable[high]- yTable[low])/(xTable[high]- xTable[low]));
   }
 
   // This works only for objects that are above or below the robot
