@@ -27,7 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
             ShooterConstants.kA);
 
     public ShooterSubsystem() {
-        flywheel1.setInverted(true);
+        ShooterConstants.configureTable();
 
         flywheel1.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
         flywheel2.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
@@ -44,6 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
         flywheel1.setIdleMode(IdleMode.kCoast);
         flywheel2.setIdleMode(IdleMode.kCoast);
 
+        flywheel1.setInverted(true);
         flywheel2.follow(flywheel1, true);
     }
 

@@ -7,10 +7,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.LimelightConstants;
-import edu.wpi.first.wpilibj.RobotState;
+import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTable;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight extends SubsystemBase {
@@ -22,16 +22,19 @@ public class Limelight extends SubsystemBase {
   public Limelight(int ledMode, int streamMode) {
     setLedMode(ledMode);
     setStreamMode(streamMode);
+
   }
 
-  // basically a struct that contains all of the targetData we're pulling from the limelight
+  // basically a struct that contains all of the targetData we're pulling from the
+  // limelight
   public class TargetData {
     public boolean hasTargets = false;
     public double horizontalOffset = 0; // Horizontal Offset From Crosshair To Target -29.8 to 29.8 degrees
     public double verticalOffset = 0; // Vertical Offset From Crosshair To Target -24.85 to 24.85 degrees
     public double targetArea = 0; // 0% of image to 100% of image
     public double skew = 0; // -90 degrees to 0 degree
-    public double latency = 0; // The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
+    public double latency = 0; // The pipeline’s latency contribution (ms) Add at least 11ms for image capture
+                               // latency.
     public double shortSideLength = 0; // Sidelength of shortest side of the fitted bounding box (pixels)
     public double longSideLength = 0; // Sidelength of longest side of the fitted bounding box (pixels)
     public double horizontalSideLength = 0; // Horizontal sidelength of the rough bounding box (0 - 320 pixels)
@@ -65,8 +68,8 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putString("Stream Mode", stream);
     SmartDashboard.putString("Camera Mode", cam);
     SmartDashboard.putNumber("Distance", getDistance());
-    //Test these 2 against each other to finally settle the issue
-    SmartDashboard.putNumber("Curve RPM", curveRPM()); 
+    // Test these 2 against each other to finally settle the issue
+    SmartDashboard.putNumber("Curve RPM", curveRPM());
     SmartDashboard.putNumber("Line RPM", distanceToRpm());
 
     updateTargetData(table);
@@ -91,17 +94,38 @@ public class Limelight extends SubsystemBase {
 
   public double distanceToRpm() {
     double distance = getDistance();
-    //double squared = distance * distance;
-    //double factor = 0.00714 * squared; 
+    // double squared = distance * distance;
+    // double factor = 0.00714 * squared;
     double factor = 2.67 * distance; // y = 3.4*x + 2392
     double rpm = factor + 2805; // 3100
     return rpm;
   }
 
-  public double curveRPM(){
+  public double curveRPM() {
     double distance = SmartDashboard.getNumber("Distance", 0);
     double squared = distance * distance;
-    return 0.00922451*squared + -2.11957*distance + 3450.01;
+    return 0.00922451 * squared + -2.11957 * distance + 3450.01;
+  }
+
+  public double lerpRPM() {
+    double distance = getDistance();
+    double[] table = ShooterConstants.distTable;
+    double[] yTable = ShooterConstants.rpmTable;
+
+    int low = 0;
+    int high = 0;
+
+    for (int i = 0; i < table.length; i++) { // Reverse binary search
+      if (i == table.length/2) // return Lerp the low and high
+        return yTable[low] + (distance - table[low])*((yTable[high]- yTable[low])/(table[high]- table[low]));
+
+      if (distance < table[i] && table[i] < low)
+        low = i;
+
+      if (distance > table[table.length - i] && table[table.length - i] < high)
+        high = table.length - i;
+    }
+    return 2000; // Return the Low RPM preset
   }
 
   // This works only for objects that are above or below the robot
@@ -112,9 +136,9 @@ public class Limelight extends SubsystemBase {
     double a1 = LimelightConstants.LIMELIGHT_ANGLE;
     double h1 = LimelightConstants.LIMELIGHT_HEIGHT;
     double h2 = 103 * 2.54; // UpperHub height in inches converted to cm
-    
-    double result = h2-h1;
-    double radians = Math.toRadians(a1+a2);
+
+    double result = h2 - h1;
+    double radians = Math.toRadians(a1 + a2);
     double distance = result / Math.tan(radians);
 
     return Math.abs(distance); // would return negative values if the angle was negative
