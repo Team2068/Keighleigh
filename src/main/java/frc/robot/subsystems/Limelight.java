@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotState;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -67,6 +68,7 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putString("Stream Mode", stream);
     SmartDashboard.putString("Camera Mode", cam);
     SmartDashboard.putNumber("Distance", getDistance());
+    RobotState.setEntryValue("Sensors", "Lerp RPM", lerpRPM());
 
     updateTargetData(table);
   }
@@ -119,7 +121,7 @@ public class Limelight extends SubsystemBase {
       }
 
       if (distance > distTab[distTab.length - i - 1]){ //If higher < dist -> higer is lower bound
-        low = distTab.length - i;
+        low = distTab.length - i - 1;
         high = low + 1;
         break;
       }
@@ -127,7 +129,7 @@ public class Limelight extends SubsystemBase {
 
     if (low == -1 ) return (distance * rpmTab[high])/distTab[high];
     
-    if (high == distTab.length) return (distance * rpmTab[low])/distTab[low];
+    if (high >= distTab.length) return (distance * rpmTab[low])/distTab[low];
     
     return rpmTab[low] + (distance - distTab[low])*((rpmTab[high]- rpmTab[low])/(distTab[high]- distTab[low]));
   }

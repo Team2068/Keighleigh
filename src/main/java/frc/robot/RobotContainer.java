@@ -115,11 +115,14 @@ public class RobotContainer {
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
-    mechB.whileHeld(() -> shooterSubsystem.setRPM(limelight.curveRPM()))
+    mechB.whenPressed(() -> shooterSubsystem.setRPM(limelight.lerpRPM()))
     .whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechX.whileHeld(() -> shooterSubsystem.setRPM(limelight.distanceToRpm()))
+    mechX.whileHeld(() -> shooterSubsystem.setRPM(4338))
     .whenInactive(shooterSubsystem::rampDownShooter);
+
+    // mechX.whileHeld(() -> shooterSubsystem.setRPM(limelight.distanceToRpm()))
+    // .whenInactive(shooterSubsystem::rampDownShooter);
 
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
