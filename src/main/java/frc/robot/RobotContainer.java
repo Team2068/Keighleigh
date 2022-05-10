@@ -163,7 +163,7 @@ public class RobotContainer {
     ));
     //autonomousChooser.addOption("Red 4 Ball", new RedFourBallAuto(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem, conveyorSubsystem));
     autonomousChooser.addOption("2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
-    autonomousChooser.setDefaultOption("test", new Paths(TrajectoryPaths.TestPath, drivetrainSubsystem));
+    // autonomousChooser.setDefaultOption("test", new Paths(TrajectoryPaths.TestPath, drivetrainSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
 
