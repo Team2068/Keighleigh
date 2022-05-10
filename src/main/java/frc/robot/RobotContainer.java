@@ -21,9 +21,7 @@ import frc.robot.Constants.HangConstants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.*;
-import frc.robot.commands.Autonomous.LowAuto;
-import frc.robot.commands.Autonomous.RedTwoBallHighGoal;
-import frc.robot.commands.Autonomous.TimedAutoDrive;
+import frc.robot.commands.Autonomous.*;
 import frc.robot.commands.Deprecated.MoveConveyor;
 import frc.robot.commands.Deprecated.ReverseIntake;
 import frc.robot.subsystems.*;
@@ -63,9 +61,9 @@ public class RobotContainer {
     // Right stick X axis -> rotation
     drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
         drivetrainSubsystem,
-        () -> modifyAxis(driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> modifyAxis(driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> modifyAxis(driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+        () -> modifyAxis(-driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> modifyAxis(-driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> modifyAxis(-driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
     SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
     SmartDashboard.putData("Switch Pipeline", new SwitchPipeline(limelight));
@@ -160,13 +158,12 @@ public class RobotContainer {
         new LowAuto(shooterSubsystem, conveyorSubsystem),
         new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1)));
     autonomousChooser.addOption("High Auto", new SequentialCommandGroup(
-        new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
-        new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem)));
-    // autonomousChooser.addOption("Red 4 Ball", new
-    // RedFourBallAuto(intakeSubsystem, limelight, drivetrainSubsystem,
-    // shooterSubsystem, conveyorSubsystem));
-    autonomousChooser.setDefaultOption("2 Ball High Auto",
-        new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
+      new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
+      new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem)
+    ));
+    //autonomousChooser.addOption("Red 4 Ball", new RedFourBallAuto(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem, conveyorSubsystem));
+    autonomousChooser.addOption("2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
+    autonomousChooser.setDefaultOption("test", new Paths(TrajectoryPaths.TestPath, drivetrainSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
 
