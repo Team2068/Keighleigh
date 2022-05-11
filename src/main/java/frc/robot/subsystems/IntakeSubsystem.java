@@ -1,13 +1,13 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import com.revrobotics.*;
+import frc.robot.Constants.IntakeConstants;
+
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -18,18 +18,12 @@ public class IntakeSubsystem extends SubsystemBase {
   private DoubleSolenoid intakeSolenoid2 = new DoubleSolenoid(PneumaticsModuleType.REVPH,
       IntakeConstants.FORWARD_CHANNEL_2, IntakeConstants.REVERSE_CHANNEL_2);
   public boolean pistonsForward = false;
-  // private DigitalInput toplimitSwitch = new DigitalInput(0);
   CANSparkMax intake = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushed);
-
-  // private Color enemyBallColor = Color.kRed;
-
-  // private ColorSensor colorSensor = new ColorSensor();
 
   public IntakeSubsystem() {
     intake.setIdleMode(IdleMode.kCoast);
     intake.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
     intake.setInverted(true);
-    // intakeSolenoid.set(Value.kOff);
   }
 
   public void reverseIntake(double speed) {
@@ -46,11 +40,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void controlIntakeSolenoids() {
     pistonsForward = !pistonsForward;
-    if (pistonsForward) {
+    if (pistonsForward)
       retractIntake();
-    } else {
+    else
       deployIntake();
-    }
   }
 
   public void deployIntake() {
@@ -64,11 +57,5 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // Spit out enemy ball (enemy color not set yet, should be set through
-    // // smartdashboard)
-    // if (colorSensor.getColorLower() == enemyBallColor) {
-    //   this.reverseIntake(IntakeConstants.INTAKE_SPEED);
-    // }
-  }
+  public void periodic() {}
 }

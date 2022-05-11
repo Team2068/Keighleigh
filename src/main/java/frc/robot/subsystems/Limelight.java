@@ -6,11 +6,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotState;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight extends SubsystemBase {
@@ -22,9 +23,11 @@ public class Limelight extends SubsystemBase {
   public Limelight(int ledMode, int streamMode) {
     setLedMode(ledMode);
     setStreamMode(streamMode);
+
   }
 
-  // basically a struct that contains all of the targetData we're pulling from the limelight
+  // basically a struct that contains all of the targetData we're pulling from the
+  // limelight
   public class TargetData {
     public boolean hasTargets = false;
     public double horizontalOffset = 0; // Horizontal Offset From Crosshair To Target -29.8 to 29.8 degrees
@@ -65,6 +68,8 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putString("Stream Mode", stream);
     SmartDashboard.putString("Camera Mode", cam);
     SmartDashboard.putNumber("Distance", getDistance());
+    RobotState.setEntryValue("Sensors", "Lerp RPM", lerpRPM());
+
     updateTargetData(table);
   }
 
@@ -87,11 +92,46 @@ public class Limelight extends SubsystemBase {
 
   public double distanceToRpm() {
     double distance = getDistance();
-    //double squared = distance * distance;
-    //double factor = 0.00714 * squared; // y = 3.4*x + 2392
-    double factor = 2.67 * distance;
+    // double squared = distance * distance;
+    // double factor = 0.00714 * squared;
+    double factor = 2.67 * distance; // y = 3.4*x + 2392
     double rpm = factor + 2805; // 3100
     return rpm;
+  }
+
+  public double curveRPM() {
+    double distance = getDistance();
+    double squared = distance * distance;
+    return 0.00922451 * squared + -2.11957 * distance + 3450.01;
+  }
+
+  public double lerpRPM() {
+    double distance = getDistance();
+    double[] distTab = ShooterConstants.distTable;
+    double[] rpmTab = ShooterConstants.rpmTable;
+
+    int low = 0;
+    int high = 0;
+
+    for (int i = 0; i < distTab.length >> 1; i++) {
+      if (distance < distTab[i]){ //If lower > dist -> upper bound found
+        high = i; 
+        low = i-1;
+        break;
+      }
+
+      if (distance > distTab[distTab.length - i - 1]){ //If higher < dist -> higer is lower bound
+        low = distTab.length - i - 1;
+        high = low + 1;
+        break;
+      }
+    }
+
+    if (low == -1 ) return (distance * rpmTab[high])/distTab[high];
+    
+    if (high >= distTab.length) return (distance * rpmTab[low])/distTab[low];
+    
+    return rpmTab[low] + (distance - distTab[low])*((rpmTab[high]- rpmTab[low])/(distTab[high]- distTab[low]));
   }
 
   // This works only for objects that are above or below the robot
@@ -102,9 +142,9 @@ public class Limelight extends SubsystemBase {
     double a1 = LimelightConstants.LIMELIGHT_ANGLE;
     double h1 = LimelightConstants.LIMELIGHT_HEIGHT;
     double h2 = 103 * 2.54; // UpperHub height in inches converted to cm
-    
-    double result = h2-h1;
-    double radians = Math.toRadians(a1+a2);
+
+    double result = h2 - h1;
+    double radians = Math.toRadians(a1 + a2);
     double distance = result / Math.tan(radians);
 
     return Math.abs(distance); // would return negative values if the angle was negative

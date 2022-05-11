@@ -4,12 +4,10 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlanner;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 
 public final class Constants {
     //PID constants
@@ -25,10 +23,27 @@ public final class Constants {
         public final static double kS = 0.13243;
         public final static double kV = 0.12573;
         public final static double kA = 0.0058814;
-        public final static double kP = 0.10976;
+        public final static double kP = 0.0005; //0.10976
         public final static double LOWER_HUB_RPM = 1800;
         public final static double UPPER_HUB_FALLBACK_RPM = 3900; // use this if the limelight doesnt work
+        public final static double[] distTable = new double[5];
+        public final static double[] rpmTable = new double[5];
+        public final static void configureTable(){
+            distTable[0] = 220;
+            rpmTable[0] = 3400;
 
+            distTable[1] = 300;
+            rpmTable[1] = 3700;
+
+            distTable[2] = 380;
+            rpmTable[2] = 4000;
+
+            distTable[3] = 464;
+            rpmTable[3] = 4300;
+
+            distTable[4] = 500;
+            rpmTable[4] = 4800;
+        }
         // DISTANCE(CM) | VELOCITY (RPM)
         // 220		3400
         // 300		3700

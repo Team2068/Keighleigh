@@ -20,33 +20,11 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.HangConstants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.TrajectoryPaths;
-import frc.robot.commands.AimAndFire;
-import frc.robot.commands.AimShotCalculated;
-import frc.robot.commands.AimShotPID;
-import frc.robot.commands.ControlIntakeSolenoids;
-import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.ExtendHangSubsystem;
-import frc.robot.commands.HighAuto;
-import frc.robot.commands.IntakeBall;
-import frc.robot.commands.Paths;
-import frc.robot.commands.RedFourBallAuto;
-import frc.robot.commands.Autonomous.LowAuto;
-import frc.robot.commands.Autonomous.RedTwoBallHighGoal;
-import frc.robot.commands.RetractHangSubsystem;
-import frc.robot.commands.SpitOutBall;
-import frc.robot.commands.SwitchPipeline;
-import frc.robot.commands.ToggleCameraMode;
-import frc.robot.commands.ToggleStreamMode;
-import frc.robot.commands.Autonomous.TimedAutoDrive;
+import frc.robot.commands.*;
+import frc.robot.commands.Autonomous.*;
 import frc.robot.commands.Deprecated.MoveConveyor;
 import frc.robot.commands.Deprecated.ReverseIntake;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.HangSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.*;
 import frc.robot.util.DPadButton;
 
 /**
@@ -135,31 +113,35 @@ public class RobotContainer {
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
-    mechB.whenHeld(new AimShotCalculated(shooterSubsystem, limelight))
-        .whenInactive(shooterSubsystem::rampDownShooter);
+    mechB.whenPressed(() -> shooterSubsystem.setRPM(limelight.lerpRPM()))
+    .whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechX.whenHeld(new AimShotPID(shooterSubsystem, ShooterConstants.LOWER_HUB_RPM), true)
-        .whenInactive(shooterSubsystem::rampDownShooter);
+    mechX.whileHeld(() -> shooterSubsystem.setRPM(4338))
+    .whenInactive(shooterSubsystem::rampDownShooter);
+
+    // mechX.whileHeld(() -> shooterSubsystem.setRPM(limelight.distanceToRpm()))
+    // .whenInactive(shooterSubsystem::rampDownShooter);
 
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
     mechA.whenPressed(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM))
         .whenInactive(shooterSubsystem::rampDownShooter);
 
-    driverA.whenPressed(new ControlIntakeSolenoids(intakeSubsystem));
+    driverA.whenPressed(intakeSubsystem::controlIntakeSolenoids);
 
     dPadUp.whileHeld(new RetractHangSubsystem(hangSubsystem, HangConstants.HANG_SPEED)); // slowly make it go up
     dPadDown.toggleWhenActive(new RetractHangSubsystem(hangSubsystem, -0.1)); // hold the robot in position
 
     driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
     driveBumperL.whileActiveContinuous(new RetractHangSubsystem(hangSubsystem, HangConstants.LOWER_SPEED));
-  
-    driverB.whenPressed(new InstantCommand(drivetrainSubsystem::toggleFieldOriented));
-    driverX.whenPressed(new InstantCommand(drivetrainSubsystem::zeroGyroscope));
+
+    driverB.whenPressed(drivetrainSubsystem::toggleFieldOriented);
+    driverX.whenPressed(drivetrainSubsystem::zeroGyroscope);
 
     driverRightTrigger.whenActive(drivetrainSubsystem::turboSpeed).whenInactive(drivetrainSubsystem::standardSpeed);
     driverLeftTrigger.whenActive(drivetrainSubsystem::slowSpeed).whenInactive(drivetrainSubsystem::standardSpeed);
   }
+
   /**
    * Use this to pass thex autonomous command to the main {@link Robot} class.
    * 
@@ -167,9 +149,11 @@ public class RobotContainer {
    */
 
   public void setUpAutonomousChooser() {
-    //autonomousChooser.setDefaultOption("SixBallAuto", new SixBallAutoBlue(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem));
+    // autonomousChooser.setDefaultOption("SixBallAuto", new
+    // SixBallAutoBlue(intakeSubsystem, limelight, drivetrainSubsystem,
+    // shooterSubsystem));
     autonomousChooser.addOption("Low Auto", new LowAuto(shooterSubsystem, conveyorSubsystem));
-   
+
     autonomousChooser.addOption("Throw it Back", new SequentialCommandGroup(
         new LowAuto(shooterSubsystem, conveyorSubsystem),
         new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1)));
@@ -179,7 +163,7 @@ public class RobotContainer {
     ));
     //autonomousChooser.addOption("Red 4 Ball", new RedFourBallAuto(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem, conveyorSubsystem));
     autonomousChooser.addOption("2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
-    autonomousChooser.setDefaultOption("test", new Paths(TrajectoryPaths.TestPath, drivetrainSubsystem));
+    // autonomousChooser.setDefaultOption("test", new Paths(TrajectoryPaths.TestPath, drivetrainSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
 
