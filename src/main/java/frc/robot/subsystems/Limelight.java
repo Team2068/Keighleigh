@@ -23,7 +23,6 @@ public class Limelight extends SubsystemBase {
   public Limelight(int ledMode, int streamMode) {
     setLedMode(ledMode);
     setStreamMode(streamMode);
-
   }
 
   // basically a struct that contains all of the targetData we're pulling from the
