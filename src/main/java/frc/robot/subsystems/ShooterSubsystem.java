@@ -50,14 +50,6 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setRPM(double speed) {
-        SmartDashboard.putNumber("Flywheel Set Point", speed);
-        flywheel1.getPIDController().setReference(speed, ControlType.kVelocity);
-        flywheel2.getPIDController().setReference(speed, ControlType.kVelocity);
-    }
-
-    public void setRPM(){
-        double speed = encoder.getVelocity() + 200; 
-        SmartDashboard.putNumber("Flywheel Set Point", speed);
         flywheel1.getPIDController().setReference(speed, ControlType.kVelocity);
         flywheel2.getPIDController().setReference(speed, ControlType.kVelocity);
     }
