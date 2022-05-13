@@ -59,7 +59,7 @@ public final class Constants {
      * Should be measured from center to center.
      */
     
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.495; // FIXME Measure and set trackwidth
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.495;
     public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = .5;
     public static final double DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = .5;
     /**
@@ -115,34 +115,25 @@ public final class Constants {
 
         public static final double LIFT_HEIGHT = 53.29;
     }
-    public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7; // FIXME Set front left module drive motor ID
-    public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 6; // FIXME Set front left module steer motor ID
-    public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 18; // FIXME Set front left steer encoder ID
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(256); // FIXME Measure and set front
+    public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7;
+    public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 6;
+    public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 18;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(256);
 
-    public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5; // FIXME Set front right drive motor ID
-    public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 4; // FIXME Set front right steer motor ID
-    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 17; // FIXME Set front right steer encoder ID
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(142); // FIXME Measure and set front
-                                                                                       // right steer offset
+    public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5;
+    public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 4;
+    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 17;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(142); // right steer offset
 
-    public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 9; // FIXME Set back left drive motor ID
-    public static final int BACK_LEFT_MODULE_STEER_MOTOR = 8; // FIXME Set back left steer motor ID
-    public static final int BACK_LEFT_MODULE_STEER_ENCODER = 19; // FIXME Set back left steer encoder ID
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(125); // FIXME Measure and set back left
-                                                                                     // steer offset
+    public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 9;
+    public static final int BACK_LEFT_MODULE_STEER_MOTOR = 8;
+    public static final int BACK_LEFT_MODULE_STEER_ENCODER = 19;
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(125); // steer offset
 
-    public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR =  3; // FIXME Set back right drive motor ID
-    public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 2; // FIXME Set back right steer motor ID
-    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 16; // FIXME Set back right steer encoder ID
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(180); // FIXME Measure and set back right
-                                                                                    // steer offset
-    public final static class GameElementConstants {
-        public final static double UPPER_HUB = 2.64; // meters
-        public final static double LOWER_HUB = 1.04; // meters
-        public final static double HIGH_HEIGHT = UPPER_HUB; // Subtract by robot height
-        public final static double LOW_HEIGHT = LOWER_HUB;
-    }
+    public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR =  3;
+    public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 2;
+    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 16;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(180); // steer offset
 
     public final static class AimbotConstants {
         public static final double baseSpeed = 0.1;
@@ -189,11 +180,6 @@ public final class Constants {
             public final static int NO_SNAPSHOT = 0;
             public final static int TWO_SNAPSHOTS = 1;
         }
-
-        // public static enum SnapshotMode{
-        //     NO_SNAPSHOT,
-        //     TWO_SNAPSHOTS,
-        // }
 
         public final static class Pipelines {
             public final static int REFLECTIVE_TAPE = 0;
