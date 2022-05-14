@@ -1,8 +1,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Deprecated.MoveConveyor;
-import frc.robot.commands.Deprecated.ShooterOff;
+import frc.robot.Deprecated.ShooterOff;
+import frc.robot.commands.Mechanisms.MoveConveyor;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystem;

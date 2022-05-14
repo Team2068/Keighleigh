@@ -26,11 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intake.setInverted(true);
   }
 
-  public void reverseIntake(double speed) {
-    intake.set(speed);
-  }
-
-  public void intakeBall(double speed) {
+  public void moveIntake(double speed) {
     intake.set(speed);
   }
 
@@ -38,7 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intake.set(0);
   }
 
-  public void controlIntakeSolenoids() {
+  public void toggleIntake() {
     pistonsForward = !pistonsForward;
     if (pistonsForward)
       retractIntake();
@@ -55,7 +51,4 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeSolenoid.set(Value.kReverse);
     intakeSolenoid2.set(Value.kReverse);
   }
-
-  @Override
-  public void periodic() {}
 }

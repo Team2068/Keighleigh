@@ -18,7 +18,7 @@ public class TakeInBall extends CommandBase {
     @Override
     public void execute(){
         conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED);
-        intakeSubsystem.intakeBall(IntakeConstants.INTAKE_SPEED);
+        intakeSubsystem.moveIntake(IntakeConstants.INTAKE_SPEED);
     }
 
     @Override

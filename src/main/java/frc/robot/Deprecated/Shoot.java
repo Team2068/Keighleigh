@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.Deprecated;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

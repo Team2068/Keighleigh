@@ -18,6 +18,6 @@ public class ControlIntakeSolenoids extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.controlIntakeSolenoids();
+    intakeSubsystem.toggleIntake();
   }
 }

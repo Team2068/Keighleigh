@@ -14,7 +14,7 @@ public class IntakeBall extends CommandBase {
     }
     @Override
     public void execute(){
-        intakeSubsystem.intakeBall(IntakeConstants.INTAKE_SPEED);
+        intakeSubsystem.moveIntake(IntakeConstants.INTAKE_SPEED);
     }
 
     @Override

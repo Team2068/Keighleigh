@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -22,8 +24,8 @@ import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.Autonomous.*;
-import frc.robot.commands.Deprecated.MoveConveyor;
-import frc.robot.commands.Deprecated.ReverseIntake;
+import frc.robot.commands.Mechanisms.MoveConveyor;
+import frc.robot.commands.Mechanisms.ReverseIntake;
 import frc.robot.subsystems.*;
 import frc.robot.util.DPadButton;
 
@@ -45,6 +47,7 @@ public class RobotContainer {
   private final XboxController driverController = new XboxController(0);
   private final XboxController mechanismController = new XboxController(1);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final Photon photon = new Photon("Photon");
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
       LimelightConstants.CamMode.VISION);
   // private final ColorSensor colorSensor = new ColorSensor();
@@ -64,11 +67,11 @@ public class RobotContainer {
         () -> modifyAxis(-driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(-driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(-driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
-    SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
-    SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
-    SmartDashboard.putData("Switch Pipeline", new SwitchPipeline(limelight));
-    SmartDashboard.putData("zero gyro", new InstantCommand(drivetrainSubsystem::zeroGyroscope));
-    SmartDashboard.putData("reset odometry", new InstantCommand(drivetrainSubsystem::resetOdometry));
+    // SmartDashboard.putData("Toggle Stream Mode", new InstantCommand(photon::Stream));
+    SmartDashboard.putData("Toggle Camera Mode", new InstantCommand(photon::ToggleCamMode));
+    SmartDashboard.putData("Switch Pipeline", new InstantCommand(photon::SwitchPipeline));
+    SmartDashboard.putData("Zero Gyro", new InstantCommand(drivetrainSubsystem::zeroGyroscope));
+    SmartDashboard.putData("Reset Odometry", new InstantCommand(drivetrainSubsystem::resetOdometry));
     setUpAutonomousChooser();
     // Configure the button bindings
     configureButtonBindings();
@@ -116,18 +119,15 @@ public class RobotContainer {
     mechB.whenPressed(() -> shooterSubsystem.setRPM(limelight.lerpRPM()))
     .whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechX.whileHeld(() -> shooterSubsystem.setRPM(4338))
-    .whenInactive(shooterSubsystem::rampDownShooter);
-
-    // mechX.whileHeld(() -> shooterSubsystem.setRPM(limelight.distanceToRpm()))
-    // .whenInactive(shooterSubsystem::rampDownShooter);
+    // mechX.whileHeld(() -> shooterSubsystem.setRPM(4338))
+    // .whenInactive(shooterSubsystem::rampDownShooter)
 
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
-    mechA.whenPressed(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM))
+    mechA.whenActive(() -> shooterSubsystem.setRPM(ShooterConstants.UPPER_HUB_FALLBACK_RPM))
         .whenInactive(shooterSubsystem::rampDownShooter);
 
-    driverA.whenPressed(intakeSubsystem::controlIntakeSolenoids);
+    driverA.whenPressed(intakeSubsystem::toggleIntake);
 
     dPadUp.whileHeld(new RetractHangSubsystem(hangSubsystem, HangConstants.HANG_SPEED)); // slowly make it go up
     dPadDown.toggleWhenActive(new RetractHangSubsystem(hangSubsystem, -0.1)); // hold the robot in position
@@ -168,7 +168,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    System.out.println("getAutonomousCommand");
     return autonomousChooser.getSelected();
   }
 

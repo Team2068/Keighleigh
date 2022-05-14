@@ -5,8 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotState;
 import frc.robot.Constants.ConveyorConstants;
+import frc.robot.Deprecated.RobotState;
 import frc.robot.subsystems.ConveyorSubsystem;
 
 public class AdjustConveyor extends CommandBase {

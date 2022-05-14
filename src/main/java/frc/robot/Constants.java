@@ -184,6 +184,7 @@ public final class Constants {
         public final static class Pipelines {
             public final static int REFLECTIVE_TAPE = 0;
             public final static int BRIGHT = 1;
+            public final static int FIDICIAL = 2;
         }
 
         public final static double LIMELIGHT_HEIGHT = 34.5 * 2.54; // Converting from inches to cm

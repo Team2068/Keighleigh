@@ -16,7 +16,7 @@ public class SpitOutBall extends CommandBase{
     }
     @Override
     public void initialize(){
-        intakeSubsystem.reverseIntake(IntakeConstants.SPIT_OUT_BALL);
+        intakeSubsystem.moveIntake(IntakeConstants.SPIT_OUT_BALL);
         conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED * -1);
     }
 

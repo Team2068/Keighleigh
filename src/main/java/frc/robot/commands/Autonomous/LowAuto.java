@@ -1,9 +1,9 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Deprecated.ShooterOff;
 import frc.robot.commands.AimShotPID;
-import frc.robot.commands.Deprecated.MoveConveyor;
-import frc.robot.commands.Deprecated.ShooterOff;
+import frc.robot.commands.Mechanisms.MoveConveyor;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 

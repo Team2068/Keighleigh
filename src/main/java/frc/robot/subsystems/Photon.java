@@ -100,9 +100,23 @@ public class Photon extends SubsystemBase{
     @Override
     public void periodic(){
         targetData = camera.getLatestResult();
-        
-        distance = getDistance();
+
+        distance = getDistance(); // Upload to Robot State
         horizontalOffset = targetData.getBestTarget().getYaw();
         verticalOffset = targetData.getBestTarget().getPitch();
+    }
+
+    // Specilized Functions
+    public void ToggleCamMode(){
+        camera.setDriverMode(!camera.getDriverMode());
+    }
+
+    public void SwitchPipeline(){
+        int idx = camera.getPipelineIndex();
+
+        if (idx < LimelightConstants.Pipelines.FIDICIAL)
+            camera.setPipelineIndex(idx+1);
+        else
+            camera.setPipelineIndex(0);
     }
 }
