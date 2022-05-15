@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.time.Instant;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -26,6 +24,7 @@ import frc.robot.commands.*;
 import frc.robot.commands.Autonomous.*;
 import frc.robot.commands.Mechanisms.MoveConveyor;
 import frc.robot.commands.Mechanisms.ReverseIntake;
+import frc.robot.commands.Mechanisms.SpitOutBall;
 import frc.robot.subsystems.*;
 import frc.robot.util.DPadButton;
 
@@ -40,22 +39,19 @@ import frc.robot.util.DPadButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
+  private final XboxController mechanismController = new XboxController(1);
+  private final XboxController driverController = new XboxController(0);
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final HangSubsystem hangSubsystem = new HangSubsystem();
-  private final XboxController driverController = new XboxController(0);
-  private final XboxController mechanismController = new XboxController(1);
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final Photon photon = new Photon("Photon");
+  // private final ColorSensor colorSensor = new ColorSensor();
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
       LimelightConstants.CamMode.VISION);
-  // private final ColorSensor colorSensor = new ColorSensor();
-  private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
@@ -67,7 +63,8 @@ public class RobotContainer {
         () -> modifyAxis(-driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(-driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(-driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
-    // SmartDashboard.putData("Toggle Stream Mode", new InstantCommand(photon::Stream));
+    // SmartDashboard.putData("Toggle Stream Mode", new
+    // InstantCommand(photon::Stream));
     SmartDashboard.putData("Toggle Camera Mode", new InstantCommand(photon::ToggleCamMode));
     SmartDashboard.putData("Switch Pipeline", new InstantCommand(photon::SwitchPipeline));
     SmartDashboard.putData("Zero Gyro", new InstantCommand(drivetrainSubsystem::zeroGyroscope));
@@ -117,10 +114,10 @@ public class RobotContainer {
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
     mechB.whenPressed(() -> shooterSubsystem.setRPM(limelight.lerpRPM()))
-    .whenInactive(shooterSubsystem::rampDownShooter);
+        .whenInactive(shooterSubsystem::rampDownShooter);
 
-    // mechX.whileHeld(() -> shooterSubsystem.setRPM(4338))
-    // .whenInactive(shooterSubsystem::rampDownShooter)
+    mechX.whileHeld(() -> photon.adjustGyroDrift(drivetrainSubsystem.getGyroRotation().getDegrees(),
+        drivetrainSubsystem::setGyroDrift));
 
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
@@ -142,12 +139,6 @@ public class RobotContainer {
     driverLeftTrigger.whenActive(drivetrainSubsystem::slowSpeed).whenInactive(drivetrainSubsystem::standardSpeed);
   }
 
-  /**
-   * Use this to pass thex autonomous command to the main {@link Robot} class.
-   * 
-   * @return the command to run in autonomous
-   */
-
   public void setUpAutonomousChooser() {
     // autonomousChooser.setDefaultOption("SixBallAuto", new
     // SixBallAutoBlue(intakeSubsystem, limelight, drivetrainSubsystem,
@@ -158,12 +149,15 @@ public class RobotContainer {
         new LowAuto(shooterSubsystem, conveyorSubsystem),
         new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1)));
     autonomousChooser.addOption("High Auto", new SequentialCommandGroup(
-      new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
-      new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem)
-    ));
-    //autonomousChooser.addOption("Red 4 Ball", new RedFourBallAuto(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem, conveyorSubsystem));
-    autonomousChooser.addOption("2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
-    // autonomousChooser.setDefaultOption("test", new Paths(TrajectoryPaths.TestPath, drivetrainSubsystem));
+        new TimedAutoDrive(drivetrainSubsystem, new ChassisSpeeds(3, 0, 0), 1),
+        new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem)));
+    // autonomousChooser.addOption("Red 4 Ball", new
+    // RedFourBallAuto(intakeSubsystem, limelight, drivetrainSubsystem,
+    // shooterSubsystem, conveyorSubsystem));
+    autonomousChooser.addOption("2 Ball High Auto",
+        new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
+    // autonomousChooser.setDefaultOption("test", new
+    // Paths(TrajectoryPaths.TestPath, drivetrainSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
 

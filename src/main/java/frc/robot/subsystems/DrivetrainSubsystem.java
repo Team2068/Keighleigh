@@ -84,7 +84,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         private final AHRS m_navx = new AHRS(Port.kUSB); // NavX connected over MXP
 
         SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics,
-                        getGyroscopeRotation(), new Pose2d(0, 0, new Rotation2d()));
+                        getGyroRotation(), new Pose2d(0, 0, new Rotation2d()));
 
         // These are our modules. We initialize them in the constructor.
         private final SwerveModule m_frontLeftModule;
@@ -173,11 +173,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                 BACK_RIGHT_MODULE_STEER_OFFSET);
         }
 
-        /**
-         * Sets the gyroscope angle to zero. This can be used to set the direction the
-         * robot is currently facing to the
-         * 'forwards' direction.
-         */
         public void zeroGyroscope() {
                 m_navx.zeroYaw();
         }
@@ -186,7 +181,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 return m_kinematics;
         }
 
-        public Rotation2d getGyroscopeRotation() {
+        public void setGyroDrift(double error){
+                m_navx.setAngleAdjustment(error);
+        }
+
+        public Rotation2d getGyroRotation() {
                 // if (m_navx.isMagnetometerCalibrated()) {
                 //         // We will only get valid fused headings if the magnetometer is calibrated
                 //         return Rotation2d.fromDegrees(m_navx.getFusedHeading());
@@ -210,7 +209,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 	 */
 	public void resetOdometry() {
                 zeroGyroscope();
-		m_odometry.resetPosition(new Pose2d(), getGyroscopeRotation());
+		m_odometry.resetPosition(new Pose2d(), getGyroRotation());
 	}
 
 	/**
@@ -231,7 +230,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                 states[2].angle.getRadians());
                 m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
-                m_odometry.update(getGyroscopeRotation(), states);
+                m_odometry.update(getGyroRotation(), states);
         }
 
         public boolean getFieldOriented() {

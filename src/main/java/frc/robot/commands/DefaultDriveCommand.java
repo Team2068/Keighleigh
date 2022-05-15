@@ -42,7 +42,7 @@ public class DefaultDriveCommand extends CommandBase {
         // You can use `new ChassisSpeeds(...)` for robot-oriented movement instead of field-oriented movement
         
         if(m_drivetrainSubsystem.getFieldOriented()) {
-            m_drivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, Rotation2d.fromDegrees(m_drivetrainSubsystem.getGyroscopeRotation().getDegrees())));
+            m_drivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, Rotation2d.fromDegrees(m_drivetrainSubsystem.getGyroRotation().getDegrees())));
         } else {
             m_drivetrainSubsystem.drive(new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed));
         }

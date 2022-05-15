@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Mechanisms;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;

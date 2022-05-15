@@ -47,7 +47,7 @@ public class TimedAutoDrive extends CommandBase {
               speeds.vxMetersPerSecond,
               speeds.vyMetersPerSecond,
               speeds.omegaRadiansPerSecond,
-              drivetrainSubsystem.getGyroscopeRotation()));
+              drivetrainSubsystem.getGyroRotation()));
     } else {
       drivetrainSubsystem.drive(
           new ChassisSpeeds(
