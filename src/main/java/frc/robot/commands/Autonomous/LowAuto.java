@@ -1,7 +1,7 @@
 package frc.robot.commands.Autonomous;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Deprecated.ShooterOff;
 import frc.robot.commands.AimShotPID;
 import frc.robot.commands.Mechanisms.MoveConveyor;
 import frc.robot.subsystems.ConveyorSubsystem;
@@ -17,7 +17,7 @@ public class LowAuto extends SequentialCommandGroup {
             new MoveConveyor(conveyorSubsystem).withTimeout(2),
             //moves conveyor for two seconds to ensure that the 
             //ball is expelled from the robot
-            new ShooterOff(shooterSubsystem)
+            new InstantCommand(shooterSubsystem::rampDownShooter)
             //turns off shooter so as not to drain battery
             //uneccessarily
             );

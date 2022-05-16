@@ -2,12 +2,11 @@ package frc.robot.subsystems;
 
 import java.util.function.Consumer;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimelightConstants;
@@ -25,20 +24,14 @@ public class Photon extends SubsystemBase {
         camera = new PhotonCamera(net_name);
     }
 
-    public void adjustGyroDrift(double gyroAngle, Consumer<Double> result) {
+    public void adjustGyroDrift(Rotation2d gyroAngle, Consumer<Double> result) {
         camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
-        
-        // double gyro_estimate_x = (Math.cos(gyroAngle) * distance);
-        // double gyro_estimate_y = Math.sin(gyroAngle) * distance;
 
-        // double approximate_x = (Math.cos(camOffset) * distance);
-        // double approximate_y = Math.sin(camOffset) * distance;
+        double gyro_error_x = (gyroAngle.getCos() * distance) - (Math.cos(xOffset) * distance);
+        double gyro_error_y = (gyroAngle.getSin() * distance) - (Math.sin(xOffset) * distance);
 
-        double gyro_error_x = (Math.cos(gyroAngle) * distance) - (Math.cos(xOffset) * distance);
-        double gyro_error_y = (Math.sin(gyroAngle) * distance) - (Math.sin(xOffset) * distance);
-
-        if (gyro_error_x > 1 || gyro_error_y > 1) // 1 is placeholder margin of error
-            result.accept(-(Math.atan(gyro_error_y / gyro_error_x))); // Adjust Gyro by Error
+        if (gyro_error_x > 1 || gyro_error_y > 1)
+            result.accept(-(Math.atan(gyro_error_y / gyro_error_x)));
         
         camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
     }

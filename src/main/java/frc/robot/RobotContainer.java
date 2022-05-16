@@ -18,13 +18,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.HangConstants;
-import frc.robot.Constants.LimelightConstants;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.Autonomous.*;
-import frc.robot.commands.Mechanisms.MoveConveyor;
-import frc.robot.commands.Mechanisms.ReverseIntake;
-import frc.robot.commands.Mechanisms.SpitOutBall;
+import frc.robot.commands.Mechanisms.*;
 import frc.robot.subsystems.*;
 import frc.robot.util.DPadButton;
 
@@ -49,8 +45,7 @@ public class RobotContainer {
   private final HangSubsystem hangSubsystem = new HangSubsystem();
   private final Photon photon = new Photon("Photon");
   // private final ColorSensor colorSensor = new ColorSensor();
-  private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
-      LimelightConstants.CamMode.VISION);
+  private final Limelight limelight = new Limelight();
 
   public RobotContainer() {
     // Set up the default command for the drivetrain.
@@ -69,6 +64,10 @@ public class RobotContainer {
     SmartDashboard.putData("Switch Pipeline", new InstantCommand(photon::SwitchPipeline));
     SmartDashboard.putData("Zero Gyro", new InstantCommand(drivetrainSubsystem::zeroGyroscope));
     SmartDashboard.putData("Reset Odometry", new InstantCommand(drivetrainSubsystem::resetOdometry));
+    SmartDashboard.putData("Adjsut Odometry", new InstantCommand(
+        () -> photon.adjustOdometry(drivetrainSubsystem.getPose(), drivetrainSubsystem::resetOdometryWithPose2d)));
+    SmartDashboard.putData("Adjust Gyro Drift", new InstantCommand(() -> photon
+        .adjustGyroDrift(drivetrainSubsystem.getGyroRotation(), drivetrainSubsystem::setGyroDrift)));
     setUpAutonomousChooser();
     // Configure the button bindings
     configureButtonBindings();
@@ -107,36 +106,42 @@ public class RobotContainer {
     JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
     DPadButton dPadUp = new DPadButton(driverController, DPadButton.Direction.UP);
     DPadButton dPadDown = new DPadButton(driverController, DPadButton.Direction.DOWN);
+    DPadButton dPadRight = new DPadButton(driverController, DPadButton.Direction.RIGHT);
+    // DPadButton dPadLeft = new DPadButton(driverController,
+    // DPadButton.Direction.LEFT);
 
-    mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
-    mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
+    mechRightTrigger.whenActive(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
+
+    mechBumperL.whenHeld(new IntakeBall(intakeSubsystem)); // change to while held if any issues occur\
+    mechBumperR.whenHeld(new MoveConveyor(conveyorSubsystem));
+
     mechY.whileHeld(new ReverseIntake(intakeSubsystem));
 
-    mechB.whenPressed(() -> shooterSubsystem.setRPM(limelight.lerpRPM()))
+    mechB.whenPressed(() -> shooterSubsystem.setRPM(photon.calcRPM()))
         .whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechX.whileHeld(() -> photon.adjustGyroDrift(drivetrainSubsystem.getGyroRotation().getDegrees(),
-        drivetrainSubsystem::setGyroDrift));
+    // mechA.whenActive(() ->
+    // shooterSubsystem.setRPM(ShooterConstants.UPPER_HUB_FALLBACK_RPM))
+    // .whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
+    dPadUp.whenActive(() -> hangSubsystem.RetractHangSubsystem(HangConstants.HANG_SPEED)) // Up Slowly
+        .whenInactive(hangSubsystem::StopHang);
 
-    mechA.whenActive(() -> shooterSubsystem.setRPM(ShooterConstants.UPPER_HUB_FALLBACK_RPM))
-        .whenInactive(shooterSubsystem::rampDownShooter);
+    dPadDown.whenActive(() -> hangSubsystem.RetractHangSubsystem(-0.1)) // Down Slowly
+        .whenInactive(hangSubsystem::StopHang);
 
-    driverA.whenPressed(intakeSubsystem::toggleIntake);
+    dPadRight.toggleWhenPressed(new ExtendHangSubsystem(hangSubsystem));
 
-    dPadUp.whileHeld(new RetractHangSubsystem(hangSubsystem, HangConstants.HANG_SPEED)); // slowly make it go up
-    dPadDown.toggleWhenActive(new RetractHangSubsystem(hangSubsystem, -0.1)); // hold the robot in position
-
-    driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
-    driveBumperL.whileActiveContinuous(new RetractHangSubsystem(hangSubsystem, HangConstants.LOWER_SPEED));
-
-    driverB.whenPressed(drivetrainSubsystem::toggleFieldOriented);
-    driverX.whenPressed(drivetrainSubsystem::zeroGyroscope);
+    // left dpad can possibly fully retract back?
 
     driverRightTrigger.whenActive(drivetrainSubsystem::turboSpeed).whenInactive(drivetrainSubsystem::standardSpeed);
     driverLeftTrigger.whenActive(drivetrainSubsystem::slowSpeed).whenInactive(drivetrainSubsystem::standardSpeed);
+
+    driverY.whenPressed(() -> photon.adjustGyroDrift(drivetrainSubsystem.getGyroRotation(),drivetrainSubsystem::setGyroDrift));
+    driverB.whenPressed(drivetrainSubsystem::toggleFieldOriented);
+    driverX.whenPressed(drivetrainSubsystem::zeroGyroscope);
+    driverA.whenPressed(intakeSubsystem::toggleIntake);
   }
 
   public void setUpAutonomousChooser() {
