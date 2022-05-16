@@ -64,10 +64,8 @@ public class RobotContainer {
     SmartDashboard.putData("Switch Pipeline", new InstantCommand(photon::SwitchPipeline));
     SmartDashboard.putData("Zero Gyro", new InstantCommand(drivetrainSubsystem::zeroGyroscope));
     SmartDashboard.putData("Reset Odometry", new InstantCommand(drivetrainSubsystem::resetOdometry));
-    SmartDashboard.putData("Adjsut Odometry", new InstantCommand(
-        () -> photon.adjustOdometry(drivetrainSubsystem.getPose(), drivetrainSubsystem::resetOdometryWithPose2d)));
-    SmartDashboard.putData("Adjust Gyro Drift", new InstantCommand(() -> photon
-        .adjustGyroDrift(drivetrainSubsystem.getGyroRotation(), drivetrainSubsystem::setGyroDrift)));
+    SmartDashboard.putData("Adjsut Odometry", new InstantCommand(() -> drivetrainSubsystem.adjustOdometry(photon)));
+    SmartDashboard.putData("Adjust Gyro Drift", new InstantCommand(() -> drivetrainSubsystem.adjustOdometry(photon)));
     setUpAutonomousChooser();
     // Configure the button bindings
     configureButtonBindings();
@@ -138,7 +136,7 @@ public class RobotContainer {
     driverRightTrigger.whenActive(drivetrainSubsystem::turboSpeed).whenInactive(drivetrainSubsystem::standardSpeed);
     driverLeftTrigger.whenActive(drivetrainSubsystem::slowSpeed).whenInactive(drivetrainSubsystem::standardSpeed);
 
-    driverY.whenPressed(() -> photon.adjustGyroDrift(drivetrainSubsystem.getGyroRotation(),drivetrainSubsystem::setGyroDrift));
+    driverY.whenPressed(() -> drivetrainSubsystem.adjustOdometry(photon));
     driverB.whenPressed(drivetrainSubsystem::toggleFieldOriented);
     driverX.whenPressed(drivetrainSubsystem::zeroGyroscope);
     driverA.whenPressed(intakeSubsystem::toggleIntake);

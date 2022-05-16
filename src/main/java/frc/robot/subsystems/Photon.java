@@ -24,28 +24,6 @@ public class Photon extends SubsystemBase {
         camera = new PhotonCamera(net_name);
     }
 
-    public void adjustGyroDrift(Rotation2d gyroAngle, Consumer<Double> result) {
-        camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
-
-        double gyro_error_x = (gyroAngle.getCos() * distance) - (Math.cos(xOffset) * distance);
-        double gyro_error_y = (gyroAngle.getSin() * distance) - (Math.sin(xOffset) * distance);
-
-        if (gyro_error_x > 1 || gyro_error_y > 1)
-            result.accept(-(Math.atan(gyro_error_y / gyro_error_x)));
-        
-        camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
-    }
-
-    public void adjustOdometry(Pose2d currentPose, Consumer<Pose2d> result) {
-        Translation2d camTrans = new Translation2d((Math.cos(xOffset) * distance), (Math.sin(xOffset) * distance));
-
-        double odometry_err_x = currentPose.getX() - camTrans.getX();
-        double odometry_err_y = currentPose.getY() - camTrans.getY();
-
-        if (odometry_err_x > 1 || odometry_err_y > 1)
-            result.accept(new Pose2d(camTrans, currentPose.getRotation()));
-    }
-
     public double getDistance() {
         double a2 = targetData.getBestTarget().getPitch();
         double a1 = LimelightConstants.LIMELIGHT_ANGLE;
