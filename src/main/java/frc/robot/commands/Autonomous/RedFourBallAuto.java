@@ -16,7 +16,7 @@ import frc.robot.commands.Paths;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Photon;
 import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -24,18 +24,18 @@ import frc.robot.subsystems.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class RedFourBallAuto extends SequentialCommandGroup {
   /** Creates a new RedFourBall. */
-  public RedFourBallAuto(IntakeSubsystem intakeSubsystem, Limelight limelight, DrivetrainSubsystem drivetrainSubsystem, ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem) {
+  public RedFourBallAuto(IntakeSubsystem intakeSubsystem, Photon photon, DrivetrainSubsystem drivetrainSubsystem, ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem),
+      new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, photon, conveyorSubsystem),
       new InstantCommand(drivetrainSubsystem::zeroGyroscope),
       new ControlIntakeSolenoids(intakeSubsystem),
       new ParallelDeadlineGroup(new Paths(TrajectoryPaths.FourBallRed_GoToHumanPlayer, drivetrainSubsystem), new IntakeBall(intakeSubsystem)), // drive to le human player
       new WaitCommand(2),
       new ParallelDeadlineGroup(new Paths(TrajectoryPaths.FourBallRed_Little, drivetrainSubsystem), new IntakeBall(intakeSubsystem)),
       new Paths(TrajectoryPaths.FourBallRed_Shoot, drivetrainSubsystem), // drive to the shooting place thing
-      new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem) // SHOOT AGAIN!!!!! :DDDD
+      new AimAndFire(shooterSubsystem, conveyorSubsystem, photon, drivetrainSubsystem) // SHOOT AGAIN!!!!! :DDDD
     );
   }
 }

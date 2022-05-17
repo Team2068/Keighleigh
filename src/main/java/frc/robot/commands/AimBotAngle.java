@@ -8,16 +8,16 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AimbotConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Photon;
 
 public class AimBotAngle extends CommandBase {
 
-  Limelight limelight;
+  Photon photon;
   DrivetrainSubsystem drivetrainSubsystem;
 
-  public AimBotAngle(Limelight limelight, DrivetrainSubsystem drivetrainSubsystem) {
+  public AimBotAngle(Photon limelight, DrivetrainSubsystem drivetrainSubsystem) {
     addRequirements(limelight, drivetrainSubsystem);
-    this.limelight = limelight;
+    this.photon = limelight;
     this.drivetrainSubsystem = drivetrainSubsystem;
   }
 
@@ -26,7 +26,7 @@ public class AimBotAngle extends CommandBase {
     drivetrainSubsystem.drive(new ChassisSpeeds(
         0,
         0,
-        Math.toRadians(limelight.getTargetData().horizontalOffset) * 7.2)
+        Math.toRadians(photon.xOffset) * 7.2)
         );
   }
 
@@ -37,6 +37,6 @@ public class AimBotAngle extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return (Math.abs(limelight.getTargetData().horizontalOffset) <= AimbotConstants.minimumAdjustment);
+    return (Math.abs(photon.xOffset) <= AimbotConstants.minimumAdjustment);
   }
 }

@@ -36,7 +36,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
          * useful during initial testing of the robot.
          */
         public static double MAX_VOLTAGE = 9;
-        // FIXME Measure the drivetrain's maximum velocity or calculate the theoretical.
         // The formula for calculating the theoretical maximum velocity is:
         // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
         // pi
@@ -149,10 +148,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         }
 
         public void adjustGyro(Photon photon){
-                photon.camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
-                
+                // photon.camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
+
                 double gyroAngle = m_navx.getYaw();
-                double distance = photon.distance;
+                double distance = photon.getDistance(139.7); // pass in fidicial Height
                 double xOffset = photon.xOffset;
 
                 double gyro_error_x = (Math.cos(gyroAngle) * distance) - (Math.cos(xOffset) * distance);
@@ -161,7 +160,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 if (gyro_error_x > 1 || gyro_error_y > 1)
                 m_navx.setAngleAdjustment(-(Math.atan(gyro_error_y / gyro_error_x)));
                 
-                photon.camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
+                // photon.camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
         }
 
         public void zeroGyroscope() {
@@ -182,7 +181,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         }
 
         public void adjustOdometry(Photon photon){
-                double distance = photon.distance;
+                double distance = photon.getDistance(139.7); // Pass in Fidicial height
                 double xOffset = photon.xOffset;
                 Pose2d currentPose = m_odometry.getPoseMeters();
 

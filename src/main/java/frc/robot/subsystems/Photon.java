@@ -1,34 +1,29 @@
 package frc.robot.subsystems;
 
-import java.util.function.Consumer;
-
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class Photon extends SubsystemBase {
-    public PhotonCamera camera;
+    PhotonCamera camera;
     public PhotonPipelineResult targetData;
 
     public double distance;
     public double xOffset;
     public double yOffset;
 
-    public Photon(String net_name) {
-        camera = new PhotonCamera(net_name);
+    public Photon() {
+        camera = new PhotonCamera("c2");
     }
 
-    public double getDistance() {
-        double a2 = targetData.getBestTarget().getPitch();
+    public double getDistance(double targetHeight) {
+        double a2 = yOffset;
         double a1 = LimelightConstants.LIMELIGHT_ANGLE;
 
-        double result = 261.62 - LimelightConstants.LIMELIGHT_HEIGHT;
+        double result = 261.62 - LimelightConstants.LIMELIGHT_HEIGHT; // 261.62 is upperHub height
         double radians = Math.toRadians(a1 + a2);
         // double distance = result / Math.tan(radians);
 
@@ -36,7 +31,6 @@ public class Photon extends SubsystemBase {
     }
 
     public double calcRPM() {
-        double distance = getDistance();
         double[] distTab = ShooterConstants.distTable;
         double[] rpmTab = ShooterConstants.rpmTable;
 
@@ -57,11 +51,14 @@ public class Photon extends SubsystemBase {
             }
         }
 
-        if (low == -1) return (distance * rpmTab[high]) / distTab[high];
+        if (low == -1)
+            return (distance * rpmTab[high]) / distTab[high];
 
-        if (high >= distTab.length) return (distance * rpmTab[low]) / distTab[low];
+        if (high >= distTab.length)
+            return (distance * rpmTab[low]) / distTab[low];
 
-        return rpmTab[low] + (distance - distTab[low]) * ((rpmTab[high] - rpmTab[low]) / (distTab[high] - distTab[low]));
+        return rpmTab[low]
+                + (distance - distTab[low]) * ((rpmTab[high] - rpmTab[low]) / (distTab[high] - distTab[low]));
     }
 
     public void ToggleCamMode() {
@@ -81,7 +78,10 @@ public class Photon extends SubsystemBase {
     public void periodic() {
         targetData = camera.getLatestResult();
 
-        distance = getDistance(); // Upload to Robot State
+        if (targetData.getBestTarget() == null)
+            return;
+
+        distance = getDistance(261.62); // Passing in the UpperHub Height
         xOffset = targetData.getBestTarget().getYaw();
         yOffset = targetData.getBestTarget().getPitch();
     }
