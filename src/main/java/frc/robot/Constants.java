@@ -189,6 +189,8 @@ public final class Constants {
 
         public final static double LIMELIGHT_HEIGHT = 34.5 * 2.54; // Converting from inches to cm
         public final static double LIMELIGHT_ANGLE = 20;
+        public final static double fidicial_height = 149.86;
+        public final static double upperhub_height = 261.62;
     }
 
     //Trajectory Config and path planner paths

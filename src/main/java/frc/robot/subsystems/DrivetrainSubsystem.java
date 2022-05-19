@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -151,14 +152,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 // photon.camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
 
                 double gyroAngle = m_navx.getYaw();
-                double distance = photon.getDistance(139.7); // pass in fidicial Height
+                double distance = photon.getDistance(LimelightConstants.upperhub_height); // pass in fidicial Height
                 double xOffset = photon.xOffset;
 
-                double gyro_error_x = (Math.cos(gyroAngle) * distance) - (Math.cos(xOffset) * distance);
-                double gyro_error_y = (Math.sin(gyroAngle) * distance) - (Math.sin(xOffset) * distance);
-        
+                double gyro_error_x = Math.abs((Math.cos(gyroAngle) * distance) - (Math.cos(xOffset) * distance));
+                double gyro_error_y = Math.abs((Math.sin(gyroAngle) * distance) - (Math.sin(xOffset) * distance));
+                
+                double angleError = -(Math.atan(gyro_error_y / gyro_error_x));
                 if (gyro_error_x > 1 || gyro_error_y > 1)
-                m_navx.setAngleAdjustment(-(Math.atan(gyro_error_y / gyro_error_x)));
+                        m_navx.setAngleAdjustment(angleError );
+                        // m_navx.setAngleAdjustment(-(Math.atan(gyro_error_y / gyro_error_x)));
+
+                SmartDashboard.putNumber("Gyro Error Angle", angleError);
+                SmartDashboard.putNumber("Gyro Error X", gyro_error_x);
+                SmartDashboard.putNumber("Gyro Error Y", gyro_error_y);
+
                 
                 // photon.camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
         }
