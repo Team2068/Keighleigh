@@ -155,10 +155,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 double distance = photon.getDistance(LimelightConstants.upperhub_height); // pass in fidicial Height
                 double xOffset = photon.xOffset;
 
-                double gyro_error_x = Math.abs((Math.cos(gyroAngle) * distance) - (Math.cos(xOffset) * distance));
-                double gyro_error_y = Math.abs((Math.sin(gyroAngle) * distance) - (Math.sin(xOffset) * distance));
+                double gyro_error_x = (Math.cos(gyroAngle) * distance) - (Math.cos(xOffset) * distance);
+                double gyro_error_y = (Math.sin(gyroAngle) * distance) - (Math.sin(xOffset) * distance);
                 
-                double angleError = -(Math.atan(gyro_error_y / gyro_error_x));
+                double angleError = -(Math.atan2(gyro_error_y, gyro_error_x));
                 if (gyro_error_x > 1 || gyro_error_y > 1)
                         m_navx.setAngleAdjustment(angleError );
                         // m_navx.setAngleAdjustment(-(Math.atan(gyro_error_y / gyro_error_x)));
@@ -189,7 +189,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         }
 
         public void adjustOdometry(Photon photon){
-                double distance = photon.getDistance(139.7); // Pass in Fidicial height
+                double distance = photon.getDistance(LimelightConstants.fidicial_height); // Pass in Fidicial height
                 double xOffset = photon.xOffset;
                 Pose2d currentPose = m_odometry.getPoseMeters();
 
