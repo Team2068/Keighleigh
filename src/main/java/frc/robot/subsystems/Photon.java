@@ -3,10 +3,10 @@ package frc.robot.subsystems;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Deprecated.RobotState;
 
 public class Photon extends SubsystemBase {
     PhotonCamera camera;
@@ -87,6 +87,6 @@ public class Photon extends SubsystemBase {
         xOffset = targetData.getBestTarget().getYaw();
         yOffset = targetData.getBestTarget().getPitch();
 
-        frc.robot.Deprecated.RobotState.setEntryValue("Sensors", "Fidicial Distance", distance);
+        RobotState.setEntryValue("Sensors", "Fidicial Distance", distance);
     }
 }
