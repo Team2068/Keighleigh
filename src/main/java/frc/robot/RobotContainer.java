@@ -42,8 +42,8 @@ public class RobotContainer {
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final HangSubsystem hangSubsystem = new HangSubsystem();
-  private final XboxController driverController = new XboxController(0);
-  private final XboxController mechanismController = new XboxController(1);
+  private final GenericHID DriverJoyStick =  new GenericHID(1);
+  private final GenericHID MechanismJoyStick = new GenericHID(0);
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
       LimelightConstants.CamMode.VISION);
@@ -61,9 +61,9 @@ public class RobotContainer {
     // Right stick X axis -> rotation
     drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
         drivetrainSubsystem,
-        () -> modifyAxis(-driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> modifyAxis(-driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> modifyAxis(-driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+        () -> modifyAxis(-DriverJoyStick.getRawAxis(0)) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> modifyAxis(-DriverJoyStick.getRawAxis(1)) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> modifyAxis(-DriverJoyStick.getPOV()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
     SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
     SmartDashboard.putData("Switch Pipeline", new SwitchPipeline(limelight));
@@ -85,28 +85,48 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // set up triggers and such
-    Trigger mechRightTrigger = new Trigger(() -> mechanismController
-        .getRawAxis(ControllerConstants.RIGHT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
-    Trigger mechLeftTrigger = new Trigger(() -> mechanismController
-        .getRawAxis(ControllerConstants.LEFT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
-    Trigger driverRightTrigger = new Trigger(() -> driverController
-        .getRawAxis(ControllerConstants.RIGHT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
-    Trigger driverLeftTrigger = new Trigger(() -> driverController
-        .getRawAxis(ControllerConstants.LEFT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
-    JoystickButton mechA = new JoystickButton(mechanismController, Button.kA.value);
-    JoystickButton mechB = new JoystickButton(mechanismController, Button.kB.value);
-    JoystickButton mechX = new JoystickButton(mechanismController, Button.kX.value);
-    JoystickButton mechY = new JoystickButton(mechanismController, Button.kY.value);
-    JoystickButton mechBumperR = new JoystickButton(mechanismController, Button.kRightBumper.value);
-    JoystickButton mechBumperL = new JoystickButton(mechanismController, Button.kLeftBumper.value);
-    JoystickButton driveBumperL = new JoystickButton(driverController, Button.kLeftBumper.value);
-    JoystickButton driveBumperR = new JoystickButton(driverController, Button.kRightBumper.value);
-    JoystickButton driverA = new JoystickButton(driverController, Button.kA.value);
-    JoystickButton driverB = new JoystickButton(driverController, Button.kB.value);
-    JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
-    JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
-    DPadButton dPadUp = new DPadButton(driverController, DPadButton.Direction.UP);
-    DPadButton dPadDown = new DPadButton(driverController, DPadButton.Direction.DOWN);
+    JoystickButton driveTrigger = new JoystickButton(DriverJoyStick, 1);
+    JoystickButton mechTrigger = new JoystickButton(MechanismJoyStick, 1);
+
+    JoystickButton mechHandleLeft = new JoystickButton(MechanismJoyStick, 3);
+    JoystickButton mechHandleRight = new JoystickButton(MechanismJoyStick, 4);
+    JoystickButton mechHandleBottom = new JoystickButton(MechanismJoyStick, 2);
+
+    JoystickButton mechLeftTopLeft = new JoystickButton(MechanismJoyStick, 5);
+    JoystickButton mechLeftTopMiddle = new JoystickButton(MechanismJoyStick, 6);
+    JoystickButton mechLeftTopRight = new JoystickButton(MechanismJoyStick, 7);
+
+    JoystickButton mechLeftBottompLeft = new JoystickButton(MechanismJoyStick, 10);
+    JoystickButton mechLeftBottomMiddle = new JoystickButton(MechanismJoyStick, 9);
+    JoystickButton mechLeftBottomRight = new JoystickButton(MechanismJoyStick, 8);
+
+    JoystickButton mechRighttTopLeft = new JoystickButton(MechanismJoyStick, 13);
+    JoystickButton mechRightLeftTopMiddle = new JoystickButton(MechanismJoyStick, 12);
+    JoystickButton mechRightTopRight = new JoystickButton(MechanismJoyStick, 11);
+
+    JoystickButton mechRightBottomLeft = new JoystickButton(MechanismJoyStick, 14);
+    JoystickButton mechRightBottomMiddle = new JoystickButton(MechanismJoyStick, 15);
+    JoystickButton mechRightBottomRight = new JoystickButton(MechanismJoyStick, 16);
+    
+    JoystickButton driveHandleLeft = new JoystickButton(DriverJoyStick, 3);
+    JoystickButton driveHandleRight = new JoystickButton(DriverJoyStick, 4);
+    JoystickButton driveHandleBottom = new JoystickButton(DriverJoyStick, 2);
+
+    JoystickButton driveLeftTopLeft = new JoystickButton(DriverJoyStick, 5);
+    JoystickButton driveLeftTopMiddle = new JoystickButton(DriverJoyStick, 6);
+    JoystickButton driveLeftTopRight = new JoystickButton(DriverJoyStick, 7);
+
+    JoystickButton driveLeftBottompLeft = new JoystickButton(DriverJoyStick, 10);
+    JoystickButton driveLeftBottomMiddle = new JoystickButton(DriverJoyStick, 9);
+    JoystickButton driveLeftBottomRight = new JoystickButton(DriverJoyStick, 8);
+
+    JoystickButton driveRighttTopLeft = new JoystickButton(DriverJoyStick, 13);
+    JoystickButton driveRightLeftTopMiddle = new JoystickButton(DriverJoyStick, 12);
+    JoystickButton driveRightTopRight = new JoystickButton(DriverJoyStick, 11);
+    
+    JoystickButton driveRightBottomLeft = new JoystickButton(DriverJoyStick, 14);
+    JoystickButton driveRightBottomMiddle = new JoystickButton(DriverJoyStick, 15);
+    JoystickButton driveRightBottomRight = new JoystickButton(DriverJoyStick, 16);
 
     mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
     mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
@@ -181,7 +201,7 @@ public class RobotContainer {
     return 0.0;
   }
 
-  private static double modifyAxis(double value) {
+  private static double 4modifyAxis(double value) {
     value = deadband(value, 0.05); // Deadband
     value = Math.copySign(value * value, value); // Square the axis
     return value;

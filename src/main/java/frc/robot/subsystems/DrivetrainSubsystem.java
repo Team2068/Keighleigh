@@ -226,7 +226,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 		m_odometry.resetPosition(pose, pose.getRotation());
 	}
 
-        public void setModuleStates(SwerveModuleState[] states) {
+        public void setModuleStates(SwerveModuleState[4] states) {
                 m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[0].angle.getRadians());
                 m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
