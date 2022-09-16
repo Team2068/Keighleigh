@@ -3,7 +3,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants.ConveyorConstants;
-import frc.robot.Constants.IntakeConstants;
 
 public class SpitOutBall extends CommandBase{
     private IntakeSubsystem  intakeSubsystem;
@@ -16,7 +15,7 @@ public class SpitOutBall extends CommandBase{
     }
     @Override
     public void initialize(){
-        intakeSubsystem.reverseIntake(IntakeConstants.SPIT_OUT_BALL);
+        intakeSubsystem.reverseIntake();
         conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED * -1);
     }
 

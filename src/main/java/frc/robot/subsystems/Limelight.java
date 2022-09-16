@@ -23,7 +23,6 @@ public class Limelight extends SubsystemBase {
   public Limelight(int ledMode, int streamMode) {
     setLedMode(ledMode);
     setStreamMode(streamMode);
-
   }
 
   // basically a struct that contains all of the targetData we're pulling from the
@@ -148,6 +147,42 @@ public class Limelight extends SubsystemBase {
     double distance = result / Math.tan(radians);
 
     return Math.abs(distance); // would return negative values if the angle was negative
+  }
+
+  public void toggleCameraMode(){
+    switch (getCameraMode()) {
+      case LimelightConstants.CamMode.DRIVER:
+          setCameraMode(LimelightConstants.CamMode.VISION);
+          break;
+      default:
+          setCameraMode(LimelightConstants.CamMode.DRIVER);
+          break;
+      }
+
+  }
+
+  public void toggleStreamMode(){
+    switch (getStreamMode()) {
+      case LimelightConstants.StreamMode.PIP_MAIN:
+          setStreamMode(LimelightConstants.StreamMode.PIP_SECONDARY);
+          break;
+      case Constants.LimelightConstants.StreamMode.PIP_SECONDARY:
+          setCameraMode(LimelightConstants.StreamMode.STANDARD);
+      default:
+          setStreamMode(LimelightConstants.StreamMode.PIP_MAIN);
+          break;
+      }
+  }
+
+  public void switchPipeline(){
+    switch (getPipeline()) {
+      case LimelightConstants.Pipelines.REFLECTIVE_TAPE:
+          setPipeline(Constants.LimelightConstants.Pipelines.BRIGHT);
+          break;
+      case LimelightConstants.Pipelines.BRIGHT:
+          setPipeline(Constants.LimelightConstants.Pipelines.REFLECTIVE_TAPE);
+          break;
+      }
   }
 
   public void setCameraMode(int newCameraMode) {

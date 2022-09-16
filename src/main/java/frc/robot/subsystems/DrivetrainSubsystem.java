@@ -6,9 +6,7 @@ package frc.robot.subsystems;
 
 
 import com.kauailabs.navx.frc.AHRS;
-import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 
@@ -19,7 +17,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -125,7 +122,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 // By default we will use Falcon 500s in standard configuration. But if you use
                 // a different configuration or motors
                 // you MUST change it. If you do not, your code will crash on startup.
-                // FIXME Setup motor configuration
                 m_frontLeftModule = Mk4SwerveModuleHelper.createNeo(
                                 // This parameter is optional, but will allow you to see the current state of
                                 // the module on the dashboard.
