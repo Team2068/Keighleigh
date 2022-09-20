@@ -152,7 +152,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 // photon.camera.setPipelineIndex(LimelightConstants.Pipelines.FIDICIAL);
 
                 double gyroAngle = m_navx.getYaw();
-                double distance = photon.getDistance(LimelightConstants.upperhub_height); // pass in fidicial Height
+                double distance = photon.getDistance(LimelightConstants.fidicial_height); // pass in fidicial Height
                 double xOffset = photon.xOffset;
 
                 double gyro_error_x = (Math.cos(gyroAngle) * distance) - (Math.cos(xOffset) * distance);
