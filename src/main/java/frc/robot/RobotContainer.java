@@ -22,8 +22,6 @@ import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.Autonomous.*;
-import frc.robot.commands.Deprecated.MoveConveyor;
-import frc.robot.commands.Deprecated.ReverseIntake;
 import frc.robot.subsystems.*;
 import frc.robot.util.DPadButton;
 
@@ -37,7 +35,6 @@ import frc.robot.util.DPadButton;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
@@ -50,9 +47,6 @@ public class RobotContainer {
   // private final ColorSensor colorSensor = new ColorSensor();
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
@@ -64,13 +58,13 @@ public class RobotContainer {
         () -> modifyAxis(-driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(-driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(-driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
-    SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
-    SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
-    SmartDashboard.putData("Switch Pipeline", new SwitchPipeline(limelight));
+      
+    SmartDashboard.putData("Toggle Camera Mode", new InstantCommand(limelight::toggleCameraMode));
+    SmartDashboard.putData("Toggle Stream Mode", new InstantCommand(limelight::toggleStreamMode));
+    SmartDashboard.putData("Switch Pipeline", new InstantCommand(limelight::switchPipeline));
     SmartDashboard.putData("zero gyro", new InstantCommand(drivetrainSubsystem::zeroGyroscope));
     SmartDashboard.putData("reset odometry", new InstantCommand(drivetrainSubsystem::resetOdometry));
     setUpAutonomousChooser();
-    // Configure the button bindings
     configureButtonBindings();
     CameraServer.startAutomaticCapture();
   }
@@ -84,7 +78,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // set up triggers and such
     Trigger mechRightTrigger = new Trigger(() -> mechanismController
         .getRawAxis(ControllerConstants.RIGHT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
     Trigger mechLeftTrigger = new Trigger(() -> mechanismController
@@ -108,10 +101,16 @@ public class RobotContainer {
     DPadButton dPadUp = new DPadButton(driverController, DPadButton.Direction.UP);
     DPadButton dPadDown = new DPadButton(driverController, DPadButton.Direction.DOWN);
 
-    mechBumperR.whileHeld(new IntakeBall(intakeSubsystem));
-    mechRightTrigger.whileActiveContinuous(new MoveConveyor(conveyorSubsystem));
+    mechBumperR.whileHeld(() -> intakeSubsystem.intakeBall())
+    .whenInactive(intakeSubsystem::stopIntake);
+
+    mechRightTrigger.whileActiveContinuous(() -> conveyorSubsystem.moveConveyor())
+    .whenInactive(conveyorSubsystem::stopConveyor);
+
     mechLeftTrigger.whileActiveContinuous(new SpitOutBall(intakeSubsystem, conveyorSubsystem));
-    mechY.whileHeld(new ReverseIntake(intakeSubsystem));
+
+    mechY.whileHeld(() -> intakeSubsystem.intakeBall())
+    .whenInactive(intakeSubsystem::stopIntake);
 
     mechB.whenPressed(() -> shooterSubsystem.setRPM(limelight.lerpRPM()))
     .whenInactive(shooterSubsystem::rampDownShooter);
@@ -119,21 +118,22 @@ public class RobotContainer {
     mechX.whileHeld(() -> shooterSubsystem.setRPM(4338))
     .whenInactive(shooterSubsystem::rampDownShooter);
 
-    // mechX.whileHeld(() -> shooterSubsystem.setRPM(limelight.distanceToRpm()))
-    // .whenInactive(shooterSubsystem::rampDownShooter);
-
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
-    mechA.whenPressed(new AimShotPID(shooterSubsystem, ShooterConstants.UPPER_HUB_FALLBACK_RPM))
-        .whenInactive(shooterSubsystem::rampDownShooter);
+    mechA.whenPressed(() -> shooterSubsystem.setRPM(ShooterConstants.UPPER_HUB_FALLBACK_RPM))
+    .whenInactive(shooterSubsystem::rampDownShooter);
 
     driverA.whenPressed(intakeSubsystem::controlIntakeSolenoids);
 
-    dPadUp.whileHeld(new RetractHangSubsystem(hangSubsystem, HangConstants.HANG_SPEED)); // slowly make it go up
     dPadDown.toggleWhenActive(new RetractHangSubsystem(hangSubsystem, -0.1)); // hold the robot in position
 
+    dPadUp.whileHeld(() -> hangSubsystem.RetractHangSubsystem(HangConstants.HANG_SPEED))
+    .whenInactive(hangSubsystem::StopHang);
+
     driveBumperR.whenPressed(new ExtendHangSubsystem(hangSubsystem));
-    driveBumperL.whileActiveContinuous(new RetractHangSubsystem(hangSubsystem, HangConstants.LOWER_SPEED));
+
+    driveBumperL.whileHeld(() -> hangSubsystem.RetractHangSubsystem(HangConstants.LOWER_SPEED))
+    .whenInactive(hangSubsystem::StopHang);
 
     driverB.whenPressed(drivetrainSubsystem::toggleFieldOriented);
     driverX.whenPressed(drivetrainSubsystem::zeroGyroscope);
@@ -144,7 +144,6 @@ public class RobotContainer {
 
   /**
    * Use this to pass thex autonomous command to the main {@link Robot} class.
-   * 
    * @return the command to run in autonomous
    */
 

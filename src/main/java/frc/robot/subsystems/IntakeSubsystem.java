@@ -26,8 +26,12 @@ public class IntakeSubsystem extends SubsystemBase {
     intake.setInverted(true);
   }
 
-  public void reverseIntake(double speed) {
-    intake.set(speed);
+    public void reverseIntake() {
+    intake.set(IntakeConstants.SPIT_OUT_BALL);
+  }
+  
+  public void intakeBall(){
+    intake.set(IntakeConstants.INTAKE_SPEED);
   }
 
   public void intakeBall(double speed) {

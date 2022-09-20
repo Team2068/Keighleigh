@@ -18,6 +18,10 @@ public class ConveyorSubsystem extends SubsystemBase {
         lowerConveyor.set(speed);
     }
 
+    public void moveConveyor(){
+        lowerConveyor.set(ConveyorConstants.CONVEYOR_SPEED);
+    }
+
     public void stopConveyor() {
         lowerConveyor.set(0);
     }

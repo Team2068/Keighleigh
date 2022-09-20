@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.RobotState;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -38,9 +37,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
         flywheel1.getPIDController().setFF(0.00016);
         flywheel2.getPIDController().setFF(0.00016);
-
-        // flywheel1.setOpenLoopRampRate(.2);
-        // flywheel2.setOpenLoopRampRate(.2);
 
         flywheel1.setIdleMode(IdleMode.kCoast);
         flywheel2.setIdleMode(IdleMode.kCoast);
