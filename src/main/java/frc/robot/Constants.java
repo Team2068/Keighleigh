@@ -80,7 +80,7 @@ public final class Constants {
     }
 
     public final static class ConveyorConstants {
-        public static final int LOWER_CONVEYOR = 13;
+        public static final int LOWER_CONVEYOR = 15;
         public static final double CONVEYOR_SPEED = 1;
     }
 
@@ -98,8 +98,8 @@ public final class Constants {
     }
 
     public final static class HangConstants {
-        public static final int LEFT_HANG_MOTOR = 14; // left steer offset
-        public static final int RIGHT_HANG_MOTOR = 15;
+        public static final int LEFT_HANG_MOTOR = 13; // left steer offset
+        public static final int RIGHT_HANG_MOTOR = 14;
         public static final double HANG_SPEED = .6;
         public static final double LOWER_SPEED = -1;
 
@@ -108,22 +108,22 @@ public final class Constants {
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 6; 
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 18;
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(256);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(127);
 
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5;
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 4;
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 17;
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(142);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(183);
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 9;
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 8;
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 19;
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(125);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(276);
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR =  3;
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 2;
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 16;
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(180);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(73);
 
     public final static class GameElementConstants {
         public final static double UPPER_HUB = 2.64; // meters
