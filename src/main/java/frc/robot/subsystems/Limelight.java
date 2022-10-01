@@ -106,6 +106,7 @@ public class Limelight extends SubsystemBase {
 
   public double lerpRPM() {
     double distance = getDistance();
+    System.out.printf("[lerpRpm] Distance: %f\n", distance);
     double[] distTab = ShooterConstants.distTable;
     double[] rpmTab = ShooterConstants.rpmTable;
 

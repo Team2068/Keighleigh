@@ -23,7 +23,7 @@ public final class Constants {
         public final static double kS = 0.13243;
         public final static double kV = 0.12573;
         public final static double kA = 0.0058814;
-        public final static double kP = 0.0005; // OLD: 0.10976
+        public final static double kP = 0.00018; // OLD: 0.10976
         public final static double LOWER_HUB_RPM = 1800;
         public final static double UPPER_HUB_FALLBACK_RPM = 3900; // use this if the limelight doesnt work
         public final static double[] distTable = new double[5];
@@ -36,7 +36,7 @@ public final class Constants {
             rpmTable[1] = 3700;
 
             distTable[2] = 380;
-            rpmTable[2] = 4000;
+            rpmTable[2] = 3900;
 
             distTable[3] = 464;
             rpmTable[3] = 4300;
@@ -81,7 +81,7 @@ public final class Constants {
 
     public final static class ConveyorConstants {
         public static final int LOWER_CONVEYOR = 15;
-        public static final double CONVEYOR_SPEED = 1;
+        public static final double CONVEYOR_SPEED = 0.5;
     }
 
     public final static class IntakeConstants {
@@ -113,7 +113,7 @@ public final class Constants {
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5;
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 4;
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 17;
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(183);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(105);
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 9;
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 8;

@@ -115,7 +115,7 @@ public class RobotContainer {
     mechB.whenPressed(() -> shooterSubsystem.setRPM(limelight.lerpRPM()))
     .whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechX.whileHeld(() -> shooterSubsystem.setRPM(4338))
+    mechX.whileHeld(() -> shooterSubsystem.setRPM(1500))
     .whenInactive(shooterSubsystem::rampDownShooter);
 
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
