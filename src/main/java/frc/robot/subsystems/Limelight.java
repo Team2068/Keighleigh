@@ -112,23 +112,26 @@ public class Limelight extends SubsystemBase {
     int low = 0;
     int high = 0;
 
-    for (int i = 0; i < distTab.length >> 1; i++) {
+    // If needed, replace the constants like 2 and 4 with distTab.lenght and an operation to return the needed value
+    for (int i = 0; i < 2; i++) {
       if (distance < distTab[i]){ //If lower > dist -> upper bound found
         high = i; 
         low = i-1;
         break;
       }
 
-      if (distance > distTab[distTab.length - i - 1]){ //If higher < dist -> higer is lower bound
-        low = distTab.length - i - 1;
+      if (distance > distTab[4 - i]){ //If higher < dist -> higer is lower bound
+        low = 4 - i ;
         high = low + 1;
         break;
       }
     }
 
-    if (low == -1 ) return (distance * rpmTab[high])/distTab[high];
+    if (low == -1)
+      return rpmTab[0]+(distance-distTab[0])/(distTab[1]-distTab[0])*(rpmTab[1]-rpmTab[0]);
     
-    if (high >= distTab.length) return (distance * rpmTab[low])/distTab[low];
+    if (high >= 4)
+      return rpmTab[3]+(distance-distTab[3])/(distTab[4]-distTab[3])*(rpmTab[4]-rpmTab[3]);
     
     return rpmTab[low] + (distance - distTab[low])*((rpmTab[high]- rpmTab[low])/(distTab[high]- distTab[low]));
   }
