@@ -120,7 +120,7 @@ public class Limelight extends SubsystemBase {
       }
 
       if (distance > distTab[distTab.length - 1- i]){ //If higher < dist -> higer is lower bound
-        low = 4 - i ;
+        low = distTab.length - i ;
         high = low + 1;
         break;
       }
