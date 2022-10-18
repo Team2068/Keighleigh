@@ -23,7 +23,7 @@ public final class Constants {
         public final static double kS = 0.13243;
         public final static double kV = 0.12573;
         public final static double kA = 0.0058814;
-        public final static double kP = 0.0005; // OLD: 0.10976
+        public final static double kP = 0.0000012; // OLD: 0.10976
         public final static double LOWER_HUB_RPM = 1800;
         public final static double UPPER_HUB_FALLBACK_RPM = 3900; // use this if the limelight doesnt work
         public final static double[] distTable = new double[5];
@@ -108,22 +108,22 @@ public final class Constants {
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 7;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 6; 
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 18;
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(127);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(302);
 
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5;
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 4;
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 17;
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(183);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(220);
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 9;
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 8;
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 19;
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(276);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(96);
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR =  3;
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 2;
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 16;
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(73);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(343);
 
     public final static class GameElementConstants {
         public final static double UPPER_HUB = 2.64; // meters

@@ -38,6 +38,7 @@ public class Limelight extends SubsystemBase {
     public double longSideLength = 0; // Sidelength of longest side of the fitted bounding box (pixels)
     public double horizontalSideLength = 0; // Horizontal sidelength of the rough bounding box (0 - 320 pixels)
     public double verticalSideLength = 0; // Vertical sidelength of the rough bounding box (0 - 320 pixels)
+    public double[] camTran;
   }
 
   // global (sort of) data object with up to date limelight data
@@ -47,6 +48,7 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
 
     final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+
     // final NetworkTableEntry tx = table.getEntry("tx");
     // final NetworkTableEntry ty = table.getEntry("ty");
     // final NetworkTableEntry ta = table.getEntry("ta");
@@ -83,6 +85,7 @@ public class Limelight extends SubsystemBase {
     targetData.longSideLength = table.getEntry("tlong").getDouble(0.0);
     targetData.horizontalSideLength = table.getEntry("thor").getDouble(0.0);
     targetData.verticalSideLength = table.getEntry("tvert").getDouble(0.0);
+    targetData.camTran = table.getEntry("camtran").getDoubleArray(new double[]{});
   }
 
   public TargetData getTargetData() {
