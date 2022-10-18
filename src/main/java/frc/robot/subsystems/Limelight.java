@@ -101,6 +101,12 @@ public class Limelight extends SubsystemBase {
     return rpm;
   }
 
+  public void getCamTran() {
+    TargetData targetData = getTargetData();
+    double[] camTran = targetData.camTran;
+    System.out.println(camTran);
+  }
+
   public double curveRPM() {
     double distance = getDistance();
     double squared = distance * distance;
