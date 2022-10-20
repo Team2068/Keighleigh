@@ -14,8 +14,12 @@ public class AimAndFire extends SequentialCommandGroup {
     public AimAndFire(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem, Limelight limelight, DrivetrainSubsystem drivetrainSubsystem) {
         addCommands(
             //new AdjustConveyor(conveyorSubsystem, colorSensor),
-            new ParallelDeadlineGroup(new AimBotAngle(limelight, drivetrainSubsystem).withTimeout(0.7), new InstantCommand(() -> shooterSubsystem.setRPM(3500)))
-            .andThen(() -> shooterSubsystem.setRPM(limelight.lerpRPM())),
+            new ParallelDeadlineGroup(new AimBotAngle(limelight, drivetrainSubsystem).withTimeout(0.7), new InstantCommand(() -> shooterSubsystem.setRPM(1500)))
+            .andThen(() -> {
+                double rpm = limelight.lerpRPM();
+                // System.out.printf("[AimAndFire] RPM: %f\n", rpm);
+                shooterSubsystem.setRPM(rpm);
+            }),
             new WaitCommand(0.25),
             new InstantCommand(() -> conveyorSubsystem.moveConveyor(ConveyorConstants.CONVEYOR_SPEED))
                 .alongWith(new WaitCommand(1.5))

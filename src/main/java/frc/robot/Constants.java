@@ -36,7 +36,7 @@ public final class Constants {
             rpmTable[1] = 3700;
 
             distTable[2] = 380;
-            rpmTable[2] = 4000;
+            rpmTable[2] = 3900;
 
             distTable[3] = 464;
             rpmTable[3] = 4300;
@@ -81,7 +81,7 @@ public final class Constants {
 
     public final static class ConveyorConstants {
         public static final int LOWER_CONVEYOR = 15;
-        public static final double CONVEYOR_SPEED = 1;
+        public static final double CONVEYOR_SPEED = 0.5;
     }
 
     public final static class IntakeConstants {
@@ -202,10 +202,15 @@ public final class Constants {
     // }
 
     public static final class TrajectoryPaths {
-        public static final Trajectory FourBallRed_BackUpToFirstBall = PathPlanner.loadPath("4BR_BackUpToFirstBall", 1, 1);
-        public static final Trajectory FourBallRed_GoToHumanPlayer = PathPlanner.loadPath("4BR_GoToHumanPlayer", 1, 1);
-        public static final Trajectory FourBallRed_Shoot = PathPlanner.loadPath("4BR_Shoot", 1, 1);
-        public static final Trajectory FourBallRed_Little = PathPlanner.loadPath("4BR_GoSlightlyFarther", 1, 1);
-        public static final Trajectory TestPath = PathPlanner.loadPath("Vaccum", 1, 1);
+        // public static final Trajectory FourBallRed_BackUpToFirstBall = PathPlanner.loadPath("4BR_BackUpToFirstBall", 1, 1);
+        // public static final Trajectory FourBallRed_GoToHumanPlayer = PathPlanner.loadPath("4BR_GoToHumanPlayer", 1, 1);
+        // public static final Trajectory FourBallRed_Shoot = PathPlanner.loadPath("4BR_Shoot", 1, 1);
+        // public static final Trajectory FourBallRed_Little = PathPlanner.loadPath("4BR_GoSlightlyFarther", 1, 1);
+        // public static final Trajectory TestPath = PathPlanner.loadPath("Vaccum", 1, 1);
+        public static final Trajectory BackToCollectBall = PathPlanner.loadPath ("BackToCollectBall", 1, 1);
+        public static final Trajectory Turn1 = PathPlanner.loadPath("Turn1", 1, 1); 
+        public static final Trajectory Step1 = PathPlanner.loadPath("Step1", 1, 1);
+        public static final Trajectory Step2 = PathPlanner.loadPath("Step2", 1, 1);
+       public static final Trajectory Step3 = PathPlanner.loadPath("Step3", 1, 1);
     }
 }

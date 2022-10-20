@@ -37,7 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         // flywheel1.getPIDController().setFF(0.00016);
         // flywheel2.getPIDController().setFF(0.00016);
-
+        
         flywheel1.setIdleMode(IdleMode.kCoast);
         flywheel2.setIdleMode(IdleMode.kCoast);
 
