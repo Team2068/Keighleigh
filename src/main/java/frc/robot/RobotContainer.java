@@ -112,11 +112,10 @@ public class RobotContainer {
     mechY.whileHeld(() -> intakeSubsystem.intakeBall())
     .whenInactive(intakeSubsystem::stopIntake);
 
-    mechB.whenPressed(() -> shooterSubsystem.setRPM(limelight.lerpRPM()))
+    mechB.whenPressed(() -> shooterSubsystem.setRPM(limelight.curveRPM()))
     .whenInactive(shooterSubsystem::rampDownShooter);
 
-    mechX.whileHeld(() -> shooterSubsystem.setRPM(1500))
-    .whenInactive(shooterSubsystem::rampDownShooter);
+    mechX.whenPressed(new ManualAimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
     mechBumperL.whenPressed(new AimAndFire(shooterSubsystem, conveyorSubsystem, limelight, drivetrainSubsystem));
 
@@ -162,6 +161,7 @@ public class RobotContainer {
     ));
     //autonomousChooser.addOption("Red 4 Ball", new RedFourBallAuto(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem, conveyorSubsystem));
     autonomousChooser.addOption("2 Ball High Auto", new RedTwoBallHighGoal(intakeSubsystem, drivetrainSubsystem, shooterSubsystem, limelight, conveyorSubsystem));
+    autonomousChooser.addOption("6 Ball Auto", new SixBallAutoBlue(intakeSubsystem, limelight, drivetrainSubsystem, shooterSubsystem, conveyorSubsystem));
     // autonomousChooser.setDefaultOption("test", new Paths(Constants.TrajectoryPaths.TestPath, drivetrainSubsystem));
     SmartDashboard.putData("Autonomous Mode", autonomousChooser);
   }
