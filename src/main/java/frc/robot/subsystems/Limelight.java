@@ -89,19 +89,25 @@ public class Limelight extends SubsystemBase {
     return targetData;
   }
 
-  public double distanceToRpm() {
+  // R^2 = 0.9687
+  public double linearRPM() {
     double distance = getDistance();
-    // double squared = distance * distance;
-    // double factor = 0.00714 * squared;
-    double factor = 2.67 * distance; // y = 3.4*x + 2392
-    double rpm = factor + 2805; // 3100
+    double factor = 2.86381 * distance;
+    double rpm = factor + 2438;
     return rpm;
   }
 
+  // R^2 = 0.9203
   public double curveRPM() {
     double distance = getDistance();
     double squared = distance * distance;
-    return 0.00922451 * squared + -2.11957 * distance + 3450.01;
+    return 0.0523285 * squared + 3101.62;
+  }
+
+  // R^2 = 0.9761
+  public double logRPM() {
+    double distance = getDistance();
+    return Math.log(distance)/Math.log(1.00075) -4333.96;
   }
 
   public double lerpRPM() {
