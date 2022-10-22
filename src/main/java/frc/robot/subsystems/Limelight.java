@@ -104,36 +104,36 @@ public class Limelight extends SubsystemBase {
     return 0.00922451 * squared + -2.11957 * distance + 3450.01;
   }
 
-  // public double lerpRPM() {
-  //   double distance = getDistance();
-  //   double[] distTab = ShooterConstants.distTable;
-  //   double[] rpmTab = ShooterConstants.rpmTable;
+  public double lerpRPM() {
+    double distance = getDistance();
+    double[] distTab = ShooterConstants.distTable;
+    double[] rpmTab = ShooterConstants.rpmTable;
 
-  //   int low = 0;
-  //   int high = 0;
+    int low = 0;
+    int high = 0;
 
-  //   for (int i = 0; i < distTab.length>>1; i++) {
-  //     if (distance < distTab[i]){ //If lower > dist -> upper bound found
-  //       high = i; 
-  //       low = i-1;
-  //       break;
-  //     }
+    for (int i = 0; i < distTab.length>>1; i++) {
+      if (distance < distTab[i]){ //If lower > dist -> upper bound found
+        high = i; 
+        low = i-1;
+        break;
+      }
 
-  //     if (distance > distTab[distTab.length - 1- i]){ //If higher < dist -> higer is lower bound
-  //       low = distTab.length - i ;
-  //       high = low + 1;
-  //       break;
-  //     }
-  //   }
+      if (distance > distTab[distTab.length - 1- i]){ //If higher < dist -> higer is lower bound
+        low = distTab.length - i -1;
+        high = low + 1;
+        break;
+      }
+    }
 
-  //   if (low == -1)
-  //     return rpmTab[0]+(distance-distTab[0])/(distTab[1]-distTab[0])*(rpmTab[1]-rpmTab[0]);
+    if (low == -1)
+      return rpmTab[0]+(distance-distTab[0])/(distTab[1]-distTab[0])*(rpmTab[1]-rpmTab[0]);
     
-  //   if (high == distTab.length)
-  //     return rpmTab[3]+(distance-distTab[3])/(distTab[4]-distTab[3])*(rpmTab[4]-rpmTab[3]);
+    if (high == distTab.length)
+      return rpmTab[3]+(distance-distTab[3])/(distTab[4]-distTab[3])*(rpmTab[4]-rpmTab[3]);
     
-  //   return rpmTab[low] + (distance - distTab[low])*((rpmTab[high]- rpmTab[low])/(distTab[high]- distTab[low]));
-  // }
+    return rpmTab[low] + (distance - distTab[low])*((rpmTab[high]- rpmTab[low])/(distTab[high]- distTab[low]));
+  }
 
   // This works only for objects that are above or below the robot
   // It's very inaccurate of objects that are same height as the robot

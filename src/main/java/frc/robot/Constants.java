@@ -25,24 +25,24 @@ public final class Constants {
         public final static double kA = 0.0058814;
         public final static double kP = 0.00016; // OLD: 0.10976
         public final static double LOWER_HUB_RPM = 1800;
-        public final static double UPPER_HUB_FALLBACK_RPM = 3900; // use this if the limelight doesnt work
+        public final static double UPPER_HUB_FALLBACK_RPM = 4200; // use this if the limelight doesnt work
         public final static double[] distTable = new double[5];
         public final static double[] rpmTable = new double[5];
         public final static void configureTable(){
             distTable[0] = 220;
-            rpmTable[0] = 3400;
+            rpmTable[0] = 3300;
 
             distTable[1] = 300;
-            rpmTable[1] = 3700;
+            rpmTable[1] = 3500;
 
             distTable[2] = 380;
-            rpmTable[2] = 3900;
+            rpmTable[2] = 3600;
 
             distTable[3] = 464;
-            rpmTable[3] = 4300;
+            rpmTable[3] = 3900;
 
             distTable[4] = 500;
-            rpmTable[4] = 4800;
+            rpmTable[4] = 4200;
         }
         // DISTANCE(CM) | VELOCITY (RPM)
         // 220		3400
