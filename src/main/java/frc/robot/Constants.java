@@ -25,18 +25,18 @@ public final class Constants {
         public final static double kA = 0.0058814;
         public final static double kP = 0.00016; // OLD: 0.10976
         public final static double LOWER_HUB_RPM = 1800;
-        public final static double UPPER_HUB_FALLBACK_RPM = 4200; // use this if the limelight doesnt work
+        public final static double UPPER_HUB_FALLBACK_RPM = 3400; // use this if the limelight doesnt work
         public final static double[] distTable = new double[5];
         public final static double[] rpmTable = new double[5];
         public final static void configureTable(){
-            distTable[0] = 220;
+            distTable[0] = 250;
             rpmTable[0] = 3300;
 
             distTable[1] = 300;
-            rpmTable[1] = 3500;
+            rpmTable[1] = 3400;
 
-            distTable[2] = 380;
-            rpmTable[2] = 3600;
+            distTable[2] = 350;
+            rpmTable[2] = 3500;
 
             distTable[3] = 464;
             rpmTable[3] = 3900;
@@ -45,12 +45,15 @@ public final class Constants {
             rpmTable[4] = 4200;
         }
         // DISTANCE(CM) | VELOCITY (RPM)
-        // 220		3400
-        // 300		3700
-        // 380		4000
-        // 464		4300
-        // 500		4800
-        // LOW GOAL: 2000
+        // 250 3100
+        // 300 3300
+        // 350 3500
+        // 400 3700
+        // 470 3900
+        // 500 3900
+        // 680 4400
+        // 750 4500
+        // fallback 3400
     }
 
     /**
@@ -81,7 +84,7 @@ public final class Constants {
 
     public final static class ConveyorConstants {
         public static final int LOWER_CONVEYOR = 13;
-        public static final double CONVEYOR_SPEED = 0.5;
+        public static final double CONVEYOR_SPEED = 0.7;
     }
 
     public final static class IntakeConstants {
