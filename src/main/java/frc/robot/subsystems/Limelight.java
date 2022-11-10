@@ -72,7 +72,9 @@ public class Limelight extends SubsystemBase {
     RobotState.setEntryValue("Sensors", "Lerp RPM", lerpRPM());
 
     updateTargetData(table);
+    getCamTran();
   }
+
 
   private void updateTargetData(NetworkTable table) {
     targetData.hasTargets = table.getEntry("tv").getBoolean(false);
@@ -85,7 +87,7 @@ public class Limelight extends SubsystemBase {
     targetData.longSideLength = table.getEntry("tlong").getDouble(0.0);
     targetData.horizontalSideLength = table.getEntry("thor").getDouble(0.0);
     targetData.verticalSideLength = table.getEntry("tvert").getDouble(0.0);
-    targetData.camTran = table.getEntry("camtran").getDoubleArray(new double[]{});
+    //targetData.camTran = table.getEntry("camtran").getDoubleArray(new double[]{});
   }
 
   public TargetData getTargetData() {
@@ -102,9 +104,9 @@ public class Limelight extends SubsystemBase {
   }
 
   public void getCamTran() {
-    TargetData targetData = getTargetData();
-    double[] camTran = targetData.camTran;
-    System.out.println(camTran);
+    //TargetData targetData = getTargetData();
+    double[] camTran = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(new double[]{});
+    System.out.println(camTran[5]);
   }
 
   public double curveRPM() {
@@ -236,4 +238,5 @@ public class Limelight extends SubsystemBase {
   public int getStreamMode() {
     return (int) NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").getDouble(0.0);
   }
+
 }
