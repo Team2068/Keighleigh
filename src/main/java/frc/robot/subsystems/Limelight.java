@@ -106,7 +106,15 @@ public class Limelight extends SubsystemBase {
   public void getCamTran() {
     //TargetData targetData = getTargetData();
     double[] camTran = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(new double[]{});
-    System.out.println(camTran[5]);
+    SmartDashboard.putNumber("x", camTran[0]);
+    SmartDashboard.putNumber("y", camTran[1]);
+    SmartDashboard.putNumber("z", camTran[2]);
+    SmartDashboard.putNumber("yaw", camTran[3]);
+    SmartDashboard.putNumber("pitch", camTran[4]);
+    SmartDashboard.putNumber("roll", camTran[5]);
+
+    //for 3d pipeline, set cam resolution to high, turn on compute 3d, turn on force convex to get four outer corners of target
+    //reimage limelight if needed
   }
 
   public double curveRPM() {
